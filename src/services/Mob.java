@@ -47,7 +47,7 @@ public class Mob extends Character{
 	public void goDown() {
 		String current = board.getContent(x, y);
 		String under = board.getContent(x, (y +1 + mapy)%mapy);
-		String next = board.getContent(x, y+1);
+		String next = board.getContent(x, (y+1)%mapy);
 		if(((current == "LAD")||(under == "LAD"))&&((under != "PLT")&&(under != "MTL"))) {
 			if(board.getPlayer().livable.contains(next)) {
 				y = (y+1+mapy)%mapy;

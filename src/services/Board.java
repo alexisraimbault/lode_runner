@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -47,7 +48,7 @@ public class Board extends JPanel{
 							else {
 								board[i][j] = new Cell("LAD", i, j);
 								if(j<mapy-1)
-									board[i][j+1] = new Cell("LAD", i, j);
+									board[i][j+1] = new Cell("LAD", i, j+1);
 							}
   							unsur2 = !unsur2;
   						}
@@ -58,22 +59,49 @@ public class Board extends JPanel{
   				}
   			}
   		}
+		/*int cpt = 0;
+		int x,y;
+		Random r = new Random();
+		while(cpt < 3) {
+			x = r.nextInt(mapx);
+			y = r.nextInt(mapy);
+			if(p.livable.contains(getContent(x,y))) {
+				mobs.add(new Mob(x,y,p,this,mapx, mapy));
+				cpt++;
+			}	
+		}*/
+		
+		
 		nodes = new ArrayList<Cell>();
 		Cell tmp;
-		for(int i = 0; i<mapx; i++) {
-			for(int j = 0; j<mapy; j++) {
+		for(int j = 0; j<mapy; j++) {
+			for(int i = 0; i<mapx; i++) {
 				if(p.livable.contains(getContent(i,j))&&p.walkable.contains(getContent(i,(j+1)%mapy))) {
 					nodes.add(board[i][j]);
 				}
+				else {
+					if((getContent(i,j) == "EMP")&&(nodes.contains(board[i][(j-1+mapy)%mapy]))) {
+						nodes.add(board[i][j]);
+					}
+				}
 			}
-		}//des bugs avec les echelles qui cachent
+			for(int i = 0; i<mapx; i++) {
+				if(!nodes.contains(board[i][j])) {
+					if((getContent(i,j) == "EMP")&&(nodes.contains(board[(i+1)%mapx][j]) || nodes.contains(board[(i-1+mapx)%mapx][j]))) {
+						nodes.add(board[i][j]);
+					}
+				}
+			}
+		}// bug avec les echelles qui cachent
 		int size = nodes.size();
 		path = new int[size][size];
 		pred = new Cell[size][size];
 		for(int i = 0; i<size; i++) {
 			for(int j = 0; j<size; j++) {
-				if(i==j)
+				if(i==j) {
 					path[i][j]=0;
+					pred[i][j]=nodes.get(i);
+				}
 				else
 					path[i][j]=INF;
 			}
@@ -81,19 +109,26 @@ public class Board extends JPanel{
 		for(int i = 0; i < size; i++)
   		{
 			tmp = nodes.get(i);
-  			if(nodes.contains(board[(tmp.x+1)%mapx][tmp.y])) {
+			if(tmp.x == 17) 
+					System.out.println("TEST : " + tmp.y);
+  			if(nodes.contains(board[(tmp.x+1)%mapx][tmp.y])) 
+  			{
+  				
   				path[i][nodes.indexOf(board[(tmp.x+1)%mapx][tmp.y])]=1;
   				pred[i][nodes.indexOf(board[(tmp.x+1)%mapx][tmp.y])]=tmp;
   			}
-  			if(nodes.contains(board[(tmp.x-1+mapx)%mapx][tmp.y])) {
+  			if(nodes.contains(board[(tmp.x-1+mapx)%mapx][tmp.y])) 
+  			{
   				path[i][nodes.indexOf(board[(tmp.x-1+mapx)%mapx][tmp.y])]=1;
   				pred[i][nodes.indexOf(board[(tmp.x-1+mapx)%mapx][tmp.y])]=tmp;
   			}
-  			if(nodes.contains(board[tmp.x][(tmp.y+1)%mapy])) {
+  			if(nodes.contains(board[tmp.x][(tmp.y+1)%mapy])) 
+  			{
   				path[i][nodes.indexOf(board[tmp.x][(tmp.y+1)%mapy])]=1;
   				pred[i][nodes.indexOf(board[tmp.x][(tmp.y+1)%mapy])]=tmp;
   			}
-  			if(nodes.contains(board[tmp.x][(tmp.y-1+mapy)%mapy])) {
+  			if(nodes.contains(board[tmp.x][(tmp.y-1+mapy)%mapy])&&tmp.getContent() == "LAD") 
+  			{
   				path[i][nodes.indexOf(board[tmp.x][(tmp.y-1+mapy)%mapy])]=1;
   				pred[i][nodes.indexOf(board[tmp.x][(tmp.y-1+mapy)%mapy])]=tmp;
   			}
@@ -104,32 +139,36 @@ public class Board extends JPanel{
 	        { 
 	            for (int j = 0; j < size; j++) 
 	            {
-	                if (path[i][k] + path[k][j] < path[i][j]) {
+	                if (path[i][k] + path[k][j] < path[i][j]) 
+	                {
 	                	path[i][j] = path[i][k] + path[k][j];
 	                	pred[i][j] = nodes.get(k);
 	                }
 	            } 
 	        } 
 	    }
-		System.out.println("TAILLE NODES : " +  nodes.size());
 	}
 	public void stepMobs() {
 		for(int i = 0; i<mobs.size();i++) {//gerer le cas ou pas de chemin possible + le cas de defaite
 			if(nodes.contains(board[mobs.get(i).x][mobs.get(i).y]) && nodes.contains(board[p.x][p.y])&&pred[nodes.indexOf(board[mobs.get(i).x][mobs.get(i).y])][nodes.indexOf(board[p.x][p.y])] != null) {
+				
 				if(mobs.get(i).x<pred[nodes.indexOf(board[mobs.get(i).x][mobs.get(i).y])][nodes.indexOf(board[p.x][p.y])].x) {
 					mobs.get(i).goRight();
+
 				}else {
 					if(mobs.get(i).x>pred[nodes.indexOf(board[mobs.get(i).x][mobs.get(i).y])][nodes.indexOf(board[p.x][p.y])].x) 
 						mobs.get(i).goLeft();
-				}
-				if(mobs.get(i).y<pred[nodes.indexOf(board[mobs.get(i).x][mobs.get(i).y])][nodes.indexOf(board[p.x][p.y])].y) {
-					mobs.get(i).goDown();
-				}else {
-					if(mobs.get(i).y>pred[nodes.indexOf(board[mobs.get(i).x][mobs.get(i).y])][nodes.indexOf(board[p.x][p.y])].y) 
-						mobs.get(i).goUp();
+					else {
+						if(mobs.get(i).y<pred[nodes.indexOf(board[mobs.get(i).x][mobs.get(i).y])][nodes.indexOf(board[p.x][p.y])].y) {
+							mobs.get(i).goDown();
+						}else {
+							if(mobs.get(i).y>pred[nodes.indexOf(board[mobs.get(i).x][mobs.get(i).y])][nodes.indexOf(board[p.x][p.y])].y) 
+								mobs.get(i).goUp();
+						}
+					}
 				}
 			}
-			else {
+			else {//todo, cas ou le joueur n'est pas atteignable
 				mobs.get(i).goLeft();
 				mobs.get(i).goDown();
 			}
@@ -189,6 +228,8 @@ public class Board extends JPanel{
 	  				g.setColor(Color.pink);
 	  				break;
   			}
+  				/*if(nodes.contains(board[i][j]))//for testing
+  					g.setColor(Color.green);*/
   				g.fillRect(20*i,20* j, 20, 20);
   			}
   		}
