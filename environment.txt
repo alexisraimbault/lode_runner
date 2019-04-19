@@ -1,0 +1,11 @@
+10 10
+=======H G
+H T   XHXX
+XXXHX  H X
+X  H   HTX
+XGTH   HXX
+XXXH=====H
+         H
+        HH
+G    P  HX
+MMMMMMMMMM
