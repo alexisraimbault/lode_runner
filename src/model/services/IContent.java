@@ -4,7 +4,7 @@ public interface IContent
 {
 	public int counts(EntityType type);
 	public boolean contains(EntityType type);
-	
+	public boolean isEmpty();
 	public int size();
 	public int nbCharacters();
 	public int nbItems();

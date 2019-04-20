@@ -34,7 +34,7 @@ public class Content implements IContent
 	@Override
 	public boolean contains(EntityType type)
 	{
-		return map.containsKey(type);
+		return counts(type) > 0;
 	}
 
 	@Override
@@ -92,6 +92,11 @@ public class Content implements IContent
 	public int size()
 	{
 		return nb_elem;
+	}
+	@Override
+	public boolean isEmpty()
+	{
+		return nb_elem == 0;
 	}
 	
 }

@@ -3,6 +3,7 @@ package model.algorithms;
 import model.services.ICharacter;
 import model.services.ICharacterMover;
 import model.services.ICharacterMovingPolicy;
+import model.services.IContent;
 
 public class CharacterMover implements ICharacterMover
 {
@@ -22,36 +23,64 @@ public class CharacterMover implements ICharacterMover
 	@Override
 	public void moveLeft(ICharacter character)
 	{
+		int x = character.getX();
+		int y = character.getY();
 		if(policy.acceptLeft(character))
 		{
-			character.setX(character.getX() - 1);
+			IContent content = character.getEnvironment().getCellContent(x, y);
+			IContent next_content = character.getEnvironment().getCellContent(x - 1, y);
+			
+			character.setX(x - 1);
+			content.remove(character.getType());
+			next_content.add(character.getType());
 		}
 	}
 
 	@Override
 	public void moveRight(ICharacter character)
 	{
+		int x = character.getX();
+		int y = character.getY();
 		if(policy.acceptRight(character))
 		{
-			character.setX(character.getX() + 1);
+			IContent content = character.getEnvironment().getCellContent(x, y);
+			IContent next_content = character.getEnvironment().getCellContent(x + 1, y);
+			
+			character.setX(x + 1);
+			content.remove(character.getType());
+			next_content.add(character.getType());
 		}
 	}
 
 	@Override
 	public void moveDown(ICharacter character)
 	{
+		int x = character.getX();
+		int y = character.getY();
 		if(policy.acceptDown(character))
 		{
-			character.setY(character.getY() - 1);
+			IContent content = character.getEnvironment().getCellContent(x, y);
+			IContent next_content = character.getEnvironment().getCellContent(x, y - 1);
+			
+			character.setY(y - 1);
+			content.remove(character.getType());
+			next_content.add(character.getType());
 		}
 	}
 
 	@Override
 	public void moveUp(ICharacter character)
 	{
+		int x = character.getX();
+		int y = character.getY();
 		if(policy.acceptUp(character))
 		{
-			character.setY(character.getY() + 1);
+			IContent content = character.getEnvironment().getCellContent(x, y);
+			IContent next_content = character.getEnvironment().getCellContent(x, y + 1);
+			
+			character.setY(y + 1);
+			content.remove(character.getType());
+			next_content.add(character.getType());
 		}
 	}
 }

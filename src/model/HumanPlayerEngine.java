@@ -6,7 +6,7 @@ import model.algorithms.GuardClimber;
 import model.algorithms.GuardMover;
 import model.algorithms.PlayerDigger;
 import model.algorithms.PlayerMover;
-import model.algorithms.ShortestPathsCalculator;
+import model.algorithms.AStarCalculator;
 import model.services.ICharacterMover;
 import model.services.IEntityPool;
 import model.services.IEnvironment;
@@ -48,7 +48,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		this.guard_mover = new GuardMover();
 		this.guard_climber = new GuardClimber();
 		
-		this.paths_calculator = new ShortestPathsCalculator();
+		this.paths_calculator = new AStarCalculator();
 	}
 	
 	@Override

@@ -18,8 +18,30 @@ public class CharacterMovingPolicy extends MovingPolicy implements ICharacterMov
 		int x = character.getX();
 		int y = character.getY();
 		
-		Nature nature = environment.getCellNature(x - 1, y);
-		IContent content = environment.getCellContent(x - 1, y - 1);
+		Nature nature = environment.getCellNature(x, y);
+		Nature next_nature = environment.getCellNature(x - 1, y);
+		IContent next_content = environment.getCellContent(x - 1, y);
+		
+		if(next_nature.isPlenty())
+			return false;
+		
+		if(next_content.nbCharacters() > 0)
+			return false;
+		
+		if(y > 0)
+		{
+			Nature down_nature = environment.getCellNature(x, y - 1);
+			IContent down_content = environment.getCellContent(x, y - 1);
+			
+			if(down_nature == Nature.LADDER || down_nature.isPlenty())
+				return true;
+			
+			if(down_content.nbCharacters() > 0)
+				return true;
+		}
+		
+		if(nature == Nature.LADDER || nature == Nature.HANDRAIL)
+			return true;
 		
 		return false;
 	}
@@ -34,8 +56,30 @@ public class CharacterMovingPolicy extends MovingPolicy implements ICharacterMov
 		int x = character.getX();
 		int y = character.getY();
 		
-		Nature nature = environment.getCellNature(x + 1, y);
-		IContent content = environment.getCellContent(x + 1, y);
+		Nature nature = environment.getCellNature(x, y);
+		Nature next_nature = environment.getCellNature(x + 1, y);
+		IContent next_content = environment.getCellContent(x + 1, y);
+		
+		if(next_nature.isPlenty())
+			return false;
+		
+		if(next_content.nbCharacters() > 0)
+			return false;
+		
+		if(y > 0)
+		{
+			Nature down_nature = environment.getCellNature(x, y - 1);
+			IContent down_content = environment.getCellContent(x, y - 1);
+			
+			if(down_nature == Nature.LADDER || down_nature.isPlenty())
+				return true;
+			
+			if(down_content.nbCharacters() > 0)
+				return true;
+		}
+		
+		if(nature == Nature.LADDER || nature == Nature.HANDRAIL)
+			return true;
 		
 		return false;
 	}
@@ -50,8 +94,14 @@ public class CharacterMovingPolicy extends MovingPolicy implements ICharacterMov
 		int x = character.getX();
 		int y = character.getY();
 		
-		Nature nature = environment.getCellNature(x, y - 1);
-		IContent content = environment.getCellContent(x, y - 1);
+		Nature next_nature = environment.getCellNature(x, y - 1);
+		IContent next_content = environment.getCellContent(x, y - 1);
+		
+		if(next_nature.isPlenty())
+			return false;
+		
+		if(next_content.nbCharacters() > 0)
+			return false;
 		
 		return false;
 	}
@@ -66,8 +116,18 @@ public class CharacterMovingPolicy extends MovingPolicy implements ICharacterMov
 		int x = character.getX();
 		int y = character.getY();
 		
-		Nature nature = environment.getCellNature(x, y + 1);
-		IContent content = environment.getCellContent(x, y + 1);
+		Nature nature = environment.getCellNature(x, y);
+		Nature next_nature = environment.getCellNature(x, y + 1);
+		IContent next_content = environment.getCellContent(x, y + 1);
+		
+		if(next_nature.isPlenty())
+			return false;
+		
+		if(next_content.nbCharacters() > 0)
+			return false;
+		
+		if(nature == Nature.LADDER)
+			return true;
 		
 		return false;
 	}

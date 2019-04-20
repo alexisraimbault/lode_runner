@@ -27,22 +27,37 @@ public class EditableEnvironment implements IEditableEnvironment
 		
 		int count_players = 0;
 		int count_treasures = 0;
-		for(int x = 0; x < environment.getWidth(); ++x)
+		for(int x = 0; x < getWidth(); ++x)
 		{
-			for(int y = 0; y < environment.getHeight(); ++y)
+			for(int y = 0; y < getHeight(); ++y)
 			{
-				IContent content = environment.getCellContent(x, y);
+				Nature nature = getCellNature(x, y);
+				IContent content = getCellContent(x, y);
+				
+				if(content.nbCharacters() > 1)
+					return false;
+				
+				if(nature.isPlenty() && !content.isEmpty())
+					return false;
+				
 				for(EntityType type : EntityType.values())
 				{
 					switch(type)
 					{
 					case PLAYER:
 						count_players += content.counts(type);
+						if(getCellNature(x, y) != Nature.EMPTY)
+							return false;
 						break;
 					case GUARD:
 						break;
 					case TREASURE:
 						count_treasures += content.counts(type);
+						if(y == 0)
+							return false;
+						Nature down_nature = getCellNature(x, y - 1);
+						if(!down_nature.isPlenty())
+							return false;
 						break;
 					default:
 						break;
@@ -50,6 +65,7 @@ public class EditableEnvironment implements IEditableEnvironment
 				}
 			}
 		}
+		// + check player can access all treasures
 		return count_players == 1 && count_treasures > 0;
 	}
 	
