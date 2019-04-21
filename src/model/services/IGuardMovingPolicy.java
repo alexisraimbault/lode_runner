@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IGuardMovingPolicy extends ICharacterMovingPolicy
+public interface IGuardMovingPolicy extends ICharacterMoveAccepter
 {
 	
 }

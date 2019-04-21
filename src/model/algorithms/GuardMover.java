@@ -5,7 +5,7 @@ public class GuardMover extends CharacterMover
 
 	public GuardMover()
 	{
-		super(new GuardMovingPolicy());
+		super(new GuardMoveAccepter());
 	}
 
 }

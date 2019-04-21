@@ -9,7 +9,7 @@ public interface ICharacterMover
 	 * post:
 	 * true
 	 */
-	public ICharacterMovingPolicy getPolicy();
+	public ICharacterMoveAccepter getPolicy();
 	
 	/*
 	 * pre:

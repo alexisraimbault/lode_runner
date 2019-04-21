@@ -1,14 +1,14 @@
 package model.algorithms;
 
 import model.services.ICharacter;
-import model.services.ICharacterMovingPolicy;
+import model.services.ICharacterMoveAccepter;
 import model.services.IEnvironment;
 import model.services.IShortestPathsCalculator;
 
 public class AStarCalculator implements IShortestPathsCalculator
 {
 	@Override
-	public int[][] getPaths(ICharacter character, ICharacterMovingPolicy policy)
+	public int[][] getPaths(ICharacter character, ICharacterMoveAccepter policy)
 	{
 		IEnvironment environment = character.getEnvironment();
 		

@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import model.services.IHumanPlayerEngine;
-import model.services.PlayerCommand;
+import model.services.PlayerCommandType;
 
 public class GameKeyListener implements KeyListener
 {
@@ -25,22 +25,22 @@ public class GameKeyListener implements KeyListener
     public void keyPressed(KeyEvent ke)
     {
         System.out.println("Pressed " + ke.getKeyChar());
-        PlayerCommand command = PlayerCommand.NEUTRAL;
+        PlayerCommandType command = PlayerCommandType.NEUTRAL;
         
         switch(ke.getKeyCode())
         {
         case 37:
-        	command = PlayerCommand.LEFT;
+        	command = PlayerCommandType.LEFT;
         case 38:
-        	command = PlayerCommand.UP;
+        	command = PlayerCommandType.UP;
         case 39:
-        	command = PlayerCommand.RIGHT;
+        	command = PlayerCommandType.RIGHT;
         case 40:
-        	command = PlayerCommand.DOWN;
+        	command = PlayerCommandType.DOWN;
         case 68:
-        	command = PlayerCommand.DIGLEFT;
+        	command = PlayerCommandType.DIGLEFT;
         case 70:
-        	command = PlayerCommand.DIGRIGHT;
+        	command = PlayerCommandType.DIGRIGHT;
         }
         
         engine.setCommand(command);

@@ -2,20 +2,20 @@ package model.algorithms;
 
 import model.services.ICharacter;
 import model.services.ICharacterMover;
-import model.services.ICharacterMovingPolicy;
+import model.services.ICharacterMoveAccepter;
 import model.services.IContent;
 
 public class CharacterMover implements ICharacterMover
 {
-	private ICharacterMovingPolicy policy;
+	private ICharacterMoveAccepter policy;
 	
-	public CharacterMover(ICharacterMovingPolicy policy)
+	public CharacterMover(ICharacterMoveAccepter policy)
 	{
 		this.policy = policy;
 	}
 
 	@Override
-	public ICharacterMovingPolicy getPolicy()
+	public ICharacterMoveAccepter getPolicy()
 	{
 		return policy;
 	}

@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IPlayerMovingPolicy extends ICharacterMovingPolicy
+public interface IPlayerMovingPolicy extends ICharacterMoveAccepter
 {
 
 }

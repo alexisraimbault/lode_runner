@@ -17,7 +17,7 @@ import model.services.IHumanPlayerEngine;
 import model.services.IPlayer;
 import model.services.IPlayerDigger;
 import model.services.IShortestPathsCalculator;
-import model.services.PlayerCommand;
+import model.services.PlayerCommandType;
 import model.services.Status;
 
 public class HumanPlayerEngine implements IHumanPlayerEngine
@@ -25,7 +25,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 	private IGameState state;
 	private Status status;
 	
-	private PlayerCommand command;
+	private PlayerCommandType command;
 	
 	private ICharacterMover player_mover;
 	private IPlayerDigger player_digger;
@@ -40,7 +40,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		this.state = state;
 		this.status = Status.PAUSE;
 		
-		this.command = PlayerCommand.NEUTRAL;
+		this.command = PlayerCommandType.NEUTRAL;
 		
 		this.player_mover = new PlayerMover();
 		this.player_digger = new PlayerDigger();
@@ -88,7 +88,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		default:
 			break;
 		}
-		command = PlayerCommand.NEUTRAL;
+		command = PlayerCommandType.NEUTRAL;
 	}
 	
 	@Override
@@ -107,7 +107,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 	}
 	
 	@Override
-	public void setCommand(PlayerCommand command)
+	public void setCommand(PlayerCommandType command)
 	{
 		this.command = command;
 	}
