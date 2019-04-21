@@ -46,7 +46,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		this.player_digger = new PlayerDigger();
 		
 		this.character_mover = new GuardMover();
-		this.guard_climber = new GuardClimber();
+		//this.guard_climber = new GuardClimber();
 		
 		this.paths_calculator = new AStarCalculator();
 	}

@@ -35,14 +35,23 @@ public abstract class DynamicEntity implements IDynamicEntity
 	}
 	
 	@Override
+	public void setPosition(int x, int y)
+	{
+		environment.getCellContent(this.x, this.y).remove(getType());
+		this.x = x;
+		this.y = y;
+		environment.getCellContent(this.x, this.y).add(getType());
+	}
+	
+	@Override
 	public void setX(int x)
 	{
-		this.x = x;
+		setPosition(x, getY());
 	}
-
+	
 	@Override
 	public void setY(int y)
 	{
-		this.y = y;
+		setPosition(getX(), y);
 	}
 }

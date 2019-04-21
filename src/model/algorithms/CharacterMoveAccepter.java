@@ -22,7 +22,7 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 			if(type != MoveType.NEUTRAL && accept(type, character))
 				accepted.add(type);
 		}
-		if(!(accepted.size() == 0 || (accepted.size() == 1 && accepted.contains(MoveType.DOWN))))
+		if(!(accepted.size() == 1 && accepted.contains(MoveType.DOWN)))
 			accepted.add(MoveType.NEUTRAL);
 		return accepted;
 	}

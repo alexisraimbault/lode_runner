@@ -51,4 +51,24 @@ public enum PlayerCommandType
 		assert false;
 		return MoveType.DOWN;
 	}
+	
+	public boolean isDigType()
+	{
+		return !isMoveType();
+	}
+	
+	public DigType digType()
+	{
+		switch(this)
+		{
+		case DIGLEFT:
+			return DigType.DIGLEFT;
+		case DIGRIGHT:
+			return DigType.DIGRIGHT;
+		default:
+			break;
+		}
+		assert false;
+		return null;
+	}
 }
