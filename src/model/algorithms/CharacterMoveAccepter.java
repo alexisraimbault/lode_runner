@@ -1,8 +1,9 @@
 package model.algorithms;
 
+import java.util.EnumSet;
 import java.util.Set;
 
-import model.services.CharacterMoveType;
+import model.services.MoveType;
 import model.services.ICharacter;
 import model.services.ICharacterMoveAccepter;
 import model.services.IContent;
@@ -12,6 +13,39 @@ import model.services.Nature;
 public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements ICharacterMoveAccepter
 {
 	@Override
+	public Set<MoveType> accept(ICharacter character)
+	{
+		Set<MoveType> accepted = EnumSet.noneOf(MoveType.class);
+		
+		for(MoveType type : MoveType.values())
+		{
+			if(type != MoveType.NEUTRAL && accept(type, character))
+				accepted.add(type);
+		}
+		if(!(accepted.size() == 0 || (accepted.size() == 1 && accepted.contains(MoveType.DOWN))))
+			accepted.add(MoveType.NEUTRAL);
+		return accepted;
+	}
+	
+	public boolean accept(MoveType type, ICharacter character)
+	{
+		switch(type)
+		{
+		case LEFT:
+			return acceptLeft(character);
+		case RIGHT:
+			return acceptRight(character);
+		case DOWN:
+			return acceptDown(character);
+		case UP:
+			return acceptUp(character);
+		default:
+			break;
+		}
+		assert false;
+		return false;
+	}
+	
 	public boolean acceptLeft(ICharacter character)
 	{
 		if(!super.acceptLeft(character))
@@ -48,8 +82,7 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 		
 		return false;
 	}
-
-	@Override
+	
 	public boolean acceptRight(ICharacter character)
 	{
 		if(!super.acceptRight(character))
@@ -87,7 +120,6 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 		return false;
 	}
 	
-	@Override
 	public boolean acceptDown(ICharacter character)
 	{
 		if(!super.acceptDown(character))
@@ -109,7 +141,6 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 		return false;
 	}
 	
-	@Override
 	public boolean acceptUp(ICharacter character)
 	{
 		if(!super.acceptUp(character))
@@ -133,13 +164,6 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 			return true;
 		
 		return false;
-	}
-
-	@Override
-	public Set<CharacterMoveType> accept(ICharacter entity)
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

@@ -10,25 +10,45 @@ public enum PlayerCommandType
 	DIGLEFT,
 	DIGRIGHT;
 	
-	CharacterMoveType moveType()
+	public boolean isMoveType()
+	{
+		switch(this)
+		{
+		case DOWN:
+			return true;
+		case LEFT:
+			return true;
+		case NEUTRAL:
+			return true;
+		case RIGHT:
+			return true;
+		case UP:
+			return true;
+		default:
+			break;
+		}
+		return false;
+	}
+	
+	public MoveType moveType()
 	{
 		switch(this)
 		{
 
 		case DOWN:
-			return CharacterMoveType.DOWN;
+			return MoveType.DOWN;
 		case LEFT:
-			return CharacterMoveType.LEFT;
+			return MoveType.LEFT;
 		case NEUTRAL:
-			return CharacterMoveType.NEUTRAL;
+			return MoveType.NEUTRAL;
 		case RIGHT:
-			return CharacterMoveType.RIGHT;
+			return MoveType.RIGHT;
 		case UP:
-			return CharacterMoveType.UP;
+			return MoveType.UP;
 		default:
 			break;
 		}
 		assert false;
-		return CharacterMoveType.DOWN;
+		return MoveType.DOWN;
 	}
 }

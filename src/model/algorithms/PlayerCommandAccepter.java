@@ -3,10 +3,10 @@ package model.algorithms;
 import model.services.ICharacter;
 import model.services.IContent;
 import model.services.IEnvironment;
-import model.services.IPlayerMovingPolicy;
+import model.services.IPlayerMoveAccepter;
 import model.services.Nature;
 
-public class PlayerCommandAccepter extends CharacterMoveAccepter implements IPlayerMovingPolicy
+public class PlayerCommandAccepter extends CharacterMoveAccepter implements IPlayerMoveAccepter
 {
 	@Override
 	public boolean acceptLeft(ICharacter character)

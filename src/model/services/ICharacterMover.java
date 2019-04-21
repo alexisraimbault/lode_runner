@@ -9,7 +9,7 @@ public interface ICharacterMover
 	 * post:
 	 * true
 	 */
-	public ICharacterMoveAccepter getPolicy();
+	public ICharacterMoveAccepter getAccepter();
 	
 	/*
 	 * pre:
@@ -23,7 +23,7 @@ public interface ICharacterMover
 	 * !acceptLeft => character.getX() == before.character.getX()
 	 * getY() == before.character.getY()
 	 */
-	public void moveLeft(ICharacter character);
+	public void move(MoveType type, ICharacter character);
 	
 	/*
 	 * pre:
@@ -36,7 +36,7 @@ public interface ICharacterMover
 	 * acceptRight => character.getX() == before.character.getX() + 1
 	 * !acceptRight => character.getX() == before.character.getX()
 	 * getY() == before.character.getY()
-	 */
+	 *
 	public void moveRight(ICharacter character);
 	
 	/*
@@ -50,7 +50,7 @@ public interface ICharacterMover
 	 * acceptDown => character.getY() == before.character.getY() - 1
 	 * !acceptDown => character.getY() == before.character.getY()
 	 * getX() == before.character.getX()
-	 */
+	 *
 	public void moveDown(ICharacter character);
 	
 	/*
@@ -64,6 +64,6 @@ public interface ICharacterMover
 	 * acceptUp => character.getY() == before.character.getY() + 1
 	 * !acceptUp => character.getY() == before.character.getY()
 	 * getX() == before.character.getX()
-	 */
-	public void moveUp(ICharacter character);
+	 *
+	public void moveUp(ICharacter character);*/
 }

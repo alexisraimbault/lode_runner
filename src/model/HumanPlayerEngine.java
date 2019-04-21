@@ -27,10 +27,10 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 	
 	private PlayerCommandType command;
 	
-	private ICharacterMover player_mover;
+	private ICharacterMover character_mover;
+	
 	private IPlayerDigger player_digger;
 	
-	private ICharacterMover guard_mover;
 	private IGuardClimber guard_climber;
 	
 	private IShortestPathsCalculator paths_calculator;
@@ -42,10 +42,10 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		
 		this.command = PlayerCommandType.NEUTRAL;
 		
-		this.player_mover = new PlayerMover();
+		this.character_mover = new PlayerMover();
 		this.player_digger = new PlayerDigger();
 		
-		this.guard_mover = new GuardMover();
+		this.character_mover = new GuardMover();
 		this.guard_climber = new GuardClimber();
 		
 		this.paths_calculator = new AStarCalculator();
@@ -71,23 +71,11 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		case DIGRIGHT:
 			player_digger.digRight(player);
 			break;
-		case DOWN:
-			player_mover.moveDown(player);
-			break;
-		case LEFT:
-			player_mover.moveLeft(player);
-			break;
-		case NEUTRAL:
-			break;
-		case RIGHT:
-			player_mover.moveRight(player);
-			break;
-		case UP:
-			player_mover.moveUp(player);
-			break;
 		default:
 			break;
 		}
+		if(command.isMoveType())
+			character_mover.move(command.moveType(), player);
 		command = PlayerCommandType.NEUTRAL;
 	}
 	
@@ -100,7 +88,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		
 		for(IGuard guard : guards)
 		{
-			int[][] paths = paths_calculator.getPaths(guard, guard_mover.getPolicy());
+			int[][] paths = paths_calculator.getPaths(guard, character_mover.getAccepter());
 			
 			// TODO
 		}

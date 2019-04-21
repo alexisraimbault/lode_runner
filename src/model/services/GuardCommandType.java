@@ -10,25 +10,25 @@ public enum GuardCommandType
 	CLIMBLEFT,
 	CLIMBRIGHT;
 	
-	CharacterMoveType moveType()
+	MoveType moveType()
 	{
 		switch(this)
 		{
 
 		case DOWN:
-			return CharacterMoveType.DOWN;
+			return MoveType.DOWN;
 		case LEFT:
-			return CharacterMoveType.LEFT;
+			return MoveType.LEFT;
 		case NEUTRAL:
-			return CharacterMoveType.NEUTRAL;
+			return MoveType.NEUTRAL;
 		case RIGHT:
-			return CharacterMoveType.RIGHT;
+			return MoveType.RIGHT;
 		case UP:
-			return CharacterMoveType.UP;
+			return MoveType.UP;
 		default:
 			break;
 		}
 		assert false;
-		return CharacterMoveType.DOWN;
+		return MoveType.DOWN;
 	}
 }

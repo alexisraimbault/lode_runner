@@ -4,5 +4,5 @@ import java.util.Set;
 
 public interface ICommandAccepter<Entity extends IEntity, CommandType>
 {
-	Set<CommandType> accept(Entity entity);
+	public Set<CommandType> accept(Entity entity);
 }
