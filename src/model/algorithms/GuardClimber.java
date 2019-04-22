@@ -1,12 +1,9 @@
 package model.algorithms;
 
-import model.services.IContent;
-import model.services.IEnvironment;
+import model.services.ClimbType;
 import model.services.IGuard;
 import model.services.IGuardClimbAccepter;
 import model.services.IGuardClimber;
-import model.services.IGuardMoveAccepter;
-import model.services.Nature;
 
 public class GuardClimber implements IGuardClimber
 {
@@ -17,6 +14,11 @@ public class GuardClimber implements IGuardClimber
 		this.accepter = accepter;
 	}
 	
+	public GuardClimber()
+	{
+		this(new GuardClimbAccepter());
+	}
+	
 	@Override
 	public IGuardClimbAccepter getAccepter()
 	{
@@ -24,21 +26,21 @@ public class GuardClimber implements IGuardClimber
 	}
 	
 	@Override
-	public void climbLeft(IGuard guard)
+	public void climb(ClimbType type, IGuard guard)
 	{
 		int x = guard.getX();
 		int y = guard.getY();
 		
-		guard.setPosition(x - 1, y + 1);
-	}
-
-	@Override
-	public void climbRight(IGuard guard)
-	{
-		int x = guard.getX();
-		int y = guard.getY();
+		switch(type)
+		{
+		case CLIMBLEFT:
+			guard.setPosition(x - 1, y + 1);
+		case CLIMBRIGHT:
+			guard.setPosition(x + 1, y + 1);
+		default:
+			break;
 		
-		guard.setPosition(x + 1, y + 1);
+		}
 	}
 
 }

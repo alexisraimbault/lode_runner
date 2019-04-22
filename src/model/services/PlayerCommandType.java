@@ -10,6 +10,40 @@ public enum PlayerCommandType
 	DIGLEFT,
 	DIGRIGHT;
 	
+	static public PlayerCommandType get(MoveType type)
+	{
+		switch(type)
+		{
+		case LEFT:
+			return PlayerCommandType.LEFT;
+		case RIGHT:
+			return PlayerCommandType.RIGHT;
+		case DOWN:
+			 return PlayerCommandType.DOWN;
+		case UP:
+			 return PlayerCommandType.UP;
+		case NEUTRAL:
+			 return PlayerCommandType.NEUTRAL;
+		default:
+			break;
+		}
+		return null;
+	}
+	
+	static public PlayerCommandType get(DigType type)
+	{
+		switch(type)
+		{
+		case DIGLEFT:
+			return PlayerCommandType.DIGLEFT;
+		case DIGRIGHT:
+			return PlayerCommandType.DIGRIGHT;
+		default:
+			break;
+		}
+		return null;
+	}
+	
 	public boolean isMoveType()
 	{
 		switch(this)

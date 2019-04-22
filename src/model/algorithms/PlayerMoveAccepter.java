@@ -4,14 +4,15 @@ import java.util.Set;
 
 import model.services.ICharacter;
 import model.services.ICharacterMoveAccepter;
-import model.services.IGuardMoveAccepter;
+import model.services.IPlayerMoveAccepter;
 import model.services.MoveType;
 
-public class GuardMoveAccepter implements IGuardMoveAccepter
+public class PlayerMoveAccepter implements IPlayerMoveAccepter
 {
+	
 	private ICharacterMoveAccepter accepter;
 	
-	public GuardMoveAccepter(ICharacterMoveAccepter accepter)
+	public PlayerMoveAccepter(ICharacterMoveAccepter accepter)
 	{
 		this.accepter = accepter;
 	}
@@ -21,4 +22,5 @@ public class GuardMoveAccepter implements IGuardMoveAccepter
 	{
 		return accepter.accept(entity);
 	}
+
 }

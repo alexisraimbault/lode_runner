@@ -3,6 +3,5 @@ package model.services;
 public interface IGuardClimber
 {
 	public IGuardClimbAccepter getAccepter();
-	public void climbLeft(IGuard guard);
-	public void climbRight(IGuard guard);
+	public void climb(ClimbType type, IGuard guard);
 }

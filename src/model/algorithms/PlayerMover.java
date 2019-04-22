@@ -1,11 +1,33 @@
 package model.algorithms;
 
-public class PlayerMover extends CharacterMover
-{
+import model.services.ICharacter;
+import model.services.IPlayerMover;
+import model.services.MoveType;
 
-	public PlayerMover()
+public class PlayerMover extends CharacterMoverBase implements IPlayerMover
+{
+	private PlayerMoveAccepter accepter;
+	
+	public PlayerMover(PlayerMoveAccepter accepter)
 	{
-		super(new PlayerCommandAccepter());
+		this.accepter = accepter;
 	}
 	
+	public PlayerMover()
+	{
+		this(new PlayerMoveAccepter(new CharacterMoveAccepter()));
+	}
+
+	@Override
+	public PlayerMoveAccepter getAccepter()
+	{
+		return accepter;
+	}
+
+	@Override
+	public void move(MoveType type, ICharacter character)
+	{
+		super.move(type, character);
+	}
+
 }

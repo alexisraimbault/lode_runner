@@ -1,23 +1,43 @@
 package model.algorithms;
 
+import model.services.DigType;
+import model.services.IEnvironment;
 import model.services.IPlayer;
+import model.services.IPlayerDigAccepter;
 import model.services.IPlayerDigger;
 
 public class PlayerDigger implements IPlayerDigger
 {
-
-	@Override
-	public void digLeft(IPlayer player)
+	
+	private IPlayerDigAccepter accepter;
+	
+	public PlayerDigger(IPlayerDigAccepter accepter)
 	{
-		// TODO Auto-generated method stub
-		
+		this.accepter = accepter;
 	}
-
-	@Override
-	public void digRight(IPlayer player)
+	
+	public PlayerDigger()
 	{
-		// TODO Auto-generated method stub
+		this(new PlayerDigAccepter());
+	}
+	
+	@Override
+	public void dig(DigType type, IPlayer player)
+	{
+		IEnvironment environment = player.getEnvironment();
+		int x = player.getX();
+		int y = player.getY();
 		
+		switch(type)
+		{
+		case DIGLEFT:
+			environment.dig(x - 1, y - 1);
+		case DIGRIGHT:
+			environment.dig(x + 1, y - 1);
+		default:
+			break;
+		
+		}
 	}
 
 }

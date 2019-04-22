@@ -1,74 +1,43 @@
 package model.algorithms;
 
-import model.services.ICharacter;
-import model.services.IContent;
-import model.services.IEnvironment;
+import java.util.EnumSet;
+import java.util.Set;
+
+import model.services.DigType;
+import model.services.IPlayer;
+import model.services.IPlayerCommandAccepter;
+import model.services.IPlayerDigAccepter;
 import model.services.IPlayerMoveAccepter;
-import model.services.Nature;
+import model.services.MoveType;
+import model.services.PlayerCommandType;
 
-public class PlayerCommandAccepter extends CharacterMoveAccepter implements IPlayerMoveAccepter
+public class PlayerCommandAccepter implements IPlayerCommandAccepter
 {
-	@Override
-	public boolean acceptLeft(ICharacter character)
+	private IPlayerMoveAccepter move_accepter;
+	private IPlayerDigAccepter dig_accepter;
+	
+	public PlayerCommandAccepter(IPlayerMoveAccepter move_accepter, IPlayerDigAccepter dig_accepter)
 	{
-		if(!super.acceptLeft(character))
-			return false;
-		
-		IEnvironment environment = character.getEnvironment();
-		int x = character.getX();
-		int y = character.getY();
-		
-		Nature nature = environment.getCellNature(x - 1, y);
-		IContent content = environment.getCellContent(x - 1, y - 1);
-		
-		return false;
+		this.move_accepter = move_accepter;
+		this.dig_accepter = dig_accepter;
+	}
+	
+	public PlayerCommandAccepter()
+	{
+		this(new PlayerMoveAccepter(new CharacterMoveAccepter()), new PlayerDigAccepter());
 	}
 
 	@Override
-	public boolean acceptRight(ICharacter character)
+	public Set<PlayerCommandType> accept(IPlayer player)
 	{
-		if(!super.acceptRight(character))
-			return false;
+		Set<PlayerCommandType> accepted = EnumSet.noneOf(PlayerCommandType.class);
+		Set<MoveType> moves = move_accepter.accept(player);
+		Set<DigType> digs = dig_accepter.accept(player);
 		
-		IEnvironment environment = character.getEnvironment();
-		int x = character.getX();
-		int y = character.getY();
-		
-		Nature nature = environment.getCellNature(x + 1, y);
-		IContent content = environment.getCellContent(x + 1, y);
-		
-		return false;
-	}
-	
-	@Override
-	public boolean acceptDown(ICharacter character)
-	{
-		if(!super.acceptDown(character))
-			return false;
-		
-		IEnvironment environment = character.getEnvironment();
-		int x = character.getX();
-		int y = character.getY();
-		
-		Nature nature = environment.getCellNature(x, y - 1);
-		IContent content = environment.getCellContent(x, y - 1);
-		
-		return false;
-	}
-	
-	@Override
-	public boolean acceptUp(ICharacter character)
-	{
-		if(!super.acceptUp(character))
-			return false;
-		
-		IEnvironment environment = character.getEnvironment();
-		int x = character.getX();
-		int y = character.getY();
-		
-		Nature nature = environment.getCellNature(x, y + 1);
-		IContent content = environment.getCellContent(x, y + 1);
-		
-		return false;
+		for(MoveType type : moves)
+			accepted.add(PlayerCommandType.get(type));
+		for(DigType type : digs)
+			accepted.add(PlayerCommandType.get(type));
+		return accepted;
 	}
 }

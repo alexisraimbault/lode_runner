@@ -3,6 +3,7 @@ package controller;
 import javax.swing.JFrame;
 
 import model.HumanPlayerEngine;
+import model.OperationsSpeeds;
 import model.gamestate.GameState;
 import model.gamestate.environment.Environment;
 import model.services.IEditableEnvironment;
@@ -32,7 +33,7 @@ public class LodeRunner extends JFrame
 			IEnvironment environment = new Environment(editable.produce());
 			IGameState state = new GameState(environment);
 
-			IHumanPlayerEngine engine = new HumanPlayerEngine(state);
+			IHumanPlayerEngine engine = new HumanPlayerEngine(state, OperationsSpeeds.default_speeds);
 			
 			GameFrame frame = new GameFrame(engine);
 			
