@@ -1,7 +1,7 @@
 package model.services;
 
-public interface IDecision<Entity extends IEntity, CommandType>
+public interface IDecision<Entity extends IEntity, CommandType, CommandAccepter extends ICommandAccepter<Entity, CommandType>>
 {
-	public ICommandAccepter<Entity, CommandType> getAccepter();
+	public CommandAccepter getAccepter();
 	public CommandType getCommand(Entity entity);
 }

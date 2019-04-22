@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IGuardDecision extends IDecision<IGuard, GuardCommandType>
+public interface IGuardDecision extends IDecision<IGuard, GuardCommandType, IGuardCommandAccepter>
 {
 	
 }

@@ -7,7 +7,7 @@ import model.services.ICommandAccepter;
 import model.services.IShortestPathCalculator;
 import model.services.MoveType;
 
-public class AStarDecision implements IAStarDecision
+public class AStarDecision<CommandAccepter extends ICommandAccepter<?, ?>> implements IAStarDecision
 {
 	private ICharacterMoveAccepter accepter;
 	private ICharacter target;
@@ -21,7 +21,7 @@ public class AStarDecision implements IAStarDecision
 	}
 
 	@Override
-	public ICommandAccepter<ICharacter, MoveType> getAccepter()
+	public ICharacterMoveAccepter getAccepter()
 	{
 		return accepter;
 	}

@@ -30,6 +30,6 @@ public class RandomGuardDecision implements IGuardDecision
 	public GuardCommandType getCommand(IGuard guard)
 	{
 		Set<GuardCommandType> accepted = accepter.accept(guard);
-		return (GuardCommandType) accepted.toArray()[rand.nextInt() % accepted.size()];
+		return (GuardCommandType) accepted.toArray()[Math.abs(rand.nextInt()) % accepted.size()];
 	}
 }
