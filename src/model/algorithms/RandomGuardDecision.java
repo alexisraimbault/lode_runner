@@ -8,7 +8,6 @@ import model.services.ICommandAccepter;
 import model.services.IGuard;
 import model.services.IGuardCommandAccepter;
 import model.services.IGuardDecision;
-import model.services.IShortestPathsCalculator;
 
 public class RandomGuardDecision implements IGuardDecision
 {
