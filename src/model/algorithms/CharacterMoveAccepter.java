@@ -114,10 +114,10 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 				return true;
 		}
 		
-		if(nature == Nature.LADDER || nature == Nature.HANDRAIL)
+		if(!(nature == Nature.LADDER || nature == Nature.HANDRAIL))
 			return true;
 		
-		return false;
+		return true;
 	}
 	
 	public boolean acceptDown(ICharacter character)
@@ -138,7 +138,7 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 		if(next_content.nbCharacters() > 0)
 			return false;
 		
-		return false;
+		return true;
 	}
 	
 	public boolean acceptUp(ICharacter character)
