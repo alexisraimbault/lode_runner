@@ -14,10 +14,10 @@ public class CharacterMoverBase
 		switch(type)
 		{
 		case LEFT:
-			character.setY(x - 1);
+			character.setX(x - 1);
 			break;
 		case RIGHT:
-			character.setY(x + 1);
+			character.setX(x + 1);
 			break;
 		case DOWN:
 			character.setY(y - 1);
