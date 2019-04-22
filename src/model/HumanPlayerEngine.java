@@ -6,13 +6,16 @@ import model.algorithms.GuardMover;
 import model.algorithms.PlayerCommandAccepter;
 import model.algorithms.PlayerDigger;
 import model.algorithms.PlayerMover;
-import model.algorithms.RandomGuardDecision;
 import model.gamestate.entities.Player;
 import model.algorithms.AStarCalculator;
+import model.algorithms.AStarDecision;
+import model.algorithms.CharacterMoveAccepter;
 import model.algorithms.CharacterMoverBase;
 import model.algorithms.GuardClimber;
 import model.algorithms.GuardCommandAccepter;
+import model.algorithms.GuardMoveAccepter;
 import model.services.GuardCommandType;
+import model.services.IAStarDecision;
 import model.services.IEntityPool;
 import model.services.IEnvironment;
 import model.services.IGameState;
@@ -43,7 +46,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 	private IGuardMover guard_mover;
 	private IGuardClimber guard_climber;
 	
-	//private IShortestPathsCalculator paths_calculator;
+	private IShortestPathCalculator path_calculator;
 	
 	public HumanPlayerEngine(IGameState state, IOperationsSpeeds speeds)
 	{
@@ -59,7 +62,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		this.guard_mover = new GuardMover();
 		this.guard_climber = new GuardClimber();
 		
-		//this.paths_calculator = new AStarCalculator();
+		this.path_calculator = new AStarCalculator();
 	}
 	
 	@Override
@@ -95,11 +98,11 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		int gi = 0;
 		for(IGuard guard : guards)
 		{
-			IGuardDecision decision = new RandomGuardDecision(new GuardCommandAccepter());
+			IAStarDecision decision = new AStarDecision(path_calculator, state.getPool().getPlayer(), new GuardMoveAccepter(new CharacterMoveAccepter()));
 			
-			GuardCommandType guard_command = decision.getCommand(guard);
+			GuardCommandType guard_command = GuardCommandType.get(decision.getCommand(guard));
 			
-			System.out.println("Guard + " + gi + " : " + (new GuardCommandAccepter()).accept(guard));
+			System.out.println("Guard + " + gi + " : " + guard_command);
 			
 			if(guard_command.isMoveType())
 				guard_mover.move(guard_command.moveType(), guard);
