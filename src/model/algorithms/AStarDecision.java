@@ -3,11 +3,10 @@ package model.algorithms;
 import model.services.IAStarDecision;
 import model.services.ICharacter;
 import model.services.ICharacterMoveAccepter;
-import model.services.ICommandAccepter;
 import model.services.IShortestPathCalculator;
 import model.services.MoveType;
 
-public class AStarDecision<CommandAccepter extends ICommandAccepter<?, ?>> implements IAStarDecision
+public class AStarDecision implements IAStarDecision
 {
 	private ICharacterMoveAccepter accepter;
 	private ICharacter target;
