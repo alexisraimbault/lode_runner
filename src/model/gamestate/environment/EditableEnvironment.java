@@ -42,25 +42,27 @@ public class EditableEnvironment implements IEditableEnvironment
 				
 				for(EntityType type : EntityType.values())
 				{
-					switch(type)
-					{
-					case PLAYER:
-						count_players += content.counts(type);
-						if(getCellNature(x, y) != Nature.EMPTY)
-							return false;
-						break;
-					case GUARD:
-						break;
-					case TREASURE:
-						count_treasures += content.counts(type);
-						if(y == 0)
-							return false;
-						Nature down_nature = getCellNature(x, y - 1);
-						if(!down_nature.isPlenty())
-							return false;
-						break;
-					default:
-						break;
+					if(content.contains(type)){
+						switch(type)
+						{
+						case PLAYER:
+							count_players += content.counts(type);
+							if(getCellNature(x, y) != Nature.EMPTY)
+								return false;
+							break;
+						case GUARD:
+							break;
+						case TREASURE:
+							count_treasures += content.counts(type);
+							if(y == 0)
+								return false;
+							Nature down_nature = getCellNature(x, y - 1);
+							if(!down_nature.isPlenty())
+								return false;
+							break;
+						default:
+							break;
+						}
 					}
 				}
 			}
