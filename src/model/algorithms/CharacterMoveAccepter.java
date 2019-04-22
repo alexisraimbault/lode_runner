@@ -115,7 +115,7 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 		}
 		
 		if(!(nature == Nature.LADDER || nature == Nature.HANDRAIL))
-			return true;
+			return false;
 		
 		return true;
 	}

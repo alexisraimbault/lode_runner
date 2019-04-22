@@ -32,8 +32,10 @@ public class PlayerDigger implements IPlayerDigger
 		{
 		case DIGLEFT:
 			environment.dig(x - 1, y - 1);
+			break;
 		case DIGRIGHT:
 			environment.dig(x + 1, y - 1);
+			break;
 		default:
 			break;
 		
