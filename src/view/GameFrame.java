@@ -28,12 +28,13 @@ public class GameFrame extends JFrame
 		IEnvironment environment = engine.getState().getEnvironment();
 		
 	    this.setTitle("Lode Runner");
-	    this.setContentPane(new HumanPlayerGamePanel(engine));
+	    HumanPlayerGamePanel gamePanel = new HumanPlayerGamePanel(engine);
+	    this.setContentPane(gamePanel);
 	    this.getContentPane().setPreferredSize(new Dimension(environment.getWidth() * block_size, environment.getHeight() * block_size));
 	    this.pack();
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
 	    this.setVisible(true);
-	    this.addKeyListener(new GameKeyListener(engine));
+	    this.addKeyListener(new GameKeyListener(engine, gamePanel));
 	}
 }

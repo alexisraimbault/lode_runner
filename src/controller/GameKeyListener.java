@@ -9,21 +9,24 @@ import model.services.IHumanPlayerEngine;
 import model.services.IPlayer;
 import model.services.IPlayerCommandAccepter;
 import model.services.PlayerCommandType;
+import view.HumanPlayerGamePanel;
 
 public class GameKeyListener implements KeyListener
 {
 	private IHumanPlayerEngine engine;
 	private IPlayerCommandAccepter accepter;
+	private HumanPlayerGamePanel panel;
 	
-	public GameKeyListener(IHumanPlayerEngine engine, IPlayerCommandAccepter accepter)
+	public GameKeyListener(IHumanPlayerEngine engine, IPlayerCommandAccepter accepter, HumanPlayerGamePanel panel)
 	{
 		this.engine = engine;
 		this.accepter = accepter;
+		this.panel = panel;
 	}
 	
-	public GameKeyListener(IHumanPlayerEngine engine)
+	public GameKeyListener(IHumanPlayerEngine engine, HumanPlayerGamePanel panel)
 	{
-		this(engine, new PlayerCommandAccepter());
+		this(engine, new PlayerCommandAccepter(), panel);
 	}
 	
     @Override
@@ -72,7 +75,9 @@ public class GameKeyListener implements KeyListener
         // ideal would be to step every player_tick / guards_tick
         // according to their move speed (player is faster than guards)
         engine.stepPlayer();
-        engine.stepGuards();
+        //engine.stepGuards();
+        panel.repaint();
+        
     }
 
     @Override
