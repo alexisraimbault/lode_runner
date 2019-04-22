@@ -83,7 +83,7 @@ public class AStarCalculator implements IShortestPathsCalculator
 	}
 	
 	@Override
-	public Set<MoveType> getPaths(ICharacter character, ICharacterMoveAccepter accepter)
+	public List<MoveType> getPaths(ICharacter character, ICharacterMoveAccepter accepter)
 	{
 		List<Node> closed = new ArrayList<Node>();
 		List<Node> opened = new ArrayList<Node>();
@@ -128,9 +128,8 @@ public class AStarCalculator implements IShortestPathsCalculator
 			character.setX(current.getX());
 			character.setY(current.getY());
 		}while(!current.reachedTarget() && !opened.isEmpty());
-		
+		List<MoveType> movesToDo = new ArrayList<MoveType>();
 		if(current.reachedTarget()){
-			Set<MoveType> movesToDo = EnumSet.noneOf(MoveType.class);
 			while(current.getPred() != null){
 				if(current.getX() == current.getPred().getX() + 1 && current.getY() == current.getPred().getY())
 					movesToDo.add(MoveType.RIGHT);
@@ -142,12 +141,10 @@ public class AStarCalculator implements IShortestPathsCalculator
 					movesToDo.add(MoveType.DOWN);
 				current = current.getPred();
 			}
-			return movesToDo;
+			Collections.reverse(movesToDo);
 		}else{
-			Set<MoveType> movesToDo = EnumSet.noneOf(MoveType.class);
 			movesToDo.add(MoveType.NEUTRAL);
-			return movesToDo;
 		}
+		return movesToDo;
 	}
-
 }
