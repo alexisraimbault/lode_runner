@@ -10,16 +10,10 @@ import java.util.Set;
 import model.services.MoveType;
 import model.services.ICharacter;
 import model.services.ICharacterMoveAccepter;
-import model.services.IShortestPathsCalculator;
+import model.services.IShortestPathCalculator;
 
-public class AStarCalculator implements IShortestPathsCalculator
+public class AStarCalculator implements IShortestPathCalculator
 {
-	private ICharacter target;
-	
-	public AStarCalculator(ICharacter target)
-	{
-		this.target = target;
-	}
 	
 	class Node
 	{
@@ -83,7 +77,7 @@ public class AStarCalculator implements IShortestPathsCalculator
 	}
 	
 	@Override
-	public List<MoveType> getPaths(ICharacter character, ICharacterMoveAccepter accepter)
+	public List<MoveType> getPath(ICharacter character, ICharacter target, ICharacterMoveAccepter accepter)
 	{
 		List<Node> closed = new ArrayList<Node>();
 		List<Node> opened = new ArrayList<Node>();

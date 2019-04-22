@@ -75,7 +75,7 @@ public class GameKeyListener implements KeyListener
         // ideal would be to step every player_tick / guards_tick
         // according to their move speed (player is faster than guards)
         engine.stepPlayer();
-        //engine.stepGuards();
+        engine.stepGuards();
         panel.repaint();
         
     }

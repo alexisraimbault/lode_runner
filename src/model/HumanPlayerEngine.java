@@ -25,7 +25,7 @@ import model.services.IOperationsSpeeds;
 import model.services.IPlayer;
 import model.services.IPlayerDigger;
 import model.services.IPlayerMover;
-import model.services.IShortestPathsCalculator;
+import model.services.IShortestPathCalculator;
 import model.services.PlayerCommandType;
 import model.services.Status;
 
