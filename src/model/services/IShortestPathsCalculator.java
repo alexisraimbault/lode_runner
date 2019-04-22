@@ -1,6 +1,8 @@
 package model.services;
 
+import java.util.Set;
+
 public interface IShortestPathsCalculator
 {
-	int[][] getPaths(ICharacter character, ICharacterMoveAccepter accepter);
+	Set<MoveType> getPaths(ICharacter character, ICharacterMoveAccepter accepter);
 }

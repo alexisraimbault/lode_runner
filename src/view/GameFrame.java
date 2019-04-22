@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 import controller.EnvironmentLoader;
@@ -26,10 +28,11 @@ public class GameFrame extends JFrame
 		IEnvironment environment = engine.getState().getEnvironment();
 		
 	    this.setTitle("Lode Runner");
-	    this.setSize(environment.getWidth() * block_size, environment.getHeight() * block_size);
+	    this.setContentPane(new HumanPlayerGamePanel(engine));
+	    this.getContentPane().setPreferredSize(new Dimension(environment.getWidth() * block_size, environment.getHeight() * block_size));
+	    this.pack();
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
-	    this.setContentPane(new HumanPlayerGamePanel(engine));
 	    this.setVisible(true);
 	    this.addKeyListener(new GameKeyListener(engine));
 	}

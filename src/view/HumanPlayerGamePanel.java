@@ -8,16 +8,77 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import model.services.IEntityPool;
+import model.services.IEnvironment;
+import model.services.IGuard;
 import model.services.IHumanPlayerEngine;
+import model.services.ITreasure;
+import model.services.Nature;
 
 public class HumanPlayerGamePanel extends JPanel
 {
 	private IHumanPlayerEngine engine;
+	private IEnvironment environment;
+	private IEntityPool pool;
+	private static final int block_size = 50;
 	
 	public HumanPlayerGamePanel(IHumanPlayerEngine engine)
 	{
 		this.engine = engine;
+		this.environment = engine.getState().getEnvironment();
+		this.pool = engine.getState().getPool();
 	}
+	
+	public void paintComponent(Graphics g) {
+		for(int x = 0; x < environment.getWidth(); ++x)
+  		{
+  			for(int y = 0; y < environment.getHeight(); ++y)
+  			{
+  				int ry = environment.getHeight() - 1 -  y;
+  				switch(environment.getCellNature(x, y))
+	  			{
+		  			case EMPTY:
+		  				g.setColor(Color.black);
+		  				break;
+		  			case HOLE:
+		  				g.setColor(Color.black);
+		  				break;
+		  			case METAL:
+		  				g.setColor(Color.gray);
+		  				break;
+		  			case PLATFORM:
+		  				g.setColor(Color.blue);
+		  				break;
+		  			case LADDER:
+		  				g.setColor(Color.pink);
+		  				break;
+		  			case HANDRAIL:
+		  				g.setColor(Color.orange);
+		  				break;
+	  			}
+  				g.fillRect(block_size*x, block_size*ry, block_size, block_size);
+  			}
+  		}
+		g.setColor(Color.white);
+		g.fillOval(block_size*pool.getPlayer().getX(),block_size*(environment.getHeight() - 1 - pool.getPlayer().getY()), block_size, block_size);
+		
+		g.setColor(Color.red);
+		for(IGuard guard : pool.getGuards())
+		{
+			g.fillOval(block_size*guard.getX(),block_size*(environment.getHeight() - 1 - guard.getY()), block_size, block_size);
+		}
+		
+		g.setColor(Color.yellow);
+		for(ITreasure treasure : pool.getTreasures())
+		{
+			g.fillOval(block_size*treasure.getX(),block_size*(environment.getHeight() - 1 - treasure.getY()), block_size, block_size);
+		}
+		
+	}
+	
+	
+	
+	
 	
 	/*
 	public void init() {
