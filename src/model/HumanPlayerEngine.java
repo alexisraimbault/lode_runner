@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 
 import model.algorithms.GuardMover;
+import model.algorithms.PlayerCommandAccepter;
 import model.algorithms.PlayerDigger;
 import model.algorithms.PlayerMover;
 import model.algorithms.RandomGuardDecision;
@@ -72,6 +73,8 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 	{
 		IEntityPool pool = state.getPool();
 		IPlayer player = pool.getPlayer();
+		
+		System.out.println("Player : " + (new PlayerCommandAccepter()).accept(player));
 
 		if(player_command.isMoveType())
 			player_mover.move(player_command.moveType(), player);
@@ -89,16 +92,21 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		List<IGuard> guards = pool.getGuards();
 		IPlayer player = pool.getPlayer();
 		
+		int gi = 0;
 		for(IGuard guard : guards)
 		{
 			IGuardDecision decision = new RandomGuardDecision(new GuardCommandAccepter());
 			
 			GuardCommandType guard_command = decision.getCommand(guard);
 			
-			if(player_command.isMoveType())
-				player_mover.move(player_command.moveType(), player);
-			if(player_command.isDigType())
-				player_digger.dig(player_command.digType(), player);
+			System.out.println("Guard + " + gi + " : " + (new GuardCommandAccepter()).accept(guard));
+			
+			if(guard_command.isMoveType())
+				guard_mover.move(guard_command.moveType(), guard);
+			if(guard_command.isClimbType())
+				guard_climber.climb(guard_command.digType(), guard);
+			
+			++gi;
 		}
 	}
 	

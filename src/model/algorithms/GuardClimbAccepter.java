@@ -32,6 +32,11 @@ public class GuardClimbAccepter implements IGuardClimbAccepter
 		int x = guard.getX();
 		int y = guard.getY();
 		
+		Nature nature = environment.getCellNature(x, y);
+		
+		if(nature != Nature.HOLE)
+			return false;
+		
 		int up_x = x;
 		int up_y = y + 1;
 		Nature up_nature = environment.getCellNature(up_x, up_y);
