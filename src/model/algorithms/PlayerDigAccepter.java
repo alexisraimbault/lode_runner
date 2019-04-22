@@ -12,7 +12,6 @@ import model.services.Nature;
 
 public class PlayerDigAccepter implements IPlayerDigAccepter
 {
-
 	@Override
 	public Set<DigType> accept(IPlayer player)
 	{
@@ -31,6 +30,9 @@ public class PlayerDigAccepter implements IPlayerDigAccepter
 		IEnvironment environment = player.getEnvironment();
 		int x = player.getX();
 		int y = player.getY();
+		
+		if(y == 0)
+			return false;
 
 		Nature down_nature = environment.getCellNature(x, y - 1);
 		IContent down_content = environment.getCellContent(x, y - 1);
@@ -42,6 +44,9 @@ public class PlayerDigAccepter implements IPlayerDigAccepter
 		{
 		case DIGLEFT:
 		{
+			if(x == 0)
+				return false;
+			
 			Nature next_nature = environment.getCellNature(x - 1, y);
 			
 			if(next_nature.isPlenty())
@@ -56,6 +61,9 @@ public class PlayerDigAccepter implements IPlayerDigAccepter
 		}
 		case DIGRIGHT:
 		{
+			if(x == environment.getWidth() - 1)
+				return false;
+			
 			Nature next_nature = environment.getCellNature(x + 1, y);
 			
 			if(next_nature.isPlenty())
