@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IFantom extends ICharacter
+public interface IFantom extends IOperatingCharacter<MoveType>
 {
-
+	
 }

@@ -1,8 +1,8 @@
 package model.algorithms;
 
 import model.services.DigType;
+import model.services.IEntity;
 import model.services.IEnvironment;
-import model.services.IPlayer;
 import model.services.IPlayerDigAccepter;
 import model.services.IPlayerDigger;
 
@@ -22,11 +22,11 @@ public class PlayerDigger implements IPlayerDigger
 	}
 	
 	@Override
-	public void dig(DigType type, IPlayer player)
+	public void dig(DigType type, IEntity entity)
 	{
-		IEnvironment environment = player.getEnvironment();
-		int x = player.getX();
-		int y = player.getY();
+		IEnvironment environment = entity.getEnvironment();
+		int x = entity.getX();
+		int y = entity.getY();
 		
 		switch(type)
 		{

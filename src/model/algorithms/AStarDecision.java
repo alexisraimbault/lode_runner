@@ -1,34 +1,57 @@
 package model.algorithms;
 
+import java.util.List;
+
 import model.services.IAStarDecision;
+import model.services.ICell;
 import model.services.ICharacter;
-import model.services.ICharacterMoveAccepter;
+import model.services.ICommandAccepter;
+import model.services.IMover;
+import model.services.IRandomDecision;
 import model.services.IShortestPathCalculator;
 import model.services.MoveType;
 
-public class AStarDecision implements IAStarDecision
+public class AStarDecision<Character extends ICharacter> implements IAStarDecision<Character>
 {
-	private ICharacterMoveAccepter accepter;
-	private ICharacter target;
-	private IShortestPathCalculator calculator;
+	private IMover<Character> mover;
+	private ICell target;
+	private IShortestPathCalculator<Character> calculator;
+	private IRandomDecision<Character, MoveType> random_decision;
 	
-	public AStarDecision(IShortestPathCalculator calculator, ICharacter target, ICharacterMoveAccepter accepter)
+	public AStarDecision(IShortestPathCalculator<Character> calculator, ICell target, IMover<Character> mover, IRandomDecision<Character, MoveType> random_decision)
 	{
 		this.calculator = calculator;
 		this.target = target;
-		this.accepter = accepter;
+		this.mover = mover;
+		this.random_decision = random_decision;
 	}
 
 	@Override
-	public ICharacterMoveAccepter getAccepter()
+	public ICommandAccepter<Character, MoveType> getAccepter()
 	{
-		return accepter;
+		return mover.getAccepter();
 	}
 
 	@Override
-	public MoveType getCommand(ICharacter character)
+	public IShortestPathCalculator<Character> getCalculator()
 	{
-		return calculator.getPath(character, target, accepter).get(0);
+		return calculator;
+	}
+
+	@Override
+	public ICell getTarget()
+	{
+		return target;
+	}
+	
+	@Override
+	public MoveType getCommand(Character entity)
+	{
+		List<MoveType> path = calculator.getPath(entity, target, mover);
+		if(path == null || path.isEmpty())
+			return random_decision.getCommand(entity);
+		else
+			return path.get(0);
 	}
 
 }

@@ -90,7 +90,7 @@ public enum GuardCommandType
 		return !isMoveType();
 	}
 	
-	public ClimbType digType()
+	public ClimbType climbType()
 	{
 		switch(this)
 		{
@@ -104,4 +104,5 @@ public enum GuardCommandType
 		assert false;
 		return null;
 	}
+	
 }

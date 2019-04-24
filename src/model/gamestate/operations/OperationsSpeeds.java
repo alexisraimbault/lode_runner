@@ -1,4 +1,4 @@
-package model;
+package model.gamestate.operations;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -9,11 +9,11 @@ import model.services.PlayerCommandType;
 
 public class OperationsSpeeds implements IOperationsSpeeds
 {
-	private Map<PlayerCommandType, Integer> pspeeds;
-	private Map<GuardCommandType, Integer> gspeeds;
-	private int hspeed;
+	private Map<PlayerCommandType, Long> pspeeds;
+	private Map<GuardCommandType, Long> gspeeds;
+	private long hspeed;
 	
-	public OperationsSpeeds(Map<PlayerCommandType, Integer> pspeeds, Map<GuardCommandType, Integer> gspeeds, int hspeed)
+	public OperationsSpeeds(Map<PlayerCommandType, Long> pspeeds, Map<GuardCommandType, Long> gspeeds, long hspeed)
 	{
 		this.pspeeds = pspeeds;
 		this.gspeeds = gspeeds;
@@ -21,19 +21,19 @@ public class OperationsSpeeds implements IOperationsSpeeds
 	}
 	
 	@Override
-	public int get(PlayerCommandType type)
+	public long get(PlayerCommandType type)
 	{
 		return pspeeds.get(type);
 	}
 
 	@Override
-	public int get(GuardCommandType type)
+	public long get(GuardCommandType type)
 	{
 		return gspeeds.get(type);
 	}
 
 	@Override
-	public int hole()
+	public long hole()
 	{
 		return hspeed;
 	}
@@ -42,14 +42,14 @@ public class OperationsSpeeds implements IOperationsSpeeds
 	
 	static
 	{
-		Map<PlayerCommandType, Integer> pspeeds = new EnumMap<>(PlayerCommandType.class);
-		Map<GuardCommandType, Integer> gspeeds = new EnumMap<>(GuardCommandType.class);
+		Map<PlayerCommandType, Long> pspeeds = new EnumMap<>(PlayerCommandType.class);
+		Map<GuardCommandType, Long> gspeeds = new EnumMap<>(GuardCommandType.class);
 		
-		int player_move_speed = 1;
-		int player_dig_speed = 1;
-		int guard_move_speed = player_move_speed * 2;
-		int guard_climb_speed = guard_move_speed * 2;
-		int hole_speed = guard_move_speed * 6;
+		long player_move_speed = 1000000000l;
+		long player_dig_speed = 1000000000l;
+		long guard_move_speed = player_move_speed * 2;
+		long guard_climb_speed = guard_move_speed * 2;
+		long hole_speed = guard_move_speed * 6;
 		
 		for(PlayerCommandType type : PlayerCommandType.values())
 		{

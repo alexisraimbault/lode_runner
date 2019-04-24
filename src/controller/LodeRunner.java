@@ -1,16 +1,18 @@
 package controller;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import model.HumanPlayerEngine;
-import model.OperationsSpeeds;
 import model.gamestate.GameState;
 import model.gamestate.environment.Environment;
+import model.gamestate.operations.OperationsSpeeds;
 import model.services.IEditableEnvironment;
 import model.services.IEnvironment;
 import model.services.IEnvironmentLoader;
 import model.services.IGameState;
 import model.services.IHumanPlayerEngine;
+import model.services.PlayerCommandType;
 import view.GameFrame;
 import view.HumanPlayerGamePanel;
 
@@ -31,11 +33,27 @@ public class LodeRunner extends JFrame
 				throw new Exception("The loaded environment is not playable");
 			
 			IEnvironment environment = new Environment(editable.produce());
-			IGameState state = new GameState(environment);
+			IGameState state = new GameState(environment, OperationsSpeeds.default_speeds);
 
-			IHumanPlayerEngine engine = new HumanPlayerEngine(state, OperationsSpeeds.default_speeds);
+			IHumanPlayerEngine engine = new HumanPlayerEngine(state);
+			HumanPlayerGamePanel panel = new HumanPlayerGamePanel(engine);
 			
-			GameFrame frame = new GameFrame(engine);
+			GameFrame frame = new GameFrame(engine, panel);
+			
+			long player_move_speed = state.getSpeeds().get(PlayerCommandType.LEFT);
+			// means player move speed last 500 ms
+			TimeConverter converter = new TimeConverter(player_move_speed, 200000000);
+			
+			Thread tick_thread = new Thread(new GameRunner(engine, panel, converter));
+			
+			tick_thread.start();
+			
+			tick_thread.join();
+			
+			// TODO ask to exit the game
+			
+			
+			
 			
 			// GameFrame doit fournir toutes les fonctions nécessaires pour actualiser la fenêtre graphique
 			// IHumanPlayerEngine fournit toutes les fonctions qui fait avancer le jeu d'un point de vue machine
@@ -55,7 +73,8 @@ public class LodeRunner extends JFrame
 			// Sur la sélection de la partie, on peut sélectionner une partie éditée, puis lancer la game (ou revenir au menu)
 			
 			
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}

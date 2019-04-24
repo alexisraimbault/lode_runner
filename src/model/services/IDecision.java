@@ -1,7 +1,14 @@
 package model.services;
 
-public interface IDecision<Entity extends IEntity, CommandType, CommandAccepter extends ICommandAccepter<Entity, CommandType>>
+public interface IDecision
+	<Entity extends IEntity,
+	CommandType extends Enum<CommandType>>
 {
-	public CommandAccepter getAccepter();
+	public ICommandAccepter<Entity, CommandType> getAccepter();
+	
+	/*
+	 * post:
+	 * 	getAccepter().accept(entity).contains(getCommand(entity))
+	 */
 	public CommandType getCommand(Entity entity);
 }

@@ -1,11 +1,11 @@
 package model.services;
 
-public interface IBaseEngine
+public interface IEngine
 {
 	public IGameState getState();
-	public IOperationsSpeeds getOperationsSpeeds();
 	public Status getStatus();
-	
+
+	void step(long elapsed);
 	public void start();
 	public void stop();
 }

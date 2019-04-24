@@ -3,6 +3,7 @@ package model.gamestate;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.gamestate.entities.Cell;
 import model.gamestate.entities.Guard;
 import model.gamestate.entities.Player;
 import model.gamestate.entities.Treasure;
@@ -38,13 +39,13 @@ public class EntityPool implements IEntityPool
 						switch(type)
 						{
 						case PLAYER:
-							player = new Player(environment, x, y);
+							player = new Player(new Cell(environment, x, y));
 							break;
 						case GUARD:
-							guards.add(new Guard(environment, x, y));
+							guards.add(new Guard(new Cell(environment, x, y)));
 							break;
 						case TREASURE:
-							treasures.add(new Treasure(environment, x, y));
+							treasures.add(new Treasure(new Cell(environment, x, y)));
 							break;
 						default:
 							break;

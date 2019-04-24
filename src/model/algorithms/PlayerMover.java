@@ -1,10 +1,11 @@
 package model.algorithms;
 
-import model.services.ICharacter;
+import model.services.ICell;
+import model.services.IPlayer;
 import model.services.IPlayerMover;
 import model.services.MoveType;
 
-public class PlayerMover extends CharacterMoverBase implements IPlayerMover
+public class PlayerMover extends CharacterMover implements IPlayerMover
 {
 	private PlayerMoveAccepter accepter;
 	
@@ -25,9 +26,15 @@ public class PlayerMover extends CharacterMoverBase implements IPlayerMover
 	}
 
 	@Override
-	public void move(MoveType type, ICharacter character)
+	public void move(MoveType type, IPlayer player)
 	{
-		super.move(type, character);
+		super.moveCharacter(type, player);
+	}
+
+	@Override
+	public ICell next(MoveType type, IPlayer player)
+	{
+		return super.nextCell(type, player);
 	}
 
 }

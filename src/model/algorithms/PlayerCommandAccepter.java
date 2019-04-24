@@ -40,4 +40,14 @@ public class PlayerCommandAccepter implements IPlayerCommandAccepter
 			accepted.add(PlayerCommandType.get(type));
 		return accepted;
 	}
+
+	@Override
+	public boolean accept(PlayerCommandType type, IPlayer player)
+	{
+		if(type.isMoveType())
+			return move_accepter.accept(type.moveType(), player);
+		else if(type.isDigType())
+			return dig_accepter.accept(type.digType(), player);
+		return false;
+	}
 }

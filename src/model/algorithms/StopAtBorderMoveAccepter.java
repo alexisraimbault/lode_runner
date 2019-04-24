@@ -1,64 +1,34 @@
 package model.algorithms;
 
-import java.util.EnumSet;
-import java.util.Set;
-
 import model.services.ICharacter;
-import model.services.ICharacterMoveAccepter;
+import model.services.IStopAtBorderMoveAccepter;
 import model.services.MoveType;
 
-public class StopAtBorderMoveAccepter implements ICharacterMoveAccepter
+public class StopAtBorderMoveAccepter extends DeducingAccepter<ICharacter, MoveType> implements IStopAtBorderMoveAccepter
 {
 	
-	public boolean acceptLeft(ICharacter character)
+	public StopAtBorderMoveAccepter()
 	{
-		return character.getX() > 0;
+		super(MoveType.class);
 	}
-	
-	public boolean acceptRight(ICharacter character)
-	{
-		return character.getX() < character.getEnvironment().getWidth() - 1;
-	}
-	
-	public boolean acceptDown(ICharacter character)
-	{
-		return character.getY() > 0;
-	}
-	
-	public boolean acceptUp(ICharacter character)
-	{
-		return character.getY() < character.getEnvironment().getHeight() - 1;
-	}
-	
+
+	@Override
 	public boolean accept(MoveType type, ICharacter character)
 	{
 		switch(type)
 		{
 		case LEFT:
-			return acceptLeft(character);
+			return character.getX() > 0;
 		case RIGHT:
-			return acceptRight(character);
+			return character.getX() < character.getEnvironment().getWidth() - 1;
 		case DOWN:
-			return acceptDown(character);
+			return character.getY() > 0;
 		case UP:
-			return acceptUp(character);
+			return character.getY() < character.getEnvironment().getHeight() - 1;
 		case NEUTRAL:
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public Set<MoveType> accept(ICharacter character)
-	{
-		Set<MoveType> accepted = EnumSet.noneOf(MoveType.class);
-		
-		for(MoveType type : MoveType.values())
-		{
-			if(accept(type, character))
-				accepted.add(type);
-		}
-		return accepted;
 	}
 	
 }

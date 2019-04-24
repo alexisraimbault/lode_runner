@@ -39,6 +39,8 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 			return acceptDown(character);
 		case UP:
 			return acceptUp(character);
+		case NEUTRAL:
+			return accept(character).contains(MoveType.NEUTRAL);
 		default:
 			break;
 		}
@@ -48,7 +50,7 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 	
 	public boolean acceptLeft(ICharacter character)
 	{
-		if(!super.acceptLeft(character))
+		if(!super.accept(MoveType.LEFT, character))
 			return false;
 		
 		IEnvironment environment = character.getEnvironment();
@@ -77,15 +79,15 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 				return true;
 		}
 		
-		if(nature == Nature.LADDER || nature == Nature.HANDRAIL)
-			return true;
+		if(!(nature == Nature.LADDER || nature == Nature.HANDRAIL))
+			return false;
 		
-		return false;
+		return true;
 	}
 	
 	public boolean acceptRight(ICharacter character)
 	{
-		if(!super.acceptRight(character))
+		if(!super.accept(MoveType.RIGHT, character))
 			return false;
 		
 		IEnvironment environment = character.getEnvironment();
@@ -122,7 +124,7 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 	
 	public boolean acceptDown(ICharacter character)
 	{
-		if(!super.acceptDown(character))
+		if(!super.accept(MoveType.DOWN, character))
 			return false;
 		
 		IEnvironment environment = character.getEnvironment();
@@ -143,7 +145,7 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 	
 	public boolean acceptUp(ICharacter character)
 	{
-		if(!super.acceptUp(character))
+		if(!super.accept(MoveType.UP, character))
 			return false;
 		
 		IEnvironment environment = character.getEnvironment();
@@ -160,10 +162,10 @@ public class CharacterMoveAccepter extends StopAtBorderMoveAccepter implements I
 		if(next_content.nbCharacters() > 0)
 			return false;
 		
-		if(nature == Nature.LADDER)
-			return true;
+		if(nature != Nature.LADDER)
+			return false;
 		
-		return false;
+		return true;
 	}
 
 }

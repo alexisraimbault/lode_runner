@@ -3,142 +3,185 @@ package model.algorithms;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.EnumSet;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
 
 import model.services.MoveType;
+import model.services.IAStarNode;
+import model.services.ICell;
 import model.services.ICharacter;
-import model.services.ICharacterMoveAccepter;
+import model.services.ICommandAccepter;
+import model.services.IMover;
 import model.services.IShortestPathCalculator;
 
-public class AStarCalculator implements IShortestPathCalculator
+public class AStarCalculator<Character extends ICharacter> implements IShortestPathCalculator<Character>
 {
-	
-	class Node
+	class Node implements IAStarNode
 	{
-		private int x;
-		private int y;
-		private int dParcourue;
-		private Node pred;
-		private ICharacter target;
+		private ICell cell;
+		private ICell target;
+		private int cost;
+		private IAStarNode pred;
+		private MoveType type;
 		
-		public Node(int x, int y, Node pred, ICharacter target, int dParcourue)
+		public Node(ICell cell, ICell target, int cost, IAStarNode pred, MoveType type)
 		{
-			this.x = x;
-			this.y = y;
-			this.pred = pred;
+			this.cell = cell;
 			this.target = target;
-			this.dParcourue = dParcourue;
-		}
-		
-		public int getX()
-		{
-			return this.x;
-		}
-		
-		public int getY()
-		{
-			return this.y;
-		}
-		
-		public int getDParcourue(){
-			return this.dParcourue;
-		}
-		
-		public int heuristique()
-		{
-			return Math.abs(target.getX() - this.x) + Math.abs(target.getY() - this.y);
-		}
-		
-		public int fCost(){
-			return this.heuristique() + this.dParcourue;
-		}
-		
-		public void setPred(Node pred)
-		{
+			this.cost = cost;
 			this.pred = pred;
+			this.type = type;
 		}
 		
-		public Node getPred()
+		public Node(ICell cell, ICell target, int cost)
 		{
-			return this.pred;
+			this(cell, target, cost, null, null);
 		}
 		
-		public boolean isLocated(int x, int y)
+		@Override
+		public ICell getCell()
 		{
-			return (this.x == x) && (this.y == y);
+			return cell;
 		}
 		
-		public boolean reachedTarget()
+		@Override
+		public int getCost(){
+			return this.cost;
+		}
+
+		@Override
+		public int getHeuristic()
 		{
-			return (this.x == target.getX()) && (this.y == target.getY());
+			return Math.abs(target.getX() - cell.getX()) + Math.abs(target.getY() - cell.getY());
+		}
+
+		@Override
+		public int getWeight(){
+			return this.getHeuristic() + this.cost;
+		}
+
+		@Override
+		public IAStarNode getPred()
+		{
+			return pred;
+		}
+
+		@Override
+		public List<MoveType> getPath()
+		{
+			List<MoveType> path = new ArrayList<MoveType>();
+			
+			IAStarNode current = this;
+			while(current.getPred() != null)
+			{
+				path.add(current.getMoveType());
+				current = current.getPred();
+			}
+				
+			Collections.reverse(path);
+			return path;
+		}
+
+		@Override
+		public boolean hasPred()
+		{
+			return pred != null;
+		}
+
+		@Override
+		public MoveType getMoveType()
+		{
+			return type;
 		}
 	}
 	
 	@Override
-	public List<MoveType> getPath(ICharacter character, ICharacter target, ICharacterMoveAccepter accepter)
+	public List<MoveType> getPath(Character source, ICell target, IMover<Character> mover)
 	{
-		List<Node> closed = new ArrayList<Node>();
-		List<Node> opened = new ArrayList<Node>();
-		Node current = new Node(character.getX(), character.getY(), null, target, 0);
-		closed.add(current);
-		Set<MoveType> moves;
-		
-		do
+		Comparator<IAStarNode> compare_better_node = new Comparator<IAStarNode>()
 		{
-			moves = accepter.accept(character);
-			for(MoveType move : moves)
+			public int compare(IAStarNode n1, IAStarNode n2)
 			{
-				switch(move)
+				if(!n1.getCell().equals(n2.getCell()))
+					return 1;
+
+				if(n1.getWeight() < n2.getWeight())
+					return -1;
+				else if(n1.getWeight() == n2.getWeight())
+					return 0;
+				else
+					return 1;
+			}
+		};
+		Comparator<IAStarNode> compare_heuristic = new Comparator<IAStarNode>()
+		{
+			public int compare(IAStarNode n1, IAStarNode n2)
+			{
+				if(n1.getWeight() < n2.getWeight())
+					return -1;
+				else if(n1.getWeight() == n2.getWeight())
+					return 0;
+				else
+					return 1;
+			}
+		};
+		
+
+		ICell start = source.getCell();
+		List<IAStarNode> closed = new ArrayList<IAStarNode>();
+		Queue<IAStarNode> opened = new PriorityQueue<IAStarNode>(compare_heuristic);
+		IAStarNode current = new Node(source.getCell(), target, 0);
+		opened.add(current);
+		ICommandAccepter<Character, MoveType> accepter = mover.getAccepter();
+		while(!opened.isEmpty())
+		{
+			current = opened.peek();
+			opened.remove();
+			
+			if(current.getHeuristic() <= 1)
+			{
+				source.setCell(start);
+				return current.getPath();
+			}
+			
+			source.setCell(current.getCell());
+			Set<MoveType> accepted = accepter.accept(source);
+			for(MoveType type : accepted)
+			{
+				ICell next = mover.next(type, source);
+				IAStarNode next_node = new Node(next, target, current.getCost() + 1, current, type);
+				boolean found = false;
+				
+				for(IAStarNode node : closed)
 				{
-				case LEFT:
-					opened.add(new Node(character.getX() - 1, character.getY(), current, target, current.getDParcourue() + 1));
-					break;
-				case RIGHT:
-					opened.add(new Node(character.getX() + 1, character.getY(), current, target, current.getDParcourue() + 1));
-					break;
-				case DOWN:
-					opened.add(new Node(character.getX() , character.getY() - 1, current, target, current.getDParcourue() + 1));
-					break;
-				case UP:
-					opened.add(new Node(character.getX() , character.getY() + 1, current, target, current.getDParcourue() + 1));
-					break;
-				case NEUTRAL:
-					break;
-				default:
-					break;
+					if(compare_better_node.compare(node, next_node) == -1)
+					{
+						found = true;
+						break;
+					}
 				}
-			}
-			Collections.sort(opened, new Comparator<Node>(){
-				public int compare(Node n1, Node n2){
-					if(n1.fCost() > n2.fCost())
-						return 1;
-					else
-						return -1;
+				if(found)
+					continue;
+				
+				for(IAStarNode node : opened)
+				{
+					if(compare_better_node.compare(node, next_node) == -1)
+					{
+						found = true;
+						break;
+					}
 				}
-			});
-			current = opened.remove(0);
-			character.setX(current.getX());
-			character.setY(current.getY());
-		}while(!current.reachedTarget() && !opened.isEmpty());
-		List<MoveType> movesToDo = new ArrayList<MoveType>();
-		if(current.reachedTarget()){
-			while(current.getPred() != null){
-				if(current.getX() == current.getPred().getX() + 1 && current.getY() == current.getPred().getY())
-					movesToDo.add(MoveType.RIGHT);
-				if(current.getX() == current.getPred().getX() - 1 && current.getY() == current.getPred().getY())
-					movesToDo.add(MoveType.LEFT);
-				if(current.getX() == current.getPred().getX() && current.getY() == current.getPred().getY() + 1)
-					movesToDo.add(MoveType.UP);
-				if(current.getX() == current.getPred().getX() && current.getY() == current.getPred().getY() - 1)
-					movesToDo.add(MoveType.DOWN);
-				current = current.getPred();
+				
+				if(found)
+					continue;
+				
+				opened.add(next_node);
 			}
-			Collections.reverse(movesToDo);
-		}else{
-			movesToDo.add(MoveType.NEUTRAL);
+			closed.add(current);
 		}
-		return movesToDo;
+		source.setCell(start);
+		return null;
 	}
 }

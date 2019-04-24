@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 import model.algorithms.PlayerCommandAccepter;
 import model.services.IHumanPlayerEngine;
 import model.services.IPlayer;
@@ -32,16 +34,17 @@ public class GameKeyListener implements KeyListener
     @Override
     public void keyTyped(KeyEvent ke)
     {
-        System.out.println("Typed " + ke.getKeyChar());
+    	
     }
 
     @Override
     public void keyPressed(KeyEvent ke)
     {
-        System.out.println("Pressed " + ke.getKeyChar());
-        PlayerCommandType command = PlayerCommandType.NEUTRAL;
+        System.out.println(KeyEvent.getKeyText(ke.getKeyCode()));
+        PlayerCommandType command = null;
         IPlayer player = engine.getState().getPool().getPlayer();
         
+        boolean command_typed = true;
         switch(ke.getKeyCode())
         {
         case 37:
@@ -62,27 +65,25 @@ public class GameKeyListener implements KeyListener
         case 70:
         	command = PlayerCommandType.DIGRIGHT;
         	break;
+        default:
+        	command_typed = false;
         }
         
-        Set<PlayerCommandType> accepted = accepter.accept(player);
-        System.out.println(accepted);
-        
-        if(accepted.contains(command))
-        	engine.setCommand(command);
-        else
-            System.out.println("Player can't use command " + command);
-        
-        // ideal would be to step every player_tick / guards_tick
-        // according to their move speed (player is faster than guards)
-        engine.stepPlayer();
-        engine.stepGuards();
-        panel.repaint();
+        if(command_typed)
+        {
+            Set<PlayerCommandType> accepted = accepter.accept(player);
+            
+            if(accepted.contains(command))
+            	engine.addCommand(command);
+            else
+                System.out.println("Player can't use command " + command);
+        }
         
     }
 
     @Override
     public void keyReleased(KeyEvent ke)
     {
-        System.out.println("Released " + ke.getKeyChar());
+        
     }
 }

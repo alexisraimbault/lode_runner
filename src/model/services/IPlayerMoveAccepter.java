@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IPlayerMoveAccepter extends ICharacterMoveAccepter
+public interface IPlayerMoveAccepter extends ICommandAccepter<IPlayer, MoveType>
 {
 
 }

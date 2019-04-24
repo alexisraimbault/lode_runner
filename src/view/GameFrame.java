@@ -3,6 +3,7 @@ package view;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import controller.EnvironmentLoader;
 import controller.GameKeyListener;
@@ -20,21 +21,22 @@ public class GameFrame extends JFrame
 	private static final int block_size = 50;
 
 	private IHumanPlayerEngine engine;
+	private JPanel panel;
 	
-	public GameFrame(IHumanPlayerEngine engine) throws Exception
+	public GameFrame(IHumanPlayerEngine engine, HumanPlayerGamePanel panel) throws Exception
 	{
 		this.engine = engine;
+	    this.panel = panel;
 		
 		IEnvironment environment = engine.getState().getEnvironment();
 		
 	    this.setTitle("Lode Runner");
-	    HumanPlayerGamePanel gamePanel = new HumanPlayerGamePanel(engine);
-	    this.setContentPane(gamePanel);
+	    this.setContentPane(panel);
 	    this.getContentPane().setPreferredSize(new Dimension(environment.getWidth() * block_size, environment.getHeight() * block_size));
 	    this.pack();
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
 	    this.setVisible(true);
-	    this.addKeyListener(new GameKeyListener(engine, gamePanel));
+	    this.addKeyListener(new GameKeyListener(engine, panel));
 	}
 }

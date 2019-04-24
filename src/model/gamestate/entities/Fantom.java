@@ -1,16 +1,15 @@
 package model.gamestate.entities;
 
-import model.gamestate.entities.Character;
 import model.services.EntityType;
-import model.services.IEnvironment;
+import model.services.ICell;
 import model.services.IFantom;
+import model.services.MoveType;
 
-public class Fantom extends Character implements IFantom
+public class Fantom extends AbstractOperatingCharacter<MoveType> implements IFantom
 {
-
-	public Fantom(IEnvironment environment, int x, int y)
+	public Fantom(ICell cell)
 	{
-		super(environment, x, y);
+		super(cell);
 	}
 
 	@Override

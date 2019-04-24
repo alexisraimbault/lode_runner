@@ -1,7 +1,6 @@
 package model.services;
 
-public interface IHumanPlayerEngine extends ISmartGuardsEngine
+public interface IHumanPlayerEngine extends IEngine
 {
-	void setCommand(PlayerCommandType command);
-	void stepPlayer();
+	public void addCommand(PlayerCommandType command);
 }

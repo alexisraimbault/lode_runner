@@ -1,11 +1,12 @@
 package model.algorithms;
 
-import model.services.ICharacter;
+import model.services.ICell;
+import model.services.IGuard;
 import model.services.IGuardMoveAccepter;
 import model.services.IGuardMover;
 import model.services.MoveType;
 
-public class GuardMover extends CharacterMoverBase implements IGuardMover
+public class GuardMover extends CharacterMover implements IGuardMover
 {
 	private IGuardMoveAccepter accepter;
 	
@@ -26,9 +27,15 @@ public class GuardMover extends CharacterMoverBase implements IGuardMover
 	}
 
 	@Override
-	public void move(MoveType type, ICharacter character)
+	public void move(MoveType type, IGuard guard)
 	{
-		super.move(type, character);
+		super.moveCharacter(type, guard);
+	}
+
+	@Override
+	public ICell next(MoveType type, IGuard guard)
+	{
+		return super.nextCell(type, guard);
 	}
 
 }

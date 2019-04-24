@@ -28,16 +28,26 @@ public class GuardCommandAccepter implements IGuardCommandAccepter
 	}
 
 	@Override
-	public Set<GuardCommandType> accept(IGuard player)
+	public Set<GuardCommandType> accept(IGuard guard)
 	{
 		Set<GuardCommandType> accepted = EnumSet.noneOf(GuardCommandType.class);
-		Set<MoveType> moves = move_accepter.accept(player);
-		Set<ClimbType> climbs = climb_accepter.accept(player);
+		Set<MoveType> moves = move_accepter.accept(guard);
+		Set<ClimbType> climbs = climb_accepter.accept(guard);
 		
 		for(MoveType type : moves)
 			accepted.add(GuardCommandType.get(type));
 		for(ClimbType type : climbs)
 			accepted.add(GuardCommandType.get(type));
 		return accepted;
+	}
+
+	@Override
+	public boolean accept(GuardCommandType type, IGuard guard)
+	{
+		if(type.isMoveType())
+			return move_accepter.accept(type.moveType(), guard);
+		else if(type.isClimbType())
+			return climb_accepter.accept(type.climbType(), guard);
+		return false;
 	}
 }

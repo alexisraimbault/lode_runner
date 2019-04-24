@@ -1,13 +1,19 @@
 package model.algorithms;
 
 import model.services.MoveType;
+import model.gamestate.entities.Cell;
+import model.services.ICell;
 import model.services.ICharacter;
-import model.services.ICharacterMoveAccepter;
 
-public class CharacterMoverBase
+public abstract class CharacterMover
 {
-
-	public void move(MoveType type, ICharacter character)
+	
+	public ICell nextCell(MoveType type, ICharacter character)
+	{
+		return Cell.getNext(character.getCell(), type);
+	}
+	
+	public void moveCharacter(MoveType type, ICharacter character)
 	{
 		int x = character.getX();
 		int y = character.getY();
@@ -32,4 +38,5 @@ public class CharacterMoverBase
 		
 		}
 	}
+	
 }

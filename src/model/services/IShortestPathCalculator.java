@@ -1,9 +1,8 @@
 package model.services;
 
 import java.util.List;
-import java.util.Set;
 
-public interface IShortestPathCalculator
+public interface IShortestPathCalculator<Character extends ICharacter>
 {
-	List<MoveType> getPath(ICharacter character, ICharacter target, ICharacterMoveAccepter accepter);
+	public List<MoveType> getPath(Character entity, ICell target, IMover<Character> accepter);
 }

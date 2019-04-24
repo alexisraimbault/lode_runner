@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IGuard extends ICharacter
+public interface IGuard extends IOperatingCharacter<GuardCommandType>
 {
-	public int timeInHole();
+	
 }

@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IGuardMover  extends IMover<IGuardMoveAccepter>
+public interface IGuardMover  extends IMover<IGuard>
 {
 
 }

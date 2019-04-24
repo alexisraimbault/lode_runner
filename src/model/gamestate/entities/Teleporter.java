@@ -1,55 +1,30 @@
 package model.gamestate.entities;
 
-import model.services.EntityType;
-import model.services.IEnvironment;
+import model.services.ICell;
 import model.services.ITeleporter;
 
-public class Teleporter extends StaticEntity implements ITeleporter
+public class Teleporter implements ITeleporter
 {
-	private ITeleporter sibling;
+	private ICell lcell;
+	private ICell rcell;
 	
-	public Teleporter(IEnvironment environment, int x, int y)
+	public Teleporter(ICell lcell, Cell rcell)
 	{
-		this(environment, x, y, null);
-	}
-	
-	public Teleporter(IEnvironment environment, int x, int y, ITeleporter sibling)
-	{
-		super(environment, x, y);
-		this.sibling = sibling;
+		this.lcell = lcell;
+		this.rcell = rcell;
 	}
 
 	@Override
-	public boolean hasSibling()
+	public ICell getFirstCell()
 	{
-		return sibling != null;
+		return lcell;
 	}
 
 	@Override
-	public void setSibling(ITeleporter sibling)
+	public ICell getSecondCell()
 	{
-		this.sibling = sibling;
-	}
-
-	@Override
-	public ITeleporter getSibling()
-	{
-		return sibling;
+		return rcell;
 	}
 	
-	public static ITeleporter[] create(IEnvironment environment, int x, int y, int sx, int sy)
-	{
-		ITeleporter[] siblings = new ITeleporter[2];
-		siblings[0] = new Teleporter(environment, x, y);
-		siblings[1] = new Teleporter(environment, sx, sy, siblings[0]);
-		siblings[0].setSibling(siblings[1]);
-		return siblings;
-	}
-
-	@Override
-	public EntityType getType()
-	{
-		return EntityType.TELEPORTER;
-	}
 
 }

@@ -1,14 +1,14 @@
 package model.gamestate.entities;
 
 import model.services.EntityType;
-import model.services.IEnvironment;
+import model.services.ICell;
 import model.services.ITreasure;
 
-public class Treasure extends StaticEntity implements ITreasure
+public class Treasure extends Item implements ITreasure
 {
-	public Treasure(IEnvironment environment, int x, int y)
+	public Treasure(ICell cell)
 	{
-		super(environment, x, y);
+		super(cell);
 	}
 
 	@Override

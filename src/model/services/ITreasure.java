@@ -1,6 +1,6 @@
 package model.services;
 
-public interface ITreasure extends IStaticEntity
+public interface ITreasure extends IItem
 {
 
 }

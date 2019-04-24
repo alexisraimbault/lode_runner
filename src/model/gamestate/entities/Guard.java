@@ -1,35 +1,21 @@
 package model.gamestate.entities;
 
 import model.services.EntityType;
-import model.services.IEnvironment;
+import model.services.GuardCommandType;
+import model.services.ICell;
 import model.services.IGuard;
 
-public class Guard extends Character implements IGuard
+public class Guard extends AbstractOperatingCharacter<GuardCommandType> implements IGuard
 {
-
-	private int time_in_hole;
-	
-	public Guard(IEnvironment environment, int x, int y, int time_in_hole)
+	public Guard(ICell cell)
 	{
-		super(environment, x, y);
-		this.time_in_hole = time_in_hole;
-	}
-	
-	public Guard(IEnvironment environment, int x, int y)
-	{
-		this(environment, x, y, 0);
+		super(cell);
 	}
 
 	@Override
 	public EntityType getType()
 	{
 		return EntityType.GUARD;
-	}
-
-	@Override
-	public int timeInHole()
-	{
-		return time_in_hole;
 	}
 	
 }

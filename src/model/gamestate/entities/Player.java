@@ -1,14 +1,15 @@
 package model.gamestate.entities;
 
 import model.services.EntityType;
-import model.services.IEnvironment;
+import model.services.ICell;
 import model.services.IPlayer;
+import model.services.PlayerCommandType;
 
-public class Player extends Character implements IPlayer
+public class Player extends AbstractOperatingCharacter<PlayerCommandType> implements IPlayer
 {
-	public Player(IEnvironment environment, int x, int y)
+	public Player(ICell cell)
 	{
-		super(environment, x, y);
+		super(cell);
 	}
 
 	@Override
