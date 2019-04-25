@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.EditEnvironmentKeyListener;
 import controller.EnvironmentLoader;
 import controller.GameKeyListener;
 import model.HumanPlayerEngine;
@@ -23,20 +24,34 @@ public class GameFrame extends JFrame
 	private IHumanPlayerEngine engine;
 	private JPanel panel;
 	
-	public GameFrame(IHumanPlayerEngine engine, HumanPlayerGamePanel panel) throws Exception
+	public GameFrame() throws Exception
 	{
-		this.engine = engine;
-	    this.panel = panel;
-		
-		IEnvironment environment = engine.getState().getEnvironment();
-		
 	    this.setTitle("Lode Runner");
-	    this.setContentPane(panel);
-	    this.getContentPane().setPreferredSize(new Dimension(environment.getWidth() * block_size, environment.getHeight() * block_size));
-	    this.pack();
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
 	    this.setVisible(true);
+	    //this.addKeyListener(new GameKeyListener(engine, panel));
+	}
+	
+	public void startEdit(IHumanPlayerEngine engine) throws Exception
+	{
+		IEnvironment environment = engine.getState().getEnvironment();
+	    this.setContentPane(new EditEnvironmentPanel(environment.getWidth(), environment.getHeight()));
+	    this.getContentPane().setPreferredSize(new Dimension(environment.getWidth() * block_size, environment.getHeight() * block_size));
+	    this.pack();
+	    this.addKeyListener(new EditEnvironmentKeyListener((EditEnvironmentPanel) this.getContentPane()));
+	}
+	
+	public void startGame(IHumanPlayerEngine engine, HumanPlayerGamePanel panel) throws Exception
+	{
+		this.engine = engine;
+	    this.panel = panel;
+	
+		IEnvironment environment = engine.getState().getEnvironment();
+
+	    this.setContentPane(panel);
+	    this.getContentPane().setPreferredSize(new Dimension(environment.getWidth() * block_size, environment.getHeight() * block_size));
+	    this.pack();
 	    this.addKeyListener(new GameKeyListener(engine, panel));
 	}
 }

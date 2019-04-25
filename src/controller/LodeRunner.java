@@ -38,7 +38,8 @@ public class LodeRunner extends JFrame
 			IHumanPlayerEngine engine = new HumanPlayerEngine(state);
 			HumanPlayerGamePanel panel = new HumanPlayerGamePanel(engine);
 			
-			GameFrame frame = new GameFrame(engine, panel);
+			GameFrame frame = new GameFrame();
+			//frame.startGame(engine, panel);	//uncomment this line for playing and not editing ( only for debug of course )	
 			
 			long player_move_speed = state.getSpeeds().get(PlayerCommandType.LEFT);
 			// means player move speed last 500 ms
@@ -46,9 +47,11 @@ public class LodeRunner extends JFrame
 			
 			Thread tick_thread = new Thread(new GameRunner(engine, panel, converter));
 			
-			tick_thread.start();
+			//tick_thread.start();   //uncomment this line for playing and not editing ( only for debug of course )
 			
-			tick_thread.join();
+			//tick_thread.join();   //uncomment this line for playing and not editing ( only for debug of course )
+			
+			frame.startEdit(engine);//comment this line for playing and not editing ( only for debug of course )
 			
 			// TODO ask to exit the game
 			
