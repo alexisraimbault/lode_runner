@@ -1,6 +1,7 @@
 package controller;
 
 import model.services.IEngine;
+import model.services.Status;
 import view.HumanPlayerGamePanel;
 
 public class GameRunner implements Runnable
@@ -22,13 +23,21 @@ public class GameRunner implements Runnable
 		this.converter = converter;
 	}
 	
+	
 	@Override
 	public void run()
 	{
 		long elapsed_nano = 0;
 		int k = 0;
 		
-		engine.start();
+		while(engine.getStatus() == Status.PAUSE)
+		{
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		while(gameContinues(engine))
 		{
 			if(elapsed_nano > engine_nano_time_precision)
