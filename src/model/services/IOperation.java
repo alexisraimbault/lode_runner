@@ -1,8 +1,7 @@
 package model.services;
 
-public interface IOperation<OperationType extends Enum<OperationType>>
+public interface IOperation
 {
-	public OperationType getOperationType();
 	public long getOperationTime();
 	
 	/*

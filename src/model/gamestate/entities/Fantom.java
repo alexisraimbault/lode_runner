@@ -5,17 +5,13 @@ import model.services.ICell;
 import model.services.IFantom;
 import model.services.MoveType;
 
-public class Fantom extends AbstractOperatingCharacter<MoveType> implements IFantom
+public class Fantom extends AbstractOperatingEntity<MoveType> implements IFantom
 {
+	
+
 	public Fantom(ICell cell)
 	{
-		super(cell);
-	}
-
-	@Override
-	public EntityType getType()
-	{
-		return EntityType.FANTOM;
+		super(cell, EntityType.FANTOM);
 	}
 	
 }

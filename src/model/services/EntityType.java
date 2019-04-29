@@ -7,7 +7,8 @@ public enum EntityType
 	FANTOM,
 
 	TREASURE,
-	TELEPORTER;
+	TELEPORTER,
+	COIN;
 	
 	public boolean isCharacter()
 	{

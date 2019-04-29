@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import controller.EnvironmentLoader;
 import controller.GameKeyListener;
+import controller.TimeConverter;
 import model.HumanPlayerEngine;
 import model.gamestate.GameState;
 import model.gamestate.environment.Environment;
@@ -19,15 +20,9 @@ import model.services.IHumanPlayerEngine;
 public class GameFrame extends JFrame
 {
 	private static final int block_size = 50;
-
-	private IHumanPlayerEngine engine;
-	private JPanel panel;
 	
-	public GameFrame(IHumanPlayerEngine engine, HumanPlayerGamePanel panel) throws Exception
+	public GameFrame(IHumanPlayerEngine engine, HumanPlayerGamePanel panel, TimeConverter converter) throws Exception
 	{
-		this.engine = engine;
-	    this.panel = panel;
-		
 		IEnvironment environment = engine.getState().getEnvironment();
 		
 	    this.setTitle("Lode Runner");
@@ -37,6 +32,6 @@ public class GameFrame extends JFrame
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
 	    this.setVisible(true);
-	    this.addKeyListener(new GameKeyListener(engine, panel));
+	    this.addKeyListener(new GameKeyListener(engine, panel, converter));
 	}
 }

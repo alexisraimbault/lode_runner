@@ -2,7 +2,7 @@ package model.services;
 
 import java.util.List;
 
-public interface IShortestPathCalculator<Character extends ICharacter>
+public interface IShortestPathCalculator<Character extends ICharacter, CommandType extends Enum<CommandType>>
 {
-	public List<MoveType> getPath(Character entity, ICell target, IMover<Character> accepter);
+	public List<CommandType> getPath(Character entity, ICell target, ICommandApplier<Character, CommandType> accepter);
 }

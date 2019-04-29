@@ -22,8 +22,6 @@ public enum PlayerCommandType
 			 return PlayerCommandType.DOWN;
 		case UP:
 			 return PlayerCommandType.UP;
-		case NEUTRAL:
-			 return PlayerCommandType.NEUTRAL;
 		default:
 			break;
 		}
@@ -48,13 +46,11 @@ public enum PlayerCommandType
 	{
 		switch(this)
 		{
-		case DOWN:
-			return true;
 		case LEFT:
 			return true;
-		case NEUTRAL:
-			return true;
 		case RIGHT:
+			return true;
+		case DOWN:
 			return true;
 		case UP:
 			return true;
@@ -68,22 +64,19 @@ public enum PlayerCommandType
 	{
 		switch(this)
 		{
-
-		case DOWN:
-			return MoveType.DOWN;
 		case LEFT:
 			return MoveType.LEFT;
-		case NEUTRAL:
-			return MoveType.NEUTRAL;
 		case RIGHT:
 			return MoveType.RIGHT;
+		case DOWN:
+			return MoveType.DOWN;
 		case UP:
 			return MoveType.UP;
 		default:
 			break;
 		}
 		assert false;
-		return MoveType.DOWN;
+		return null;
 	}
 	
 	public boolean isDigType()

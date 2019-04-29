@@ -6,16 +6,7 @@ public interface ICell
 	public int getX();
 	public int getY();
 	
-	/*
-	 * post:
-	 * 	getNature() = getEnvironment().getCellNature(x, y)
-	 */
 	public Nature getNature();
-	
-	/*
-	 * post:
-	 * 	getContent() = getEnvironment().getCellContent(x, y)
-	 */
 	public IContent getContent();
 	
 	/*
@@ -28,5 +19,7 @@ public interface ICell
 	 * invariants:
 	 * 	0 <= getX() <= getEnvironment().getWidth() - 1
 	 * 	0 <= getY() <= getEnvironment().getHeight() - 1
+	 * 	getNature() = getEnvironment().getCellNature(getX(), getY())
+	 * 	getContent() = getEnvironment().getCellContent(getX(), getY())
 	 */
 }

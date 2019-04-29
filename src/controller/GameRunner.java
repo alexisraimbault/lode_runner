@@ -1,22 +1,21 @@
 package controller;
 
-import java.util.List;
-
-import model.services.ICharacter;
-import model.services.IEntityPool;
-import model.services.IGameState;
-import model.services.IGuard;
-import model.services.IHumanPlayerEngine;
-import model.services.Status;
+import model.services.IEngine;
 import view.HumanPlayerGamePanel;
 
 public class GameRunner implements Runnable
 {
-	private IHumanPlayerEngine engine;
+	
+	private static final long engine_nano_time_precision = 1000000; // = 1 ms
+	
+	// painted every 10 times
+	private static final long view_nano_time_ratio = 10; // = 10 ms
+	
+	private IEngine engine;
 	private HumanPlayerGamePanel panel;
 	private TimeConverter converter;
 	
-	public GameRunner(IHumanPlayerEngine engine, HumanPlayerGamePanel panel, TimeConverter converter)
+	public GameRunner(IEngine engine, HumanPlayerGamePanel panel, TimeConverter converter)
 	{
 		this.engine = engine;
 		this.panel = panel;
@@ -27,16 +26,23 @@ public class GameRunner implements Runnable
 	public void run()
 	{
 		long elapsed_nano = 0;
+		int k = 0;
+		
 		engine.start();
-		while(engine.getStatus() == Status.PLAYING)
+		while(gameContinues(engine))
 		{
-			if(elapsed_nano > 1000000)
+			if(elapsed_nano > engine_nano_time_precision)
 			{
 				long elapsed = converter.getUnitsFromNanoTime(elapsed_nano);
 				
 				engine.step(elapsed);
-				
-				panel.repaint();
+
+				++k;
+				if(k == view_nano_time_ratio)
+				{
+					k = 0;
+					panel.repaint();
+				}
 				
 				elapsed_nano = 0;
 			}
@@ -45,5 +51,26 @@ public class GameRunner implements Runnable
 			Thread.yield();
 			elapsed_nano += System.nanoTime() - start;
 		}
+		
+		System.out.println("Status = " + engine.getStatus());
+	}
+	
+	private boolean gameContinues(IEngine engine)
+	{
+		switch(engine.getStatus())
+		{
+		case LOSS:
+			return false;
+		case PAUSE:
+			return false;
+		case PLAYING:
+			return true;
+		case WIN:
+			return engine.getState().getPool().getPlayer().hasOperation();
+		default:
+			break;
+		}
+		return false;
+		
 	}
 }

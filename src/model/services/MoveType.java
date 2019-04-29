@@ -5,8 +5,7 @@ public enum MoveType
 	LEFT,
 	RIGHT,
 	DOWN,
-	UP,
-	NEUTRAL;
+	UP;
 	
 	public MoveType opposite()
 	{
@@ -20,12 +19,10 @@ public enum MoveType
 			return UP;
 		case UP:
 			return DOWN;
-		case NEUTRAL:
-			return NEUTRAL;
 		default:
 			break;
 		}
 		assert false;
-		return MoveType.NEUTRAL;
+		return null;
 	}
 }

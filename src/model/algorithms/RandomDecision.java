@@ -28,6 +28,9 @@ public class RandomDecision<Character extends ICharacter, CommandType extends En
 	public CommandType getCommand(Character character)
 	{
 		Set<CommandType> accepted = accepter.accept(character);
-		return (CommandType) accepted.toArray()[Math.abs(rand.nextInt()) % accepted.size()];
+		if(accepted.isEmpty())
+			return null;
+		else
+			return (CommandType) accepted.toArray()[Math.abs(rand.nextInt()) % accepted.size()];
 	}
 }

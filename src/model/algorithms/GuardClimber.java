@@ -1,9 +1,11 @@
 package model.algorithms;
 
 import model.services.ClimbType;
+import model.services.ICharacter;
+import model.services.IGuardClimber;
+import model.services.ICommandAccepter;
 import model.services.IGuard;
 import model.services.IGuardClimbAccepter;
-import model.services.IGuardClimber;
 
 public class GuardClimber implements IGuardClimber
 {
@@ -20,13 +22,13 @@ public class GuardClimber implements IGuardClimber
 	}
 	
 	@Override
-	public IGuardClimbAccepter getAccepter()
+	public ICommandAccepter<IGuard, ClimbType> getAccepter()
 	{
 		return accepter;
 	}
 	
 	@Override
-	public void climb(ClimbType type, IGuard guard)
+	public void apply(ClimbType type, IGuard guard)
 	{
 		int x = guard.getX();
 		int y = guard.getY();

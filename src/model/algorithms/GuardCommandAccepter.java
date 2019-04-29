@@ -24,7 +24,7 @@ public class GuardCommandAccepter implements IGuardCommandAccepter
 	
 	public GuardCommandAccepter()
 	{
-		this(new GuardMoveAccepter(new CharacterMoveAccepter()), new GuardClimbAccepter());
+		this(new GuardMoveAccepter(), new GuardClimbAccepter());
 	}
 
 	@Override

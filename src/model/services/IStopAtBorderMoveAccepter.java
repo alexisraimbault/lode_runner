@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IStopAtBorderMoveAccepter extends ICommandAccepter<ICharacter, MoveType>
+public interface IStopAtBorderMoveAccepter<Entity extends IEntity> extends ICommandAccepter<Entity, MoveType>
 {
 
 }

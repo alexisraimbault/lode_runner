@@ -8,18 +8,28 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-import model.services.IEntityPool;
+import model.gamestate.operations.ExecutedOperation;
+import model.services.GuardCommandType;
+import model.services.ICharacter;
+import model.services.IGuardSummoner;
+import model.services.IPlayerSummoner;
+import model.services.ISummonerPool;
+import model.services.ICharacter;
 import model.services.IEnvironment;
+import model.services.IExecutedCharacterOperation;
+import model.services.IExecutedOperation;
 import model.services.IGuard;
 import model.services.IHumanPlayerEngine;
+import model.services.IPlayer;
 import model.services.ITreasure;
 import model.services.Nature;
+import model.services.PlayerCommandType;
 
 public class HumanPlayerGamePanel extends JPanel
 {
 	private IHumanPlayerEngine engine;
 	private IEnvironment environment;
-	private IEntityPool pool;
+	private ISummonerPool pool;
 	private static final int block_size = 50;
 	
 	public HumanPlayerGamePanel(IHumanPlayerEngine engine)
@@ -59,26 +69,112 @@ public class HumanPlayerGamePanel extends JPanel
   				g.fillRect(block_size*x, block_size*ry, block_size, block_size);
   			}
   		}
-		g.setColor(Color.white);
-		g.fillOval(block_size*pool.getPlayer().getX(),block_size*(environment.getHeight() - 1 - pool.getPlayer().getY()), block_size, block_size);
-		
-		g.setColor(Color.red);
-		for(IGuard guard : pool.getGuards())
-		{
-			g.fillOval(block_size*guard.getX(),block_size*(environment.getHeight() - 1 - guard.getY()), block_size, block_size);
-		}
-		
 		g.setColor(Color.yellow);
 		for(ITreasure treasure : pool.getTreasures())
 		{
-			g.fillOval(block_size*treasure.getX(),block_size*(environment.getHeight() - 1 - treasure.getY()), block_size, block_size);
+			int px = block_size * treasure.getX();
+			int py = block_size * (environment.getHeight() - 1 - treasure.getY());
+			g.fillOval(px, py, block_size, block_size);
 		}
+		
+		for(IGuard guard : pool.getGuards())
+			drawGuard(g, guard, Color.red);
+		
+		IPlayerSummoner splayer = pool.getPlayerSummoner();
+		if(splayer.hasInstance())
+			drawPlayer(g, splayer.getInstance(), Color.white);
+		
 		
 	}
 	
 	
+	private void drawGuard(Graphics g, IGuard guard, Color color)
+	{
+		int px = block_size * guard.getX();
+		int py = block_size * (environment.getHeight() - 1 - guard.getY());
+		if(guard.hasOperation())
+		{
+			IExecutedCharacterOperation<GuardCommandType> operation = guard.getExecutedOperation();
+			double progress = operation.getProgress();
+			switch(operation.getOperationType())
+			{
+			case LEFT:
+				px -= progress * block_size - block_size;
+				break;
+			case RIGHT:
+				px += progress * block_size - block_size;
+				break;
+			case DOWN:
+				py += progress * block_size - block_size;
+				break;
+			case UP:
+				py -= progress * block_size - block_size;
+				break;
+			case CLIMBLEFT:
+				if(progress > 0.5)
+				{
+					py += block_size - block_size;
+					px -= (progress - 0.5) * block_size - block_size;
+				}
+				else
+				{
+					py -= progress * block_size - block_size;
+				}
+				break;
+			case CLIMBRIGHT:
+				if(progress > 0.5)
+				{
+					py += block_size - block_size;
+					px += (progress - 0.5) * block_size - block_size;
+				}
+				else
+				{
+					py -= progress * block_size - block_size;
+				}
+				break;
+			default:
+				break;
+			
+			}
+		}
+		g.setColor(color);
+		g.fillOval(px, py, block_size, block_size);
+	}
 	
-	
+	private void drawPlayer(Graphics g, IPlayer player, Color color)
+	{
+		int px = block_size * player.getX();
+		int py = block_size * (environment.getHeight() - 1 - player.getY());
+		if(player.hasOperation())
+		{
+			IExecutedCharacterOperation<PlayerCommandType> operation = player.getExecutedOperation();
+			double progress = operation.getProgress();
+			switch(operation.getOperationType())
+			{
+			case LEFT:
+				px -= progress * block_size - block_size;
+				break;
+			case RIGHT:
+				px += progress * block_size - block_size;
+				break;
+			case DOWN:
+				py += progress * block_size - block_size;
+				break;
+			case UP:
+				py -= progress * block_size - block_size;
+				break;
+			case DIGLEFT:
+				break;
+			case DIGRIGHT:
+				break;
+			default:
+				break;
+			
+			}
+		}
+		g.setColor(color);
+		g.fillOval(px, py, block_size, block_size);
+	}
 	
 	/*
 	public void init() {

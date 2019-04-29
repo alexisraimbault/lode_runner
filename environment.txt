@@ -1,12 +1,12 @@
 27 11
-======   G   ===========H G
-H T   XHXXH==  G H      HXX
-XXXHX  H X    TX H========T
-X  H   HTX    X  H  =     X
-XGTH   HXX       XH  H     
-XXXH=====H      XXXX XXXHXX
- ===     HX         ====H  
-X        HX         H=====H
-TXX  P  HXX G   =====T    H
-XXXXXXXXXXXXXXXXXXXXXXXXXXX
+======   G   =========== GT
+H T   XHXXH    G H      =HX
+XXXHX  H XH   TX H========T
+X  H   HTXH = X  H  =     X
+XGTH   HXXH=     XH  H     
+XXXH=====H     XXXXX XXXHXX
+G===     HXXX    T  ====H  
+XX   XX  HXX     X  H=====H
+TXX  P  HXXT    =====T G  H
+XX HXXXXXXXXXXXXXXXXXXXXXXX
 MMMMMMMMMMMMMMMMMMMMMMMMMMM

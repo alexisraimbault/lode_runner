@@ -1,7 +1,6 @@
 package model.services;
 
-public interface IGuardClimber
+public interface IGuardClimber extends ICommandApplier<IGuard, ClimbType>
 {
-	public IGuardClimbAccepter getAccepter();
-	public void climb(ClimbType type, IGuard guard);
+	
 }

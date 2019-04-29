@@ -11,13 +11,13 @@ public class OperationsSpeeds implements IOperationsSpeeds
 {
 	private Map<PlayerCommandType, Long> pspeeds;
 	private Map<GuardCommandType, Long> gspeeds;
-	private long hspeed;
+	private long hole_speed;
 	
-	public OperationsSpeeds(Map<PlayerCommandType, Long> pspeeds, Map<GuardCommandType, Long> gspeeds, long hspeed)
+	public OperationsSpeeds(Map<PlayerCommandType, Long> pspeeds, Map<GuardCommandType, Long> gspeeds, long hole_speed)
 	{
 		this.pspeeds = pspeeds;
 		this.gspeeds = gspeeds;
-		this.hspeed = hspeed;
+		this.hole_speed = hole_speed;
 	}
 	
 	@Override
@@ -31,12 +31,6 @@ public class OperationsSpeeds implements IOperationsSpeeds
 	{
 		return gspeeds.get(type);
 	}
-
-	@Override
-	public long hole()
-	{
-		return hspeed;
-	}
 	
 	public static OperationsSpeeds default_speeds = null;
 	
@@ -49,13 +43,14 @@ public class OperationsSpeeds implements IOperationsSpeeds
 		long player_dig_speed = 1000000000l;
 		long guard_move_speed = player_move_speed * 2;
 		long guard_climb_speed = guard_move_speed * 2;
-		long hole_speed = guard_move_speed * 6;
+		long guard_hole_speed = guard_move_speed * 5;
+		long hole_speed = guard_move_speed * 8;
 		
 		for(PlayerCommandType type : PlayerCommandType.values())
 		{
 			if(type.isMoveType())
 				pspeeds.put(type, player_move_speed);
-			if(type.isDigType())
+			else if(type.isDigType())
 				pspeeds.put(type, player_dig_speed);
 		}
 		
@@ -63,11 +58,19 @@ public class OperationsSpeeds implements IOperationsSpeeds
 		{
 			if(type.isMoveType())
 				gspeeds.put(type, guard_move_speed);
-			if(type.isClimbType())
+			else if(type.isClimbType())
 				gspeeds.put(type, guard_climb_speed);
+			else if(type == GuardCommandType.BLOCKING)
+				gspeeds.put(type, guard_hole_speed);
 		}
 		
 		default_speeds = new OperationsSpeeds(pspeeds, gspeeds, hole_speed);
+	}
+
+	@Override
+	public long getHoleSpeed()
+	{
+		return hole_speed;
 	}
 
 }

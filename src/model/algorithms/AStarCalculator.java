@@ -9,24 +9,25 @@ import java.util.Queue;
 import java.util.Set;
 
 import model.services.MoveType;
+import model.gamestate.entities.Cell;
 import model.services.IAStarNode;
 import model.services.ICell;
 import model.services.ICharacter;
 import model.services.ICommandAccepter;
-import model.services.IMover;
+import model.services.ICommandApplier;
 import model.services.IShortestPathCalculator;
 
-public class AStarCalculator<Character extends ICharacter> implements IShortestPathCalculator<Character>
+public class AStarCalculator<Character extends ICharacter, CommandType extends Enum<CommandType>> implements IShortestPathCalculator<Character, CommandType>
 {
-	class Node implements IAStarNode
+	class Node implements IAStarNode<CommandType>
 	{
 		private ICell cell;
 		private ICell target;
 		private int cost;
-		private IAStarNode pred;
-		private MoveType type;
+		private IAStarNode<CommandType> pred;
+		private CommandType type;
 		
-		public Node(ICell cell, ICell target, int cost, IAStarNode pred, MoveType type)
+		public Node(ICell cell, ICell target, int cost, IAStarNode<CommandType> pred, CommandType type)
 		{
 			this.cell = cell;
 			this.target = target;
@@ -54,7 +55,18 @@ public class AStarCalculator<Character extends ICharacter> implements IShortestP
 		@Override
 		public int getHeuristic()
 		{
-			return Math.abs(target.getX() - cell.getX()) + Math.abs(target.getY() - cell.getY());
+			int dist = Math.abs(target.getX() - cell.getX()) + Math.abs(target.getY() - cell.getY());
+			if(cell.getContent().nbCharacters() > 0)
+				return dist + 30;
+			else if(cell.getContent().nbItems() > 0)
+			{
+				if(dist - 3 < 0)
+					return 0;
+				else
+					return dist - 3;
+			}
+			else
+				return dist;
 		}
 
 		@Override
@@ -63,20 +75,20 @@ public class AStarCalculator<Character extends ICharacter> implements IShortestP
 		}
 
 		@Override
-		public IAStarNode getPred()
+		public IAStarNode<CommandType> getPred()
 		{
 			return pred;
 		}
 
 		@Override
-		public List<MoveType> getPath()
+		public List<CommandType> getPath()
 		{
-			List<MoveType> path = new ArrayList<MoveType>();
+			List<CommandType> path = new ArrayList<CommandType>();
 			
-			IAStarNode current = this;
+			IAStarNode<CommandType> current = this;
 			while(current.getPred() != null)
 			{
-				path.add(current.getMoveType());
+				path.add(current.getCommandType());
 				current = current.getPred();
 			}
 				
@@ -91,18 +103,18 @@ public class AStarCalculator<Character extends ICharacter> implements IShortestP
 		}
 
 		@Override
-		public MoveType getMoveType()
+		public CommandType getCommandType()
 		{
 			return type;
 		}
 	}
 	
 	@Override
-	public List<MoveType> getPath(Character source, ICell target, IMover<Character> mover)
+	public List<CommandType> getPath(Character source, ICell target, ICommandApplier<Character, CommandType> applier)
 	{
-		Comparator<IAStarNode> compare_better_node = new Comparator<IAStarNode>()
+		Comparator<IAStarNode<CommandType>> compare_better_node = new Comparator<IAStarNode<CommandType>>()
 		{
-			public int compare(IAStarNode n1, IAStarNode n2)
+			public int compare(IAStarNode<CommandType> n1, IAStarNode<CommandType> n2)
 			{
 				if(!n1.getCell().equals(n2.getCell()))
 					return 1;
@@ -115,9 +127,9 @@ public class AStarCalculator<Character extends ICharacter> implements IShortestP
 					return 1;
 			}
 		};
-		Comparator<IAStarNode> compare_heuristic = new Comparator<IAStarNode>()
+		Comparator<IAStarNode<CommandType>> compare_heuristic = new Comparator<IAStarNode<CommandType>>()
 		{
-			public int compare(IAStarNode n1, IAStarNode n2)
+			public int compare(IAStarNode<CommandType> n1, IAStarNode<CommandType> n2)
 			{
 				if(n1.getWeight() < n2.getWeight())
 					return -1;
@@ -129,29 +141,33 @@ public class AStarCalculator<Character extends ICharacter> implements IShortestP
 		};
 		
 
-		ICell start = source.getCell();
-		List<IAStarNode> closed = new ArrayList<IAStarNode>();
-		Queue<IAStarNode> opened = new PriorityQueue<IAStarNode>(compare_heuristic);
-		IAStarNode current = new Node(source.getCell(), target, 0);
+		ICell start = new Cell(source.getEnvironment(), source.getX(), source.getY());
+		List<IAStarNode<CommandType>> closed = new ArrayList<IAStarNode<CommandType>>();
+		Queue<IAStarNode<CommandType>> opened = new PriorityQueue<IAStarNode<CommandType>>(compare_heuristic);
+		IAStarNode<CommandType> current = new Node(start, target, 0);
 		opened.add(current);
-		ICommandAccepter<Character, MoveType> accepter = mover.getAccepter();
+		ICommandAccepter<Character, CommandType> accepter = applier.getAccepter();
 		while(!opened.isEmpty())
 		{
 			current = opened.peek();
 			opened.remove();
 			
-			if(current.getHeuristic() <= 1)
+			if(current.getCell().equals(target))
 			{
-				source.setCell(start);
+				source.setPosition(start);
 				return current.getPath();
 			}
 			
-			source.setCell(current.getCell());
-			Set<MoveType> accepted = accepter.accept(source);
-			for(MoveType type : accepted)
+			source.setPosition(current.getCell());
+			Set<CommandType> accepted = accepter.accept(source);
+			for(CommandType type : accepted)
 			{
-				ICell next = mover.next(type, source);
-				IAStarNode next_node = new Node(next, target, current.getCost() + 1, current, type);
+				ICell before = new Cell(source.getEnvironment(), source.getX(), source.getY());
+				applier.apply(type, source);
+				ICell after = new Cell(source.getEnvironment(), source.getX(), source.getY());
+				source.setPosition(before);
+				
+				IAStarNode next_node = new Node(after, target, current.getCost() + 1, current, type);
 				boolean found = false;
 				
 				for(IAStarNode node : closed)
@@ -181,7 +197,7 @@ public class AStarCalculator<Character extends ICharacter> implements IShortestP
 			}
 			closed.add(current);
 		}
-		source.setCell(start);
+		source.setPosition(start);
 		return null;
 	}
 }

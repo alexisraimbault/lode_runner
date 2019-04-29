@@ -16,8 +16,8 @@ public class TimeConverter
 		return (long) (nb_units * ref_nano / ref_units);
 	}
 	
-	public int getUnitsFromNanoTime(long nb_nano)
+	public long getUnitsFromNanoTime(long nb_nano)
 	{
-		return (int) (nb_nano * ref_units / ref_nano);
+		return (long) (nb_nano * ref_units / ref_nano);
 	}
 }

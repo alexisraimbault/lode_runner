@@ -4,17 +4,13 @@ import model.services.EntityType;
 import model.services.ICell;
 import model.services.ITreasure;
 
-public class Treasure extends Item implements ITreasure
+public class Treasure extends AbstractEntity implements ITreasure
 {
+
+
 	public Treasure(ICell cell)
 	{
-		super(cell);
-	}
-
-	@Override
-	public EntityType getType()
-	{
-		return EntityType.TREASURE;
+		super(cell, EntityType.TREASURE);
 	}
 
 }

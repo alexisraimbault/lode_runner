@@ -5,17 +5,12 @@ import model.services.ICell;
 import model.services.IPlayer;
 import model.services.PlayerCommandType;
 
-public class Player extends AbstractOperatingCharacter<PlayerCommandType> implements IPlayer
+public class Player extends AbstractOperatingEntity<PlayerCommandType> implements IPlayer
 {
+	
 	public Player(ICell cell)
 	{
-		super(cell);
-	}
-
-	@Override
-	public EntityType getType()
-	{
-		return EntityType.PLAYER;
+		super(cell, EntityType.PLAYER);
 	}
 	
 }

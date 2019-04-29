@@ -1,13 +1,13 @@
 package model.services;
 
-public interface IShortestPathDecision<Character extends ICharacter> extends IDecision<Character, MoveType>
+public interface IShortestPathDecision<Character extends ICharacter, CommandType extends Enum<CommandType>> extends IDecision<Character, CommandType>
 {
-	public IShortestPathCalculator<Character> getCalculator();
+	public IShortestPathCalculator<Character, CommandType> getCalculator();
 	public ICell getTarget();
 	
 	/*
 	 * post:
 	 * 	getCommand(source) = getCalculator().getPath(source, getTarget(), getAccepter()).get(0)
 	 */
-	public MoveType getCommand(Character character); // inherited
+	public CommandType getCommand(Character character); // inherited
 }

@@ -24,7 +24,7 @@ public class PlayerCommandAccepter implements IPlayerCommandAccepter
 	
 	public PlayerCommandAccepter()
 	{
-		this(new PlayerMoveAccepter(new CharacterMoveAccepter()), new PlayerDigAccepter());
+		this(new PlayerMoveAccepter(), new PlayerDigAccepter());
 	}
 
 	@Override

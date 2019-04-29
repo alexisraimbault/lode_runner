@@ -6,9 +6,9 @@ public enum GuardCommandType
 	RIGHT,
 	DOWN,
 	UP,
-	NEUTRAL,
 	CLIMBLEFT,
-	CLIMBRIGHT;
+	CLIMBRIGHT,
+	BLOCKING;
 	
 	static public GuardCommandType get(MoveType type)
 	{
@@ -22,8 +22,6 @@ public enum GuardCommandType
 			 return GuardCommandType.DOWN;
 		case UP:
 			 return GuardCommandType.UP;
-		case NEUTRAL:
-			 return GuardCommandType.NEUTRAL;
 		default:
 			break;
 		}
@@ -49,19 +47,13 @@ public enum GuardCommandType
 		switch(this)
 		{
 		case LEFT:
-			return true;
 		case RIGHT:
-			return true;
 		case DOWN:
-			return true;
 		case UP:
 			return true;
-		case NEUTRAL:
-			return true;
 		default:
-			break;
+			return false;
 		}
-		return false;
 	}
 	
 	public MoveType moveType()
@@ -76,8 +68,6 @@ public enum GuardCommandType
 			return MoveType.DOWN;
 		case UP:
 			return MoveType.UP;
-		case NEUTRAL:
-			return MoveType.NEUTRAL;
 		default:
 			break;
 		}
@@ -87,7 +77,14 @@ public enum GuardCommandType
 	
 	public boolean isClimbType()
 	{
-		return !isMoveType();
+		switch(this)
+		{
+		case CLIMBLEFT:
+		case CLIMBRIGHT:
+			return true;
+		default:
+			return false;
+		}
 	}
 	
 	public ClimbType climbType()

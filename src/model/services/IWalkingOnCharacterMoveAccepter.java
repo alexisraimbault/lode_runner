@@ -1,6 +1,6 @@
 package model.services;
 
-public interface INoCharacterAccepter extends ICommandAccepter<ICharacter, MoveType>
+public interface IWalkingOnCharacterMoveAccepter<Character extends ICharacter> extends ICommandAccepter<Character, MoveType>
 {
 	/*
 	 * post:

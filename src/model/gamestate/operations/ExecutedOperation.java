@@ -1,24 +1,23 @@
-package model;
+package model.gamestate.operations;
 
 import model.services.IExecutedOperation;
 
 public class ExecutedOperation
-	<CommandType extends Enum<CommandType>>
-		extends Operation<CommandType>
-		implements IExecutedOperation<CommandType>
+		extends Operation
+		implements IExecutedOperation
 {
 
 	private long elapsed_time;
 
-	public ExecutedOperation(CommandType type, long operation_time, long elapsed_time)
+	public ExecutedOperation(long operation_time, long elapsed_time)
 	{
-		super(type, operation_time);
+		super(operation_time);
 		this.elapsed_time = elapsed_time;
 	}
 	
-	public ExecutedOperation(CommandType type, long operation_time)
+	public ExecutedOperation(long operation_time)
 	{
-		this(type, operation_time, 0);
+		this(operation_time, 0);
 	}
 
 	@Override
@@ -37,6 +36,12 @@ public class ExecutedOperation
 	public boolean isEnded()
 	{
 		return getElapsedTime() >= getOperationTime();
+	}
+
+	@Override
+	public double getProgress()
+	{
+		return ((double)getElapsedTime()) / getOperationTime();
 	}
 
 }

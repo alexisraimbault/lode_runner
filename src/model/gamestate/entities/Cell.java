@@ -20,6 +20,11 @@ public class Cell implements ICell
 		this.y = y;
 	}
 	
+	public Cell(ICell cell)
+	{
+		this(cell.getEnvironment(), cell.getX(), cell.getY());
+	}
+	
 	@Override
 	public IEnvironment getEnvironment()
 	{
@@ -50,6 +55,22 @@ public class Cell implements ICell
 		return environment.getCellContent(x, y);
 	}
 	
+	public static boolean hasNext(ICell cell, MoveType type)
+	{
+		switch(type)
+		{
+		case LEFT:
+			return cell.getX() > 0;
+		case RIGHT:
+			return cell.getX() < cell.getEnvironment().getWidth() - 1;
+		case DOWN:
+			return cell.getY() > 0;
+		case UP:
+			return cell.getY() < cell.getEnvironment().getHeight() - 1;
+		}
+		return false;
+	}
+	
 	public static ICell getNext(ICell cell, MoveType type)
 	{
 		IEnvironment environment = cell.getEnvironment();
@@ -66,8 +87,6 @@ public class Cell implements ICell
 			return new Cell(environment, x, y - 1);
 		case UP:
 			return new Cell(environment, x, y + 1);
-		case NEUTRAL:
-			return cell;
 		default:
 			break;
 		}

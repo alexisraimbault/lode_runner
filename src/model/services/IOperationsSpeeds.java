@@ -2,7 +2,7 @@ package model.services;
 
 public interface IOperationsSpeeds
 {
-	long get(PlayerCommandType type);
-	long get(GuardCommandType type);
-	long hole();
+	public long get(PlayerCommandType type);
+	public long get(GuardCommandType type);
+	public long getHoleSpeed();
 }

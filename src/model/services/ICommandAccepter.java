@@ -3,15 +3,15 @@ package model.services;
 import java.util.Set;
 
 public interface ICommandAccepter
-	<Entity extends IEntity,
+	<Cell extends ICell,
 	CommandType extends Enum<CommandType>>
 {
-	public boolean accept(CommandType type, Entity entity);
+	public boolean accept(CommandType type, Cell cell);
 	
 	/*
 	 * post:
 	 * 	forall command
 	 * 		accept(command, entity) <=> accept(entity).contains(command)
 	 */
-	public Set<CommandType> accept(Entity entity);
+	public Set<CommandType> accept(Cell cell);
 }

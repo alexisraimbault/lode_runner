@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IPlayerDigger
+public interface IPlayerDigger extends ICommandApplier<IPlayer, DigType>
 {
-	public void dig(DigType type, IEntity entity);
+	
 }

@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IPlayer extends IOperatingCharacter<PlayerCommandType>
+public interface IPlayer extends IOperationEntity<PlayerCommandType>
 {
 	
 }

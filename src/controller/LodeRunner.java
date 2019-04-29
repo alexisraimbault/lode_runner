@@ -13,6 +13,7 @@ import model.services.IEnvironmentLoader;
 import model.services.IGameState;
 import model.services.IHumanPlayerEngine;
 import model.services.PlayerCommandType;
+import model.services.Status;
 import view.GameFrame;
 import view.HumanPlayerGamePanel;
 
@@ -33,44 +34,19 @@ public class LodeRunner extends JFrame
 				throw new Exception("The loaded environment is not playable");
 			
 			IEnvironment environment = new Environment(editable.produce());
-			IGameState state = new GameState(environment, OperationsSpeeds.default_speeds);
+			
+			final int nb_lives = 3;
+			IGameState state = new GameState(environment, OperationsSpeeds.default_speeds, nb_lives);
 
 			IHumanPlayerEngine engine = new HumanPlayerEngine(state);
 			HumanPlayerGamePanel panel = new HumanPlayerGamePanel(engine);
 			
-			GameFrame frame = new GameFrame(engine, panel);
+			final long player_move_speed = state.getSpeeds().get(PlayerCommandType.LEFT);
+			final long player_move_nano_time = 200000000; // the time reference is 200 ms for player speed
+			TimeConverter converter = new TimeConverter(player_move_speed, player_move_nano_time);
 			
-			long player_move_speed = state.getSpeeds().get(PlayerCommandType.LEFT);
-			// means player move speed last 500 ms
-			TimeConverter converter = new TimeConverter(player_move_speed, 200000000);
+			GameFrame frame = new GameFrame(engine, panel, converter);
 			
-			Thread tick_thread = new Thread(new GameRunner(engine, panel, converter));
-			
-			tick_thread.start();
-			
-			tick_thread.join();
-			
-			// TODO ask to exit the game
-			
-			
-			
-			
-			// GameFrame doit fournir toutes les fonctions nécessaires pour actualiser la fenêtre graphique
-			// IHumanPlayerEngine fournit toutes les fonctions qui fait avancer le jeu d'un point de vue machine
-			// LodeRunner décrit le déroulement du jeu avec des event, passage d'un panel à l'autre
-			
-			// Par exemple GameKeyListener est une classe controller : elle a besoin de l'engine, ainsi que du panel courant
-			// Il fait avancer le jeu à chaque event (engine), et actualise la vue (panel).
-			
-			// Là on va juste s'occuper de HumanPlayerGamePanel (un seul panel donc) pcq c'est la priorité du projet avec les spec
-			
-			
-			
-			
-			// Pour plus tard :
-			// Un menu, qui dirige soit vers l'édition d'un environnement, soit vers la sélection d'une partie
-			// Sur le panel d'édition de game, il peut soit revenir au menu, soit lancer la partie (ou aller sur sélection de partie avec la game venant d'être édité présélectionnée)
-			// Sur la sélection de la partie, on peut sélectionner une partie éditée, puis lancer la game (ou revenir au menu)
 			
 			
 		}

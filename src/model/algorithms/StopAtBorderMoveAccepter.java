@@ -1,10 +1,11 @@
 package model.algorithms;
 
+import model.gamestate.entities.Cell;
 import model.services.ICharacter;
 import model.services.IStopAtBorderMoveAccepter;
 import model.services.MoveType;
 
-public class StopAtBorderMoveAccepter extends DeducingAccepter<ICharacter, MoveType> implements IStopAtBorderMoveAccepter
+public class StopAtBorderMoveAccepter<Character extends ICharacter> extends DeducingAccepter<Character, MoveType> implements IStopAtBorderMoveAccepter<Character>
 {
 	
 	public StopAtBorderMoveAccepter()
@@ -13,22 +14,9 @@ public class StopAtBorderMoveAccepter extends DeducingAccepter<ICharacter, MoveT
 	}
 
 	@Override
-	public boolean accept(MoveType type, ICharacter character)
+	public boolean accept(MoveType type, Character character)
 	{
-		switch(type)
-		{
-		case LEFT:
-			return character.getX() > 0;
-		case RIGHT:
-			return character.getX() < character.getEnvironment().getWidth() - 1;
-		case DOWN:
-			return character.getY() > 0;
-		case UP:
-			return character.getY() < character.getEnvironment().getHeight() - 1;
-		case NEUTRAL:
-			return true;
-		}
-		return false;
+		return Cell.hasNext(character, type);
 	}
 	
 }

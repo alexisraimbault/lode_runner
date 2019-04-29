@@ -1,6 +1,6 @@
 package model.services;
 
-public interface ICharacterMoveAccepter extends ICommandAccepter<ICharacter, MoveType>
+public interface ICharacterMoveAccepter<Character extends ICharacter> extends ICommandAccepter<Character, MoveType>
 {
 	/*
 	 * symbols:
