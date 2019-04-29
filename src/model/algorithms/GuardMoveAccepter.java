@@ -14,7 +14,7 @@ public class GuardMoveAccepter extends DeducingAccepter<IGuard, MoveType> implem
 {
 	
 	private IStopAtBorderMoveAccepter<IGuard> stop_at_border = new StopAtBorderMoveAccepter<>();
-	private INoPlentyMoveAccepter<IGuard> no_plenty = new NoPlentyMoveAccepter<>();
+	private INoPlentyMoveAccepter<IGuard> no_plenty = new NoPlentyMoveAccepter<>(new PlentyAndGuardsTester());
 	private IHookingMoveAccepter<IGuard> hooking = new HookingMoveAccepter<>();
 	private IWalkingMoveAccepter<IGuard> walking = new WalkingMoveAccepter<>(new PlentyAndCharacterTester());
 	private IFallingMoveAccepter<IGuard> falling = new FallingMoveAccepter<>(new PlentyAndCharacterTester());

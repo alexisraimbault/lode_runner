@@ -20,7 +20,7 @@ import model.services.MoveType;
 public class PlayerMoveAccepter extends DeducingAccepter<IPlayer, MoveType> implements IPlayerMoveAccepter
 {
 	private IStopAtBorderMoveAccepter<IPlayer> stop_at_border = new StopAtBorderMoveAccepter<>();
-	private INoPlentyMoveAccepter<IPlayer> no_plenty = new NoPlentyMoveAccepter<>();
+	private INoPlentyMoveAccepter<IPlayer> no_plenty = new NoPlentyMoveAccepter<>(new PlentyTester());
 	private IHookingMoveAccepter<IPlayer> hooking = new HookingMoveAccepter<>();
 	private IWalkingMoveAccepter<IPlayer> walking = new WalkingMoveAccepter<>(new PlentyAndCharacterTester());
 	private IFallingMoveAccepter<IPlayer> falling = new FallingMoveAccepter<>(new PlentyAndCharacterTester());

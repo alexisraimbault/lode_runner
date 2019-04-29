@@ -14,9 +14,10 @@ public interface IPlayerSummoner extends ISummoner<IPlayer>
 	/*
 	 * pre:
 	 * 	hasInstance()
+	 * 	item.hasInstance()
 	 * 
 	 * post:
-	 * 	@result = getInstance().getContent().contains(item_type)
+	 * 	@result = getInstance().getContent().contains(sitem.getInstance().getType())
 	 */
 	<Item extends IItem>
 	boolean canCollect(ISummoner<Item> sitem);
@@ -35,7 +36,7 @@ public interface IPlayerSummoner extends ISummoner<IPlayer>
 	 * pre:
 	 * 
 	 * post:
-	 * 	match item.getInstance()@before.getType()
+	 * 	match sitem.getInstance()@before.getType()
 	 * 		COIN		->	getCoinScore() = getCoinScore()@before + 1
 	 * 		TREASURE	->	getTreasureScore() = getTreasureScore()@before + 1
 	 */

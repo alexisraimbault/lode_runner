@@ -1,5 +1,7 @@
 package model.algorithms;
 
+import java.util.function.Predicate;
+
 import model.gamestate.entities.Cell;
 import model.services.ICell;
 import model.services.ICharacter;
@@ -9,19 +11,21 @@ import model.services.Nature;
 
 public class NoPlentyMoveAccepter<Character extends ICharacter> extends DeducingAccepter<Character, MoveType> implements INoPlentyMoveAccepter<Character>
 {
-
-	public NoPlentyMoveAccepter()
+	
+	private Predicate<ICell> plenty_tester;
+	
+	public NoPlentyMoveAccepter(Predicate<ICell> plenty_tester)
 	{
 		super(MoveType.class);
+		this.plenty_tester = plenty_tester;
 	}
 
 	@Override
 	public boolean accept(MoveType type, Character character)
 	{
 		ICell next_cell = Cell.getNext(character, type);
-		Nature next_nature = next_cell.getNature();
 		
-		if(next_nature == Nature.PLATFORM || next_nature == Nature.METAL)
+		if(plenty_tester.test(next_cell))
 			return false;
 		
 		return true;

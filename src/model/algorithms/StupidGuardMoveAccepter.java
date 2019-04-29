@@ -15,7 +15,7 @@ public class StupidGuardMoveAccepter extends DeducingAccepter<IGuard, MoveType> 
 {
 	
 	private IStopAtBorderMoveAccepter<IGuard> stop_at_border = new StopAtBorderMoveAccepter<>();
-	private INoPlentyMoveAccepter<IGuard> no_plenty = new NoPlentyMoveAccepter<>();
+	private INoPlentyMoveAccepter<IGuard> no_plenty = new NoPlentyMoveAccepter<>(new PlentyTester());
 	private IHookingMoveAccepter<IGuard> hooking = new HookingMoveAccepter<>();
 	private IWalkingMoveAccepter<IGuard> walking = new WalkingMoveAccepter<>(new PlentyAndHoleTester());
 	private IFallingMoveAccepter<IGuard> falling = new FallingMoveAccepter<>(new PlentyTester());

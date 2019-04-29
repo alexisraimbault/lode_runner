@@ -44,7 +44,7 @@ public class OperationsSpeeds implements IOperationsSpeeds
 		long guard_move_speed = player_move_speed * 2;
 		long guard_climb_speed = guard_move_speed * 2;
 		long guard_hole_speed = guard_move_speed * 5;
-		long hole_speed = guard_move_speed * 8;
+		long hole_speed = guard_move_speed * 15;
 		
 		for(PlayerCommandType type : PlayerCommandType.values())
 		{
