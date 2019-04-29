@@ -4,7 +4,6 @@ import java.util.List;
 
 public interface IGameState
 {
-	public void setEnvironment(IEnvironment environment);
 	public IEnvironment getEnvironment();
 	public ISummonerPool getPool();
 	public List<IHole> getHoles();
