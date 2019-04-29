@@ -4,15 +4,30 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 
+import controller.EnvironmentLoader;
+import controller.GameRunner;
+import controller.TimeConverter;
+import model.HumanPlayerEngine;
+import model.gamestate.GameState;
 import model.gamestate.environment.DynamicScreen;
 import model.gamestate.environment.EditableEnvironment;
+import model.gamestate.environment.Environment;
+import model.gamestate.operations.OperationsSpeeds;
+import model.services.EntityType;
 import model.services.IEditableEnvironment;
+import model.services.IEnvironment;
+import model.services.IEnvironmentLoader;
+import model.services.IGameState;
 import model.services.IGuard;
+import model.services.IHumanPlayerEngine;
+import model.services.IContent;
 import model.services.ITreasure;
 import model.services.Nature;
+import model.services.PlayerCommandType;
 
 public class EditEnvironmentPanel extends JPanel
 {
@@ -21,10 +36,12 @@ public class EditEnvironmentPanel extends JPanel
 	private boolean isActiveSelection = false;
     private int startX, startY, endX, endY;
     private static final int block_size = 50;
-	public EditEnvironmentPanel(int width, int height)
+    GameFrame gf;
+	public EditEnvironmentPanel(IEditableEnvironment editable, GameFrame gf)
 	{
-		editable = new EditableEnvironment(new DynamicScreen());
-		editable.resize(width, height);
+		this.gf = gf;
+		this.editable = editable;
+		editable.resize(editable.getWidth(), editable.getHeight());
 		this.addMouseListener(new MouseAdapter() {
             
             
@@ -75,7 +92,21 @@ public class EditEnvironmentPanel extends JPanel
 		return endY;
 	}
 	
-	public void edit(Nature mat){
+	public void startGame() throws Exception{
+		gf.launchGame(editable);
+		
+		/*long player_move_speed = state.getSpeeds().get(PlayerCommandType.LEFT);
+		// means player move speed last 500 ms
+		TimeConverter converter = new TimeConverter(player_move_speed, 200000000);
+		
+		Thread tick_thread = new Thread(new GameRunner(engine, panel, converter));
+		
+		tick_thread.start();
+		
+		tick_thread.join();*/
+	}
+	
+	public void editEnv(Nature mat){
 		System.out.println("editing ! ");
 		isActiveSelection = false;
 		int minX = Math.min(startX,  endX);
@@ -88,6 +119,18 @@ public class EditEnvironmentPanel extends JPanel
 			}
 		}
 		repaint();
+	}
+	
+	public void editEntity(EntityType entity){
+		if(startX == endX && startY == endY && !editable.getCellNature(startX, editable.getHeight() - 1 - startY).isPlenty()){
+			editable.getCellContent(startX, editable.getHeight() - 1 - startY).add(entity);
+			repaint();
+		}
+	}
+	
+	public void saveMap(String path) throws IOException{
+		IEnvironmentLoader loader = new EnvironmentLoader(); 
+		loader.uploadToFile(path, this.editable);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -118,6 +161,34 @@ public class EditEnvironmentPanel extends JPanel
 		  				break;
 	  			}
   				g.fillRect(block_size*x, block_size*ry, block_size, block_size);
+  				IContent contentCell = editable.getCellContent(x, y);
+				for(EntityType type : EntityType.values())
+				{
+					if(contentCell.contains(type)){
+						switch(type)
+						{
+						case PLAYER:
+							g.setColor(Color.white);
+							break;
+						case GUARD:
+							g.setColor(Color.red);
+							break;
+						case TREASURE:
+							g.setColor(Color.yellow);
+							break;
+						case TELEPORTER:
+							g.setColor(Color.cyan);
+							break;
+						case FANTOM:
+							g.setColor(Color.darkGray);
+							break;
+						default:
+							break;
+						
+						}
+					}
+					g.fillOval(block_size*x, block_size*ry, block_size, block_size);
+				}
   			}
   		}
 

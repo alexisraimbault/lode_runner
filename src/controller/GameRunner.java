@@ -16,18 +16,29 @@ public class GameRunner implements Runnable
 	private HumanPlayerGamePanel panel;
 	private TimeConverter converter;
 	
-	public GameRunner(IHumanPlayerEngine engine, HumanPlayerGamePanel panel, TimeConverter converter)
+	public GameRunner(IHumanPlayerEngine engine, TimeConverter converter)
 	{
 		this.engine = engine;
-		this.panel = panel;
 		this.converter = converter;
 	}
+	
+	public void setPanel( HumanPlayerGamePanel panel){
+		this.panel = panel;
+	}
+	
 	
 	@Override
 	public void run()
 	{
 		long elapsed_nano = 0;
-		engine.start();
+		while(engine.getStatus() == Status.PAUSE)
+		{
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		while(engine.getStatus() == Status.PLAYING)
 		{
 			if(elapsed_nano > 1000000)

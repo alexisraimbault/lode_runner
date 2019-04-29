@@ -13,8 +13,16 @@ public class GameState implements IGameState
 	
 	public GameState(IEnvironment environment, IOperationsSpeeds speeds)
 	{
-		this.environment = environment;
+		
 		this.speeds = speeds;
+		if(environment != null){
+			this.environment = environment;
+			this.pool = new EntityPool(environment);
+		}
+	}
+	@Override
+	public void setEnvironment(IEnvironment environment){
+		this.environment = environment;
 		this.pool = new EntityPool(environment);
 	}
 	

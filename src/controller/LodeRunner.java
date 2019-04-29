@@ -18,10 +18,33 @@ import view.HumanPlayerGamePanel;
 
 public class LodeRunner extends JFrame
 {
+	/*public void launchGame(IEditableEnvironment editable, GameFrame gf) throws Exception{
+		if(!editable.isPlayable())
+			throw new Exception("The loaded environment is not playable");
+	
+		IEnvironment environment = new Environment(editable.produce());
+		IGameState state = new GameState(environment, OperationsSpeeds.default_speeds);
+	
+		IHumanPlayerEngine engine = new HumanPlayerEngine(state);
+		HumanPlayerGamePanel panel = new HumanPlayerGamePanel(engine);
+		
+		gf.startGame(engine, panel);
+		long player_move_speed = state.getSpeeds().get(PlayerCommandType.LEFT);
+		// means player move speed last 500 ms
+		TimeConverter converter = new TimeConverter(player_move_speed, 200000000);
+		
+		Thread tick_thread = new Thread(new GameRunner(engine, panel, converter));
+		
+		tick_thread.start();
+		
+		tick_thread.join();
+		
+	}*/
 	public static void main(String[] args)
 	{
 		try
 		{
+			
 			if(args.length != 1)
 				throw new Exception("Expected file_path argument");
 			
@@ -32,26 +55,29 @@ public class LodeRunner extends JFrame
 			if(!editable.isPlayable())
 				throw new Exception("The loaded environment is not playable");
 			
-			IEnvironment environment = new Environment(editable.produce());
-			IGameState state = new GameState(environment, OperationsSpeeds.default_speeds);
+			IEnvironment environment = new Environment(null);
+			IGameState state = new GameState(null, OperationsSpeeds.default_speeds);
 
 			IHumanPlayerEngine engine = new HumanPlayerEngine(state);
-			HumanPlayerGamePanel panel = new HumanPlayerGamePanel(engine);
+			//HumanPlayerGamePanel panel = new HumanPlayerGamePanel(engine);
 			
-			GameFrame frame = new GameFrame();
-			//frame.startGame(engine, panel);	//uncomment this line for playing and not editing ( only for debug of course )	
+			
+			
 			
 			long player_move_speed = state.getSpeeds().get(PlayerCommandType.LEFT);
 			// means player move speed last 500 ms
 			TimeConverter converter = new TimeConverter(player_move_speed, 200000000);
+			GameRunner gr = new GameRunner(engine, converter);
 			
-			Thread tick_thread = new Thread(new GameRunner(engine, panel, converter));
+			Thread tick_thread = new Thread(gr);
+			GameFrame frame = new GameFrame(engine, gr);
+			frame.startSelection();
+			//frame.startGame(engine, panel);	//uncomment this line for playing and not editing ( only for debug of course )
+			tick_thread.start();   //uncomment this line for playing and not editing ( only for debug of course )
 			
-			//tick_thread.start();   //uncomment this line for playing and not editing ( only for debug of course )
+			tick_thread.join();   //uncomment this line for playing and not editing ( only for debug of course )
 			
-			//tick_thread.join();   //uncomment this line for playing and not editing ( only for debug of course )
-			
-			frame.startEdit(engine);//comment this line for playing and not editing ( only for debug of course )
+			//frame.startEdit(engine);//comment this line for playing and not editing ( only for debug of course )
 			
 			// TODO ask to exit the game
 			

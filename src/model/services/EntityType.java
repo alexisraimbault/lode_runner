@@ -5,7 +5,6 @@ public enum EntityType
 	PLAYER,
 	GUARD,
 	FANTOM,
-
 	TREASURE,
 	TELEPORTER;
 	

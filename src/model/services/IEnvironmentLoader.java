@@ -30,4 +30,6 @@ public interface IEnvironmentLoader
 	 * 	false
 	 */
 	public IEditableEnvironment loadFromFile(String file_path) throws IOException;
+	
+	public void uploadToFile(String file_path, IEditableEnvironment environment) throws IOException;
 }
