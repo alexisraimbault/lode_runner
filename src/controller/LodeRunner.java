@@ -12,6 +12,7 @@ public class LodeRunner extends JFrame
 		try
 		{
 			GameFrame frame = new GameFrame();
+			frame.startSelection();
 		}
 		catch (Exception e)
 		{
