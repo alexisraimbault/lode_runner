@@ -61,7 +61,7 @@ public class GameFrame extends JFrame
 	    this.setLocationRelativeTo(null);
 	    this.setVisible(true);
 	    
-	    startEdit(new EditableEnvironment(new DynamicScreen()));
+	    //startEdit(new EditableEnvironment(new DynamicScreen()));
 	}
 	
 	public void startEdit(IEditableEnvironment editable) throws Exception
@@ -99,7 +99,8 @@ public class GameFrame extends JFrame
 		TimeConverter converter = getDefaultConverter(engine);
 		
 		HumanPlayerGamePanel panel = new HumanPlayerGamePanel(engine);
-		
+		/*GameRunner gr = new GameRunner(engine, panel, converter);
+		Thread th = new Thread(gr);*/
 		if(k != null)
 			this.removeKeyListener(k);
 
@@ -108,5 +109,6 @@ public class GameFrame extends JFrame
 	    this.pack();
 	    this.k = new GameKeyListener(engine, panel, converter);
 	    this.addKeyListener(k);
+	    //gr.run();
 	}
 }

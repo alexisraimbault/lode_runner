@@ -29,7 +29,7 @@ public class GameRunner implements Runnable
 	{
 		long elapsed_nano = 0;
 		int k = 0;
-		
+		System.out.println("testGameRunner");
 		while(engine.getStatus() == Status.PAUSE)
 		{
 			try {
@@ -38,6 +38,7 @@ public class GameRunner implements Runnable
 				e.printStackTrace();
 			}
 		}
+		System.out.println("testGameRunnerPlay");
 		while(gameContinues(engine))
 		{
 			if(elapsed_nano > engine_nano_time_precision)

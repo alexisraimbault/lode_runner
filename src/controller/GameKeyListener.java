@@ -37,7 +37,7 @@ public class GameKeyListener implements KeyListener
     @Override
     public void keyPressed(KeyEvent ke)
     {
-        //System.out.println(KeyEvent.getKeyText(ke.getKeyCode()));
+        System.out.println(KeyEvent.getKeyText(ke.getKeyCode()));
     	
         PlayerCommandType command = null;
         
@@ -63,8 +63,10 @@ public class GameKeyListener implements KeyListener
         	command = PlayerCommandType.DIGRIGHT;
         	break;
         case ' ':
+        	
         	if(tick_thread == null)
         	{
+        		engine.start();
         		tick_thread = new Thread(new GameRunner(engine, panel, converter));
         		tick_thread.start();
         	}
