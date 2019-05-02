@@ -11,7 +11,7 @@ public class AbstractOperatingEntityContract<OperationType extends Enum<Operatio
 	}
 
 	public void checkInvariant() {
-		
+		//TODO
 	}
 
 }

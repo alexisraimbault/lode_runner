@@ -6,7 +6,7 @@ import model.services.ISummoner;
 public class AbstractSummonerDecorator <Entity extends IEntity> implements ISummoner<Entity>
 {
 	
-	ISummoner<Entity> delegate;
+	protected ISummoner<Entity> delegate;
 	
 	public AbstractSummonerDecorator(ISummoner<Entity> d ){
 		delegate = d;
