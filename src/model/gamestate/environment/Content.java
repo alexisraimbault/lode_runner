@@ -38,14 +38,13 @@ public class Content implements IContent
 	}
 
 	@Override
-	public boolean add(EntityType type)
+	public void add(EntityType type)
 	{
 		add(type, 1);
-		return true;
 	}
 
 	@Override
-	public int add(EntityType type, int occ)
+	public void add(EntityType type, int occ)
 	{
 		int before = map.get(type);
 		int after = before + occ;
@@ -54,28 +53,24 @@ public class Content implements IContent
 			nb_characters += diff;
 		nb_elem += diff;
 		map.put(type, after);
-		return before;
 	}
 
 	@Override
-	public boolean remove(EntityType type)
+	public void remove(EntityType type)
 	{
-		int before = remove(type, 1);
-		return before >= 1;
+		remove(type, 1);
 	}
 
 	@Override
-	public int remove(EntityType type, int occ)
+	public void remove(EntityType type, int occ)
 	{
 		int before = map.get(type);
 		int after = before - occ;
-		after = after < 0 ? 0 : after;
 		int diff = before - after;
 		if(type.isCharacter())
 			nb_characters -= diff;
 		nb_elem -= diff;
 		map.put(type, after);
-		return before;
 	}
 	@Override
 	public int counts(EntityType type)

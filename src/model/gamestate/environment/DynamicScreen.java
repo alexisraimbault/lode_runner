@@ -3,9 +3,23 @@ package model.gamestate.environment;
 import model.services.IDynamicScreen;
 import model.services.Nature;
 
-public class DynamicScreen extends DynamicSize implements IDynamicScreen
+public class DynamicScreen implements IDynamicScreen
 {
 	private Nature[][] natures;
+	private int width = 0;
+	private int height = 0;
+
+	@Override
+	public int getWidth()
+	{
+		return width;
+	}
+
+	@Override
+	public int getHeight()
+	{
+		return height;
+	}
 	
 	public DynamicScreen()
 	{
@@ -47,7 +61,8 @@ public class DynamicScreen extends DynamicSize implements IDynamicScreen
 		
 		this.natures = natures;
 		
-		super.resize(width, height);
+		this.width = width;
+		this.height = height;
 	}
 	
 	

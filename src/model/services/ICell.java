@@ -3,6 +3,7 @@ package model.services;
 public interface ICell
 {
 	public IEnvironment getEnvironment();
+	
 	public int getX();
 	public int getY();
 	
