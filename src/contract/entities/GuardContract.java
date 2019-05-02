@@ -10,4 +10,8 @@ public class GuardContract extends GuardDecorator{
 		// TODO Auto-generated constructor stub
 	}
 
+	public void checkInvariant() {
+		
+	}
+
 }

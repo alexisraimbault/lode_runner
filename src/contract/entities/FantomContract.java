@@ -10,4 +10,8 @@ public class FantomContract extends FantomDecorator{
 		// TODO Auto-generated constructor stub
 	}
 
+	public void checkInvariant() {
+		
+	}
+
 }

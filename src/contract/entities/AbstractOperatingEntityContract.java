@@ -10,4 +10,8 @@ public class AbstractOperatingEntityContract<OperationType extends Enum<Operatio
 		// TODO Auto-generated constructor stub
 	}
 
+	public void checkInvariant() {
+		
+	}
+
 }

@@ -10,4 +10,8 @@ public class GuardSummonerContract extends GuardSummonerDecorator{
 		// TODO Auto-generated constructor stub
 	}
 
+	public void checkInvariant() {
+		
+	}
+
 }

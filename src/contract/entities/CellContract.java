@@ -9,5 +9,9 @@ public class CellContract extends CellDecorator{
 		super(d);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void checkInvariant() {
+		
+	}
 
 }

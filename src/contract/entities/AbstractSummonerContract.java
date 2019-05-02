@@ -11,4 +11,8 @@ public class AbstractSummonerContract<Entity extends IEntity> extends AbstractSu
 		// TODO Auto-generated constructor stub
 	}
 
+	public void checkInvariant() {
+		
+	}
+
 }

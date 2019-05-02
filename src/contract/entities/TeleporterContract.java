@@ -10,4 +10,8 @@ public class TeleporterContract extends TeleporterDecorator{
 		// TODO Auto-generated constructor stub
 	}
 
+	public void checkInvariant() {
+		
+	}
+
 }

@@ -9,5 +9,9 @@ public class AbstractItemContract extends AbstractItemDecorator {
 		super(d);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void checkInvariant() {
+		
+	}
 
 }

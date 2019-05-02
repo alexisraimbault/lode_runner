@@ -10,4 +10,8 @@ public class PlayerContract extends PlayerDecorator{
 		// TODO Auto-generated constructor stub
 	}
 
+	public void checkInvariant() {
+		
+	}
+
 }

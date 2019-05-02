@@ -10,4 +10,8 @@ public class TreasureContract extends TreasureDecorator{
 		// TODO Auto-generated constructor stub
 	}
 
+	public void checkInvariant() {
+		
+	}
+
 }

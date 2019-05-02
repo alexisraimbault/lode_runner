@@ -10,4 +10,8 @@ public class AbstractEntityContract extends AbstractEntityDecorator{
 		super(d);
 	}
 	
+	public void checkInvariant() {
+		
+	}
+	
 }
