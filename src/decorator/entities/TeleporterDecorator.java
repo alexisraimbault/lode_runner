@@ -1,14 +1,13 @@
 package decorator.entities;
 
-import model.gamestate.entities.Teleporter;
 import model.services.ICell;
 import model.services.ITeleporter;
 
 public class TeleporterDecorator implements ITeleporter
 {
-	Teleporter delegate;
+	ITeleporter delegate;
 	
-	public TeleporterDecorator(Teleporter d){
+	public TeleporterDecorator(ITeleporter d){
 		delegate = d;
 	}
 

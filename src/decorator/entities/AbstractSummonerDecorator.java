@@ -1,15 +1,14 @@
 package decorator.entities;
 
-import model.gamestate.entities.AbstractSummoner;
 import model.services.IEntity;
 import model.services.ISummoner;
 
 public class AbstractSummonerDecorator <Entity extends IEntity> implements ISummoner<Entity>
 {
 	
-	AbstractSummoner delegate;
+	ISummoner<Entity> delegate;
 	
-	public AbstractSummonerDecorator(AbstractSummoner d ){
+	public AbstractSummonerDecorator(ISummoner<Entity> d ){
 		delegate = d;
 	}
 
@@ -22,7 +21,7 @@ public class AbstractSummonerDecorator <Entity extends IEntity> implements ISumm
 	}
 
 	public void respawn(IEntity instance) {
-		delegate.respawn(instance);
+		delegate.respawn((Entity) instance);
 	}
 
 	public void destroy() {

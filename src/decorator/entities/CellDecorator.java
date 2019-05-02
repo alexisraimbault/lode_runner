@@ -1,6 +1,5 @@
 package decorator.entities;
 
-import model.gamestate.entities.Cell;
 import model.services.ICell;
 import model.services.IContent;
 import model.services.IEnvironment;
@@ -8,9 +7,9 @@ import model.services.Nature;
 
 public class CellDecorator implements ICell
 {
-	Cell delegate;
+	ICell delegate;
 	
-	public CellDecorator(Cell d){
+	public CellDecorator(ICell d){
 		delegate = d;
 	}
 

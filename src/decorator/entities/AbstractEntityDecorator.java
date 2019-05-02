@@ -1,6 +1,5 @@
 package decorator.entities;
 
-import model.gamestate.entities.AbstractEntity;
 import model.services.EntityType;
 import model.services.ICell;
 import model.services.IContent;
@@ -10,9 +9,9 @@ import model.services.Nature;
 
 public class AbstractEntityDecorator implements IEntity
 {
-	AbstractEntity delegate;
+	IEntity delegate;
 	
-	public AbstractEntityDecorator(AbstractEntity d) {
+	public AbstractEntityDecorator(IEntity d) {
 		delegate = d;
 	}
 

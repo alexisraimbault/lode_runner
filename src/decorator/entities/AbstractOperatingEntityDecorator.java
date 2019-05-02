@@ -1,6 +1,5 @@
 package decorator.entities;
 
-import model.gamestate.entities.AbstractOperatingEntity;
 import model.services.IExecutedCharacterOperation;
 import model.services.IExecutedOperation;
 import model.services.IOperationEntity;
@@ -8,7 +7,7 @@ import model.services.IOperationEntity;
 public class AbstractOperatingEntityDecorator<OperationType extends Enum<OperationType>> extends AbstractEntityDecorator implements IOperationEntity<OperationType>
 {
 
-	public AbstractOperatingEntityDecorator(AbstractOperatingEntity d) {
+	public AbstractOperatingEntityDecorator(IOperationEntity<OperationType> d) {
 		super(d);
 	}
 

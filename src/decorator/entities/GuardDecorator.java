@@ -1,13 +1,12 @@
 package decorator.entities;
 
-import model.gamestate.entities.Guard;
 import model.services.GuardCommandType;
 import model.services.IGuard;
 
 public class GuardDecorator extends AbstractOperatingEntityDecorator<GuardCommandType> implements IGuard
 {
 
-	public GuardDecorator(Guard d) {
+	public GuardDecorator(IGuard d) {
 		super(d);
 	}
 

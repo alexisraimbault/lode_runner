@@ -1,6 +1,5 @@
 package decorator.entities;
 
-import model.gamestate.entities.PlayerSummoner;
 import model.services.ICell;
 import model.services.IItem;
 import model.services.IPlayer;
@@ -10,7 +9,7 @@ import model.services.ISummoner;
 public class PlayerSummonerDecorator extends AbstractSummonerDecorator<IPlayer> implements IPlayerSummoner
 {
 
-	public PlayerSummonerDecorator(PlayerSummoner d) {
+	public PlayerSummonerDecorator(IPlayerSummoner d) {
 		super(d);
 	}
 
