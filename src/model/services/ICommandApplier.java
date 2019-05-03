@@ -7,5 +7,9 @@ public interface ICommandApplier
 
 	public ICommandAccepter<Entity, CommandType> getAccepter();
 	
+	/*
+	 * pre:
+	 * 	getAccepter().accept(type, entity)
+	 */
 	public void apply(CommandType type, Entity entity);
 }
