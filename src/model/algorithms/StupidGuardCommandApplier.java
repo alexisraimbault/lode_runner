@@ -28,7 +28,7 @@ public class StupidGuardCommandApplier implements IStupidGuardCommandApplier
 	}
 
 	@Override
-	public ICommandAccepter<IGuard, GuardCommandType> getAccepter()
+	public IStupidGuardCommandAccepter getAccepter()
 	{
 		return accepter;
 	}

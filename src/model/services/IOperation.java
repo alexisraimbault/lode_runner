@@ -6,7 +6,7 @@ public interface IOperation
 	
 	/*
 	 * invariants:
-	 * 	getOperationType() const
+	 * 	getOperationTime() > 0
 	 * 	getOperationTime() const
 	 */
 }

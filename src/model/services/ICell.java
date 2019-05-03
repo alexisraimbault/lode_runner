@@ -12,7 +12,7 @@ public interface ICell
 	
 	/*
 	 * post:
-	 * 	equals(other) = getX() = other.getX() && getY() = other.getY() && getEnvironment() == other.getEnvironment()
+	 * 	@result = (getX() == other.getX() && getY() == other.getY() && getEnvironment() == other.getEnvironment())
 	 */
 	public boolean equals(ICell other);
 	

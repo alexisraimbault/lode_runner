@@ -7,6 +7,9 @@ public interface IDecision
 	public ICommandAccepter<Entity, CommandType> getAccepter();
 	
 	/*
+	 * pre:
+	 * 	!getAccepter().accept(entity).isEmpty()
+	 * 
 	 * post:
 	 * 	getAccepter().accept(entity).contains(getCommand(entity))
 	 */

@@ -25,9 +25,6 @@ public interface IEnvironmentLoader
 	 * 	P : PLAYER
 	 * 	G : GUARD
 	 * 	T : TREASURE
-	 * 
-	 * post:
-	 * 	false
 	 */
 	public IEditableEnvironment loadFromFile(String file_path) throws IOException;
 	

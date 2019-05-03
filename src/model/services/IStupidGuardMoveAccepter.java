@@ -1,6 +1,6 @@
 package model.services;
 
-public interface IStupidGuardMoveAccepter extends ICharacterMoveAccepter<IGuard>
+public interface IStupidGuardMoveAccepter extends ICommandAccepter<IGuard, MoveType>
 {
 
 }

@@ -16,6 +16,7 @@ import model.gamestate.entities.Guard;
 import model.gamestate.operations.ExecutedCharacterOperation;
 import model.algorithms.AStarCalculator;
 import model.algorithms.StupidGuardDecision;
+import model.algorithms.TestingStupidGuardDecision;
 import model.algorithms.GuardCommandAccepter;
 import model.services.EntityType;
 import model.services.GuardCommandType;
@@ -33,7 +34,7 @@ import model.services.IOperationsSpeeds;
 import model.services.IPlayer;
 import model.services.IPlayerCommandAccepter;
 import model.services.IPlayerCommandApplier;
-import model.services.IStupidGuardDecision;
+import model.services.ITestingStupidGuardDecision;
 import model.services.ISummonerPool;
 import model.services.ITreasureSummoner;
 import model.services.MoveType;
@@ -53,8 +54,6 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 	private IGuardCommandApplier guard_command_applier;
 	
 	private PlayerCommandType player_command_type;
-	
-	private IStupidGuardDecision guard_decision;
 
 	// data for better complexity
 	private List<IGuardSummoner> to_trap_guards;
@@ -72,11 +71,6 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		this.guard_command_applier = new GuardCommandApplier();
 		
 		this.player_command_type = null;
-		
-		this.guard_decision = new StupidGuardDecision(
-				new AStarCalculator<>(), // shortest path calculator used
-				new StupidGuardCommandApplier(), // way to find a path (ignores characters, and ignores holes (can walk on them and go throw) and characters)
-				new RandomDecision<IGuard, GuardCommandType>(guard_command_accepter)); // alternative decision when no path found
 		
 		this.to_trap_guards = new ArrayList<>();
 		this.start_moving_guards = new ArrayList<>();
@@ -350,10 +344,11 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 				IPlayerSummoner splayer = state.getPool().getPlayerSummoner();
 				if(splayer.hasInstance())
 				{
-					guard_decision.setTarget(splayer.getInstance());
-					GuardCommandType guard_command_type = guard_decision.getCommand(guard);
-					if(guard_command_type != null) // includes falling
+					Set<GuardCommandType> accepted = guard_command_accepter.accept(guard);
+					if(!accepted.isEmpty())
 					{
+						ITestingStupidGuardDecision guard_decision = new TestingStupidGuardDecision(splayer.getInstance());
+						GuardCommandType guard_command_type = guard_decision.getCommand(guard);
 						computeBeginCommand(guard, guard_command_type);
 						start_moving_guards.add(sguard);
 					}

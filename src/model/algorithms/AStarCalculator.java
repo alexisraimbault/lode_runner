@@ -8,16 +8,18 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
-import model.services.MoveType;
 import model.gamestate.entities.Cell;
+import model.services.IAStarCalculator;
 import model.services.IAStarNode;
 import model.services.ICell;
 import model.services.ICharacter;
 import model.services.ICommandAccepter;
 import model.services.ICommandApplier;
-import model.services.IShortestPathCalculator;
 
-public class AStarCalculator<Character extends ICharacter, CommandType extends Enum<CommandType>> implements IShortestPathCalculator<Character, CommandType>
+public class AStarCalculator<
+	Character extends ICharacter, 
+	CommandType extends Enum<CommandType>> 
+		implements IAStarCalculator<Character, CommandType>
 {
 	class Node implements IAStarNode<CommandType>
 	{
@@ -56,7 +58,7 @@ public class AStarCalculator<Character extends ICharacter, CommandType extends E
 		public int getHeuristic()
 		{
 			int dist = Math.abs(target.getX() - cell.getX()) + Math.abs(target.getY() - cell.getY());
-			if(cell.getContent().nbCharacters() > 0)
+			if(cell.getContent().nbCharacters() > 1)
 				return dist + 30;
 			else if(cell.getContent().nbItems() > 0)
 			{
@@ -106,6 +108,12 @@ public class AStarCalculator<Character extends ICharacter, CommandType extends E
 		public CommandType getCommandType()
 		{
 			return type;
+		}
+
+		@Override
+		public ICell getTarget()
+		{
+			return target;
 		}
 	}
 	
@@ -167,10 +175,10 @@ public class AStarCalculator<Character extends ICharacter, CommandType extends E
 				ICell after = new Cell(source.getEnvironment(), source.getX(), source.getY());
 				source.setPosition(before);
 				
-				IAStarNode next_node = new Node(after, target, current.getCost() + 1, current, type);
+				IAStarNode<CommandType> next_node = new Node(after, target, current.getCost() + 1, current, type);
 				boolean found = false;
 				
-				for(IAStarNode node : closed)
+				for(IAStarNode<CommandType> node : closed)
 				{
 					if(compare_better_node.compare(node, next_node) == -1)
 					{
@@ -181,7 +189,7 @@ public class AStarCalculator<Character extends ICharacter, CommandType extends E
 				if(found)
 					continue;
 				
-				for(IAStarNode node : opened)
+				for(IAStarNode<CommandType> node : opened)
 				{
 					if(compare_better_node.compare(node, next_node) == -1)
 					{
