@@ -22,6 +22,7 @@ public class EditableEnvironment implements IEditableEnvironment
 	@Override
 	public boolean isPlayable()
 	{
+		
 		if(!screen.isPlayable())
 			return false;
 		
@@ -65,6 +66,7 @@ public class EditableEnvironment implements IEditableEnvironment
 						}
 					}
 				}
+				
 			}
 		}
 		// + check player can access all treasures

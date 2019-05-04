@@ -65,7 +65,7 @@ public class Content implements IContent
 	public void remove(EntityType type, int occ)
 	{
 		int before = map.get(type);
-		int after = before - occ;
+		int after = Math.max(0,before - occ);
 		int diff = before - after;
 		if(type.isCharacter())
 			nb_characters -= diff;
