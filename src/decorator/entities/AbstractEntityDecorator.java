@@ -9,7 +9,7 @@ import model.services.Nature;
 
 public class AbstractEntityDecorator implements IEntity
 {
-	IEntity delegate;
+	protected IEntity delegate;
 	
 	public AbstractEntityDecorator(IEntity d) {
 		delegate = d;

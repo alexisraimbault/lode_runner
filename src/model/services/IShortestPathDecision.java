@@ -12,7 +12,7 @@ public interface IShortestPathDecision<Character extends ICharacter, CommandType
 	 * post:
 	 * 	!(path == null || path.isEmpty()) => @result = path.get(0)
 	 */
-	CommandType getCommand(Character character);
+	//CommandType getCommand(Character character);
 	
 	/*
 	 * invariants:
