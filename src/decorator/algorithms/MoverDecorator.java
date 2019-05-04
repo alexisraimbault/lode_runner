@@ -6,7 +6,7 @@ import model.services.IMover;
 import model.services.MoveType;
 
 public class MoverDecorator<Character extends ICharacter> implements IMover<Character>{
-	IMover<Character> delegate;
+	protected IMover<Character> delegate;
 	
 	public MoverDecorator(IMover<Character> d) {
 		delegate = d;

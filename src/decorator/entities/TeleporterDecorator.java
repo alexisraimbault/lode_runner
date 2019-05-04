@@ -5,7 +5,7 @@ import model.services.ITeleporter;
 
 public class TeleporterDecorator implements ITeleporter
 {
-	ITeleporter delegate;
+	protected ITeleporter delegate;
 	
 	public TeleporterDecorator(ITeleporter d){
 		delegate = d;

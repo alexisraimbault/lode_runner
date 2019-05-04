@@ -7,7 +7,7 @@ import model.services.Nature;
 
 public class CellDecorator implements ICell
 {
-	ICell delegate;
+	protected ICell delegate;
 	
 	public CellDecorator(ICell d){
 		delegate = d;

@@ -7,7 +7,7 @@ import model.services.IShortestPathCalculator;
 import model.services.IShortestPathDecision;
 
 public class ShortestPathDecisionDecorator<Character extends ICharacter, CommandType extends Enum<CommandType>> implements IShortestPathDecision<Character, CommandType>{
-	IShortestPathDecision<Character, CommandType> delegate;
+	protected IShortestPathDecision<Character, CommandType> delegate;
 	
 	public ShortestPathDecisionDecorator(IShortestPathDecision<Character, CommandType> d) {
 		delegate = d;

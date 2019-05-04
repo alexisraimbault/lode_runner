@@ -9,7 +9,7 @@ import model.services.IOperationEntity;
 import model.services.Nature;
 
 public class OperationEntityDecorator<OperationType extends Enum<OperationType>> implements IOperationEntity<OperationType>{
-	IOperationEntity<OperationType> delegate;
+	protected IOperationEntity<OperationType> delegate;
 	
 	public OperationEntityDecorator(IOperationEntity<OperationType> d) {
 		delegate = d;
