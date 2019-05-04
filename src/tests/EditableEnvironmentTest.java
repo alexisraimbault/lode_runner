@@ -4,19 +4,22 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
+import contract.contracterr.PreconditionError;
+import contract.environment.EditableEnvironmentContract;
 import model.gamestate.environment.DynamicScreen;
 import model.gamestate.environment.EditableEnvironment;
 import model.services.EntityType;
 import model.services.Nature;
+import model.services.Status;
 
 public class EditableEnvironmentTest {
-	private EditableEnvironment testedEnv;
+	private EditableEnvironmentContract testedEnv;
 	private int width = 20;
 	private int height = 10;
 	
 	@Before
 	public void beforeTests() {
-		testedEnv = new EditableEnvironment(new DynamicScreen());
+		testedEnv = new  EditableEnvironmentContract(new EditableEnvironment(new DynamicScreen()));
 	}
 	
 	@After
@@ -59,7 +62,7 @@ public class EditableEnvironmentTest {
 			testedEnv.setCellNature(i, 0, Nature.METAL);
 		}
 		testedEnv.getCellContent(0, 1).add(EntityType.PLAYER);
-		testedEnv.getCellContent(10, 1).add(EntityType.TREASURE);
+		testedEnv.getCellContent(9, 1).add(EntityType.TREASURE);
 		assertTrue(testedEnv.isPlayable());
 	}
 	
@@ -69,7 +72,7 @@ public class EditableEnvironmentTest {
 		for(int i = 0; i<width; i++){
 			testedEnv.setCellNature(i, 0, Nature.METAL);
 		}
-		testedEnv.getCellContent(10, 5).add(EntityType.PLAYER);
+		testedEnv.getCellContent(9, 5).add(EntityType.PLAYER);
 		testedEnv.getCellContent(0, 1).add(EntityType.TREASURE);
 		assertTrue(testedEnv.isPlayable());
 	}
@@ -80,7 +83,7 @@ public class EditableEnvironmentTest {
 		for(int i = 0; i<width; i++){
 			testedEnv.setCellNature(i, 0, Nature.METAL);
 		}
-		testedEnv.getCellContent(10, 5).add(EntityType.PLAYER);
+		testedEnv.getCellContent(9, 5).add(EntityType.PLAYER);
 		testedEnv.getCellContent(0, 1).add(EntityType.PLAYER);
 		testedEnv.getCellContent(0, 1).add(EntityType.TREASURE);
 		assertFalse(testedEnv.isPlayable());
@@ -116,5 +119,34 @@ public class EditableEnvironmentTest {
 		testedEnv.getCellContent(0, 1).add(EntityType.PLAYER);
 		testedEnv.getCellContent(0, 2).add(EntityType.TREASURE);
 		assertFalse(testedEnv.isPlayable());
+	}
+	
+	@Test
+	public void produceKo () {
+		testedEnv.resize(width, height);
+		try{
+			testedEnv.produce();
+			assertTrue(false);
+		}catch(PreconditionError e) {
+			e.printStackTrace();
+			assertTrue(true);
+		}
+	}
+	
+	@Test
+	public void produceOk () {
+		testedEnv.resize(width, height);
+		for(int i = 0; i<width; i++){
+			testedEnv.setCellNature(i, 0, Nature.METAL);
+		}
+		testedEnv.getCellContent(0, 1).add(EntityType.PLAYER);
+		testedEnv.getCellContent(9, 1).add(EntityType.TREASURE);
+		try{
+			testedEnv.produce();
+			assertTrue(true);
+		}catch(PreconditionError e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 }

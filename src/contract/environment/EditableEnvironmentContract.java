@@ -75,7 +75,7 @@ public class EditableEnvironmentContract extends EditableEnvironmentDecorator{
 		
 		boolean holes = true;
 		for(int x = 0; x < getWidth() ; x++){
-			for(int y = 0; y < getHeight() ; x++){
+			for(int y = 0; y < getHeight() ; y++){
 				if(getCellNature(x, y) == Nature.HOLE)
 					holes = false;
 			}
@@ -83,7 +83,7 @@ public class EditableEnvironmentContract extends EditableEnvironmentDecorator{
 		
 		boolean entities = true;
 		for(int x = 0; x < getWidth() ; x++){
-			for(int y = 0; y < getHeight() ; x++){
+			for(int y = 0; y < getHeight() ; y++){
 				if(getCellContent(x, y).nbCharacters() > 1 || ((getCellNature(x, y) == Nature.PLATFORM || getCellNature(x, y) == Nature.METAL) && !getCellContent(x, y).isEmpty()))//remove when fantoms
 					entities = false;
 			}
@@ -91,7 +91,7 @@ public class EditableEnvironmentContract extends EditableEnvironmentDecorator{
 		
 		boolean treasure = true;
 		for(int x = 0; x < getWidth() ; x++){
-			for(int y = 0; y < getHeight() ; x++){
+			for(int y = 0; y < getHeight() ; y++){
 				if(getCellContent(x, y).contains(EntityType.TREASURE) && !((getCellNature(x, y - 1) == Nature.PLATFORM || getCellNature(x, y - 1) == Nature.METAL) && y>0))
 					treasure = false;
 			}
@@ -99,7 +99,7 @@ public class EditableEnvironmentContract extends EditableEnvironmentDecorator{
 		
 		int player = 0;
 		for(int x = 0; x < getWidth() ; x++){
-			for(int y = 0; y < getHeight() ; x++){
+			for(int y = 0; y < getHeight() ; y++){
 				if(getCellContent(x, y).contains(EntityType.PLAYER))
 					player ++;
 			}
@@ -107,7 +107,7 @@ public class EditableEnvironmentContract extends EditableEnvironmentDecorator{
 		
 		int nb_treasure = 0;
 		for(int x = 0; x < getWidth() ; x++){
-			for(int y = 0; y < getHeight() ; x++){
+			for(int y = 0; y < getHeight() ; y++){
 				if(getCellContent(x, y).contains(EntityType.TREASURE))
 					nb_treasure ++;
 			}

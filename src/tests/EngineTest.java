@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import contract.contracterr.PreconditionError;
+import contract.gameState.EngineContract;
 import model.HumanPlayerEngine;
 import model.gamestate.GameState;
 import model.gamestate.environment.DynamicScreen;
@@ -18,7 +20,7 @@ import model.services.Nature;
 import model.services.Status;
 
 public class EngineTest  {
-	private HumanPlayerEngine engine;
+	private EngineContract engine;
 	private int width = 20;
 	private int height = 10;
 	
@@ -34,7 +36,7 @@ public class EngineTest  {
 		Environment envProduced = new Environment(env.produce());
 		final int nb_lives = 3;
 		IGameState state = new GameState(envProduced, OperationsSpeeds.default_speeds, nb_lives);
-		engine = new HumanPlayerEngine(state);
+		engine = new EngineContract(new HumanPlayerEngine(state));
 	}
 	
 	@After
@@ -42,7 +44,7 @@ public class EngineTest  {
 		engine = null;
 	}
 	
-	//START, STOP
+	//STEP,START, STOP
 	
 	@Test
 	public void init() {
@@ -50,21 +52,66 @@ public class EngineTest  {
 	}
 	
 	@Test
+	public void stepOk () {
+		engine.start();
+		try{
+			engine.step(10);
+			assertTrue(true);
+		}catch(PreconditionError e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		assertTrue(engine.getStatus() == Status.PLAYING);
+	}
+	
+	@Test
+	public void stepEooro () {
+		engine.start();
+		try{
+			engine.step(-10);
+			assertTrue(false);
+		}catch(PreconditionError e) {
+			e.printStackTrace();
+			assertTrue(true);
+		}
+		assertTrue(engine.getStatus() == Status.PLAYING);
+	}
+	
+	@Test
 	public void start1() {
 		engine.start();
+		try{
+			engine.start();
+			assertTrue(false);
+		}catch(PreconditionError e) {
+			e.printStackTrace();
+			assertTrue(true);
+		}
 		assertTrue(engine.getStatus() == Status.PLAYING);
 	}
 	
 	@Test
 	public void start2() {
-		engine.stop();
+		try{
+			engine.stop();
+			assertTrue(false);
+		}catch(PreconditionError e) {
+			e.printStackTrace();
+			assertTrue(true);
+		}
 		engine.start();
 		assertTrue(engine.getStatus() == Status.PLAYING);
 	}
 	
 	@Test
 	public void stop1() {
-		engine.stop();
+		try{
+			engine.stop();
+			assertTrue(false);
+		}catch(PreconditionError e) {
+			e.printStackTrace();
+			assertTrue(true);
+		}
 		assertTrue(engine.getStatus() == Status.PAUSE);
 	}
 	
