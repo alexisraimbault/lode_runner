@@ -10,7 +10,6 @@ import model.gamestate.environment.DynamicScreen;
 import model.gamestate.environment.EditableEnvironment;
 import model.services.EntityType;
 import model.services.Nature;
-import model.services.Status;
 
 public class EditableEnvironmentTest {
 	private EditableEnvironmentContract testedEnv;

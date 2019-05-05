@@ -29,7 +29,7 @@ public class PlayerSummonerContract extends PlayerSummonerDecorator{
 			throw new PreconditionError("in PlayerSummoner -> canCollect : no instance");
 		if(! sitem.hasInstance())
 			throw new PreconditionError("in PlayerSummoner -> canCollect : no item instance");
-		boolean res = canCollect(sitem);
+		boolean res = super.canCollect(sitem);
 		if(!(res == getInstance().getContent().contains(sitem.getInstance().getType())))
 			throw new PostconditionError("in PlayerSummoner -> canCollect : statements canCollect() and getInstance().getContent().contains(sitem.getInstance().getType()) should be the same");
 		return res;
@@ -47,10 +47,12 @@ public class PlayerSummonerContract extends PlayerSummonerDecorator{
 	
 	@Override
 	public <Item extends IItem> void collect(ISummoner<Item> sitem){
+		if(!canCollect(sitem))
+			throw new PreconditionError("in PlayerSummoner -> colect : can't collect item");
 		int coin_score_pre = getCoinScore();
 		int treasure_score_pre = getTreasureScore();
 		EntityType item_type = sitem.getInstance().getType();
-		collect(sitem);
+		super.collect(sitem);
 		if(item_type.equals(EntityType.COIN) && (!(getCoinScore() == coin_score_pre + 1)))
 			throw new PostconditionError("in PlayerSummoner -> colect : coin score didn't increment after coin collection");
 		if(item_type.equals(EntityType.TREASURE) && (!(getTreasureScore() == treasure_score_pre + 1)))
@@ -61,7 +63,7 @@ public class PlayerSummonerContract extends PlayerSummonerDecorator{
 	public void respawn(){
 		if(! hasInstance())
 			throw new PreconditionError("in PlayerSummoner -> respawn : no instance");
-		respawn();
+		super.respawn();
 		if(!(getInstance().equals(getStarter())))
 			throw new PostconditionError("in PlayerSummoner -> respawn : instance should be the same as starter");
 	}
@@ -70,7 +72,7 @@ public class PlayerSummonerContract extends PlayerSummonerDecorator{
 	public boolean wins(int score_to_reach){
 		if(! hasInstance())
 			throw new PreconditionError("in PlayerSummoner -> wins : no instance");
-		boolean res = wins(score_to_reach);
+		boolean res = super.wins(score_to_reach);
 		if(!(getInstance().getY() == getInstance().getEnvironment().getHeight()-1 && getTreasureScore() == score_to_reach))
 			throw new PostconditionError("in PlayerSummoner -> wins : player not in top of the map, or score is not high enough");
 		return res;

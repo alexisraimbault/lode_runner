@@ -34,7 +34,7 @@ public class EngineTest  {
 		env.getCellContent(0, 1).add(EntityType.PLAYER);
 		env.getCellContent(10, 1).add(EntityType.TREASURE);
 		Environment envProduced = new Environment(env.produce());
-		final int nb_lives = 3;
+		int nb_lives = 3;
 		IGameState state = new GameState(envProduced, OperationsSpeeds.default_speeds, nb_lives);
 		engine = new EngineContract(new HumanPlayerEngine(state));
 	}
