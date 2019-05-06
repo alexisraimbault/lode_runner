@@ -2,13 +2,10 @@ package contract.algorithms;
 
 import java.util.Set;
 
-import contract.contracterr.InvariantError;
 import contract.contracterr.PostconditionError;
-import contract.contracterr.PreconditionError;
 import decorator.algorithms.CommandAccepterDecorator;
 import model.services.ICell;
 import model.services.ICommandAccepter;
-import model.services.MoveType;
 
 public class CommandAccepterContract<Cell extends ICell,CommandType extends Enum<CommandType>> extends CommandAccepterDecorator<Cell, CommandType>{
 
@@ -33,7 +30,7 @@ public class CommandAccepterContract<Cell extends ICell,CommandType extends Enum
 		
 		for(CommandType command : res)
 		{
-			if(!(accept(command, cell) == accept(cell).contains(cell)))
+			if(!(accept(command, cell) == super.accept(cell).contains(command)))
 				throw new PostconditionError("CommandAccepterContract -> accept : a command should not be accepted");
 		}
 		

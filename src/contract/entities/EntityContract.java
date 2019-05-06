@@ -43,7 +43,7 @@ public class EntityContract extends EntityDecorator{
 
 	public void checkInvariant() {
 		if(!(getContent().contains(getType())))
-			throw new InvariantError("the content of the entity doesn't contain the entity");
+			throw new InvariantError("the content object of the entity doesn't contain the entity");
 		
 	}
 }
