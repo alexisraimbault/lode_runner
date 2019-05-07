@@ -2,7 +2,6 @@ package contract.entities;
 
 import contract.contracterr.InvariantError;
 import contract.contracterr.PostconditionError;
-import contract.contracterr.PreconditionError;
 import decorator.entities.EntityDecorator;
 import model.services.ICell;
 import model.services.IEntity;
@@ -44,6 +43,5 @@ public class EntityContract extends EntityDecorator{
 	public void checkInvariant() {
 		if(!(getContent().contains(getType())))
 			throw new InvariantError("the content object of the entity doesn't contain the entity");
-		
 	}
 }
