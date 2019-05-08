@@ -16,4 +16,9 @@ public class PlentyAndHoleTester implements IPlentyAndHoleTester
 		return nature == Nature.HOLE || plenty_tester.test(cell);
 	}
 
+	@Override
+	public IPlentyTester getPlenty_tester() {
+		return plenty_tester;
+	}
+
 }

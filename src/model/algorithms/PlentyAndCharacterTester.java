@@ -18,4 +18,8 @@ public class PlentyAndCharacterTester implements IPlentyAndCharacterTester
 		return content.nbCharacters() > 0 || plenty_tester.test(cell);
 	}
 	
+	@Override
+	public IPlentyTester getPlenty_tester() {
+		return plenty_tester;
+	}
 }

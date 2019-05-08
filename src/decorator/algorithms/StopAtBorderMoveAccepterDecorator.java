@@ -3,7 +3,6 @@ package decorator.algorithms;
 import java.util.Set;
 
 import model.services.ICharacter;
-import model.services.IEntity;
 import model.services.IStopAtBorderMoveAccepter;
 import model.services.MoveType;
 
