@@ -1,20 +1,12 @@
 package model.algorithms;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
-
-import model.services.ICommandAccepter;
 import model.services.IFallingMoveAccepter;
-import model.services.IGuard;
 import model.services.IHookingMoveAccepter;
 import model.services.INoPlentyMoveAccepter;
 import model.services.IPlayer;
 import model.services.IPlayerMoveAccepter;
 import model.services.IStopAtBorderMoveAccepter;
 import model.services.IWalkingMoveAccepter;
-import model.services.IWalkingOnCharacterMoveAccepter;
 import model.services.MoveType;
 
 public class PlayerMoveAccepter extends DeducingAccepter<IPlayer, MoveType> implements IPlayerMoveAccepter
@@ -29,6 +21,35 @@ public class PlayerMoveAccepter extends DeducingAccepter<IPlayer, MoveType> impl
 	{
 		super(MoveType.class);
 	}
+	
+	@Override
+	public IStopAtBorderMoveAccepter<IPlayer> getStop_at_border(){
+		return stop_at_border;
+	}
+	
+	@Override
+	public INoPlentyMoveAccepter<IPlayer> getNo_plenty(){
+		return no_plenty;
+	}
+
+	
+	@Override
+	public IHookingMoveAccepter<IPlayer> getHooking(){
+		return hooking;
+	}
+
+	
+	@Override
+	public IWalkingMoveAccepter<IPlayer> getWalking(){
+		return walking;
+	}
+
+	
+	@Override
+	public IFallingMoveAccepter<IPlayer> getFalling(){
+		return falling;
+	}
+
 
 	@Override
 	public boolean accept(MoveType type, IPlayer entity)

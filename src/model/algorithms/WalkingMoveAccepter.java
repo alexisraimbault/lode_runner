@@ -24,6 +24,11 @@ implements IWalkingMoveAccepter<Character>
 	}
 	
 	@Override
+	public Predicate<ICell> getPredicate(){
+		return plenty_predicate;
+	}
+	
+	@Override
 	public boolean accept(MoveType type, Character character)
 	{
 		

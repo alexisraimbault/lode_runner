@@ -14,10 +14,16 @@ public class FallingMoveAccepter<Character extends ICharacter> extends DeducingA
 	
 	private Predicate<ICell> plenty_tester;
 	
+	
 	public FallingMoveAccepter(Predicate<ICell> plenty_tester)
 	{
 		super(MoveType.class);
 		this.plenty_tester = plenty_tester;
+	}
+	
+	@Override
+	public Predicate<ICell> getPlentyTester(){
+		return plenty_tester;
 	}
 	
 	@Override

@@ -7,7 +7,7 @@ import model.services.IHookingMoveAccepter;
 import model.services.MoveType;
 
 public class HookingMoveAccepterDecorator<Character extends ICharacter> implements IHookingMoveAccepter<Character>{
-	IHookingMoveAccepter<Character> delegate;
+	protected IHookingMoveAccepter<Character> delegate;
 	public HookingMoveAccepterDecorator(IHookingMoveAccepter<Character> d){
 		delegate = d;
 	}

@@ -5,12 +5,12 @@ import java.util.function.Predicate;
 
 import model.services.ICell;
 import model.services.ICharacter;
-import model.services.IWalkingMoveAccepter;
+import model.services.IFallingMoveAccepter;
 import model.services.MoveType;
 
-public class WalkingMoveAccepterDecorator<Character extends ICharacter> implements IWalkingMoveAccepter<Character>{
-	protected IWalkingMoveAccepter<Character> delegate;
-	public WalkingMoveAccepterDecorator(IWalkingMoveAccepter<Character> d){
+public class FallingMoveAccepterDecorator<Character extends ICharacter> implements IFallingMoveAccepter<Character>{
+	protected IFallingMoveAccepter<Character> delegate;
+	public FallingMoveAccepterDecorator(IFallingMoveAccepter<Character> d){
 		delegate = d;
 	}
 	public boolean accept(MoveType type, Character cell) {
@@ -19,7 +19,8 @@ public class WalkingMoveAccepterDecorator<Character extends ICharacter> implemen
 	public Set<MoveType> accept(Character cell) {
 		return delegate.accept(cell);
 	}
-	public Predicate<ICell> getPredicate() {
-		return delegate.getPredicate();
+	@Override
+	public Predicate<ICell> getPlentyTester() {
+		return delegate.getPlentyTester();
 	}
 }

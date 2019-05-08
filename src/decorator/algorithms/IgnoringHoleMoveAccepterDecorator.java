@@ -7,7 +7,7 @@ import model.services.IIgnoringHoleMoveAccepter;
 import model.services.MoveType;
 
 public class IgnoringHoleMoveAccepterDecorator<Character extends ICharacter>  implements IIgnoringHoleMoveAccepter<Character>{
-	IIgnoringHoleMoveAccepter<Character> delegate;
+	protected IIgnoringHoleMoveAccepter<Character> delegate;
 	public IgnoringHoleMoveAccepterDecorator(IIgnoringHoleMoveAccepter<Character> d){
 		delegate = d;
 	}

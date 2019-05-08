@@ -1,11 +1,12 @@
 package model.services;
 
-public interface IStopAtBorderMoveAccepter<Entity extends IEntity> extends ICommandAccepter<Entity, MoveType>
+
+public interface IStopAtBorderMoveAccepter<Character extends ICharacter> extends ICommandAccepter<Character, MoveType>
 {
 	/*
 	 * post:
-	 * 	match type
-	 * 		
+	 * 		@result = Cell.hasNext(character, type)
 	 */
-	public boolean accept(MoveType type, Entity entity);
+	public boolean accept(MoveType type, Character entity);
+	
 }

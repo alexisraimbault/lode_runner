@@ -19,6 +19,12 @@ public class NoPlentyMoveAccepter<Character extends ICharacter> extends Deducing
 		super(MoveType.class);
 		this.plenty_tester = plenty_tester;
 	}
+	
+	@Override
+	public Predicate<ICell> getPredicate()
+	{
+		return plenty_tester;
+	}
 
 	@Override
 	public boolean accept(MoveType type, Character character)
