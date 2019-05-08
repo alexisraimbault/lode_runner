@@ -2,10 +2,14 @@ package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import model.gamestate.operations.ExecutedOperation;
@@ -30,6 +34,14 @@ public class HumanPlayerGamePanel extends JPanel
 	private IHumanPlayerEngine engine;
 	private IEnvironment environment;
 	private ISummonerPool pool;
+	private Image ghost;
+	private Image handrail;
+	private Image ladder;
+	private Image metal;
+	private Image platform;
+	private Image player;
+	private Image treasure;
+	private Image bg;
 	private static final int block_size = 50;
 	
 	public HumanPlayerGamePanel(IHumanPlayerEngine engine)
@@ -37,9 +49,23 @@ public class HumanPlayerGamePanel extends JPanel
 		this.engine = engine;
 		this.environment = engine.getState().getEnvironment();
 		this.pool = engine.getState().getPool();
+		try {
+			ghost = ImageIO.read(new File("tiles/ghost.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			handrail = ImageIO.read(new File("tiles/handrail.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			ladder = ImageIO.read(new File("tiles/ladder.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			treasure = ImageIO.read(new File("tiles/treasure.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			metal = ImageIO.read(new File("tiles/metal.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			platform = ImageIO.read(new File("tiles/platform.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			player = ImageIO.read(new File("tiles/player.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			bg = ImageIO.read(new File("tiles/bg.png")).getScaledInstance(block_size*environment.getWidth(), block_size * environment.getHeight(), Image.SCALE_SMOOTH );
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void paintComponent(Graphics g) {
+		g.drawImage(bg,0 , 0 , null);
 		for(int x = 0; x < environment.getWidth(); ++x)
   		{
   			for(int y = 0; y < environment.getHeight(); ++y)
@@ -54,19 +80,23 @@ public class HumanPlayerGamePanel extends JPanel
 		  				g.setColor(Color.black);
 		  				break;
 		  			case METAL:
+		  				g.drawImage(metal, block_size*x , block_size*ry , null);
 		  				g.setColor(Color.gray);
 		  				break;
 		  			case PLATFORM:
+		  				g.drawImage(platform, block_size*x , block_size*ry , null);
 		  				g.setColor(Color.blue);
 		  				break;
 		  			case LADDER:
+		  				g.drawImage(ladder, block_size*x , block_size*ry , null);
 		  				g.setColor(Color.pink);
 		  				break;
 		  			case HANDRAIL:
+		  				g.drawImage(handrail, block_size*x , block_size*ry , null);
 		  				g.setColor(Color.orange);
 		  				break;
 	  			}
-  				g.fillRect(block_size*x, block_size*ry, block_size, block_size);
+  				//g.fillRect(block_size*x, block_size*ry, block_size, block_size);
   			}
   		}
 		g.setColor(Color.yellow);
@@ -74,7 +104,7 @@ public class HumanPlayerGamePanel extends JPanel
 		{
 			int px = block_size * treasure.getX();
 			int py = block_size * (environment.getHeight() - 1 - treasure.getY());
-			g.fillOval(px, py, block_size, block_size);
+			g.drawImage(this.treasure, px, py , null);
 		}
 		
 		for(IGuard guard : pool.getGuards())
@@ -138,7 +168,7 @@ public class HumanPlayerGamePanel extends JPanel
 			}
 		}
 		g.setColor(color);
-		g.fillOval(px, py, block_size, block_size);
+		g.drawImage(this.ghost, px, py , null);
 	}
 	
 	private void drawPlayer(Graphics g, IPlayer player, Color color)
@@ -173,7 +203,7 @@ public class HumanPlayerGamePanel extends JPanel
 			}
 		}
 		g.setColor(color);
-		g.fillOval(px, py, block_size, block_size);
+		g.drawImage(this.player, px, py , null);
 	}
 	
 	/*

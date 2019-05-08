@@ -2,10 +2,13 @@ package view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import controller.EnvironmentLoader;
@@ -36,6 +39,14 @@ public class EditEnvironmentPanel extends JPanel
 	private boolean isActiveSelection = false;
     private int startX, startY, endX, endY;
     private static final int block_size = 50;
+    private Image ghost;
+	private Image handrail;
+	private Image ladder;
+	private Image metal;
+	private Image platform;
+	private Image player;
+	private Image treasure;
+	private Image bg;
     GameFrame gf;
 	public EditEnvironmentPanel(IEditableEnvironment editable, GameFrame gf)
 	{
@@ -69,6 +80,19 @@ public class EditEnvironmentPanel extends JPanel
                 }
             }
         });
+		try {
+			ghost = ImageIO.read(new File("tiles/ghost.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			handrail = ImageIO.read(new File("tiles/handrail.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			ladder = ImageIO.read(new File("tiles/ladder.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			treasure = ImageIO.read(new File("tiles/treasure.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			metal = ImageIO.read(new File("tiles/metal.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			platform = ImageIO.read(new File("tiles/platform.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			player = ImageIO.read(new File("tiles/player.png")).getScaledInstance(block_size, block_size, Image.SCALE_SMOOTH );
+			bg = ImageIO.read(new File("tiles/bg.png")).getScaledInstance(block_size*editable.getWidth(), block_size * editable.getHeight(), Image.SCALE_SMOOTH );
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public IEditableEnvironment getEditable(){
@@ -134,6 +158,7 @@ public class EditEnvironmentPanel extends JPanel
 	}
 	
 	public void paintComponent(Graphics g) {
+		g.drawImage(bg,0 , 0 , null);
 		for(int x = 0; x < editable.getWidth(); ++x)
   		{
   			for(int y = 0; y < editable.getHeight(); ++y)
@@ -148,19 +173,23 @@ public class EditEnvironmentPanel extends JPanel
 		  				g.setColor(Color.black);
 		  				break;
 		  			case METAL:
+		  				g.drawImage(metal, block_size*x , block_size*ry , null);
 		  				g.setColor(Color.gray);
 		  				break;
 		  			case PLATFORM:
+		  				g.drawImage(platform, block_size*x , block_size*ry , null);
 		  				g.setColor(Color.blue);
 		  				break;
 		  			case LADDER:
+		  				g.drawImage(ladder, block_size*x , block_size*ry , null);
 		  				g.setColor(Color.pink);
 		  				break;
 		  			case HANDRAIL:
+		  				g.drawImage(handrail, block_size*x , block_size*ry , null);
 		  				g.setColor(Color.orange);
 		  				break;
 	  			}
-  				g.fillRect(block_size*x, block_size*ry, block_size, block_size);
+  				//g.fillRect(block_size*x, block_size*ry, block_size, block_size);
   				IContent contentCell = editable.getCellContent(x, y);
 				for(EntityType type : EntityType.values())
 				{
@@ -168,13 +197,13 @@ public class EditEnvironmentPanel extends JPanel
 						switch(type)
 						{
 						case PLAYER:
-							g.setColor(Color.white);
+							g.drawImage(this.player, block_size*x, block_size*ry , null);
 							break;
 						case GUARD:
-							g.setColor(Color.red);
+							g.drawImage(this.ghost, block_size*x, block_size*ry , null);
 							break;
 						case TREASURE:
-							g.setColor(Color.yellow);
+							g.drawImage(this.treasure, block_size*x, block_size*ry , null);
 							break;
 						case TELEPORTER:
 							g.setColor(Color.cyan);
@@ -187,7 +216,7 @@ public class EditEnvironmentPanel extends JPanel
 						
 						}
 					}
-					g.fillOval(block_size*x, block_size*ry, block_size, block_size);
+					//g.fillOval(block_size*x, block_size*ry, block_size, block_size);
 				}
   			}
   		}
