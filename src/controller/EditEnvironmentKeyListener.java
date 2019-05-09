@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
@@ -96,7 +97,9 @@ public class EditEnvironmentKeyListener implements KeyListener
         }
         if(ke.getKeyCode() == 16){//SHIFT -> save map
 			try {
-				editionPanel.saveMap("environment_test");
+				File repertoire = new File("maps");
+			    String liste[] = repertoire.list();
+				editionPanel.saveMap("environment_"+liste.length);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
