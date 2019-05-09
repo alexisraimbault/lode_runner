@@ -1,0 +1,12 @@
+27 11
+ H    H          H      H T
+ H    H          HXXXXXXHXX
+ H    H          H      H  
+ H    H          H      H  
+XXXXXXH          H      H  
+ H    H          H      H  
+ H    HXXXXXXXXXXH      H  
+ H    H         PH      H  
+ H    H         XH   G  H  
+XXXXXXXXXXXXXXXXXXXXXXXXXXX
+MMMMMMMMMMMMMMMMMMMMMMMMMMM
