@@ -15,7 +15,6 @@ import model.services.ICell;
 import model.services.ICharacter;
 import model.services.ICommandAccepter;
 import model.services.ICommandApplier;
-import model.services.IHeuristicGetter;
 import model.services.MoveType;
 
 public class AStarCalculator<

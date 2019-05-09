@@ -37,7 +37,7 @@ implements IWalkingMoveAccepter<Character>
 		case LEFT:
 		case RIGHT:
 		{
-			ICell down_cell = Cell.getNext(character, MoveType.DOWN);
+			ICell down_cell = Cell.getNext(character, MoveType.DOWN) ;
 			
 			if(plenty_predicate.test(down_cell))
 				return true;

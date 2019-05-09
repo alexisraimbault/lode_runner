@@ -43,7 +43,7 @@ public class StupidGuardMoveDecision
 	
 	public IRandomGuardMoveDecision getAlternativeDecision()
 	{
-		return (IRandomGuardMoveDecision)super.getAlternativeDecision();
+		return (IRandomGuardMoveDecision )super.getAlternativeDecision();
 	}
 	
 	public IGuardMoveAccepter getAccepter()

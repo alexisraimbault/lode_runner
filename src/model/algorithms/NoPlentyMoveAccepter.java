@@ -29,7 +29,7 @@ public class NoPlentyMoveAccepter<Character extends ICharacter> extends Deducing
 	@Override
 	public boolean accept(MoveType type, Character character)
 	{
-		ICell next_cell = Cell.getNext(character, type);
+		ICell next_cell =Cell.getNext( character, type);
 		
 		if(plenty_tester.test(next_cell))
 			return false;
