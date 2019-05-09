@@ -8,7 +8,7 @@ public class AbstractSummonerContract<Entity extends IEntity> extends AbstractSu
 
 	public AbstractSummonerContract(ISummoner<Entity> d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 
 	public void checkInvariant() {

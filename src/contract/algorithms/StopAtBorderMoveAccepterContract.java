@@ -14,6 +14,7 @@ public class StopAtBorderMoveAccepterContract<Character extends ICharacter> exte
 	public StopAtBorderMoveAccepterContract(IStopAtBorderMoveAccepter<Character> d) {
 		super(d);
 		similiHerit = new CommandAccepterContract<Character,MoveType>(d);
+		checkInvariant();
 	}
 	
 	public Set<MoveType> accept(Character cell){

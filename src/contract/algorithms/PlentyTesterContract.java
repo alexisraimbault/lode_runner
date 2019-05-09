@@ -11,7 +11,7 @@ public class PlentyTesterContract extends PlentyTesterDecorator{
 
 	public PlentyTesterContract(IPlentyTester d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	/**

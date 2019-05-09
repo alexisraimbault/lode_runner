@@ -9,6 +9,7 @@ public class MoverContract<Character extends ICharacter>  extends MoverDecorator
 
 	public MoverContract(IMover<Character> d) {
 		super(d);
+		checkInvariant();
 	}
 
 	public void checkInvariant() {

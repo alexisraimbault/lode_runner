@@ -10,7 +10,7 @@ import model.services.IOperationEntity;
 public class OperationEntityContract<OperationType extends Enum<OperationType>> extends OperationEntityDecorator<OperationType> {
 	public OperationEntityContract(IOperationEntity<OperationType> d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 
 	/*

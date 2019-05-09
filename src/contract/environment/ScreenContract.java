@@ -10,7 +10,7 @@ public class ScreenContract extends ScreenDecorator{
 
 	public ScreenContract(IScreen d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	public int getWidth(){

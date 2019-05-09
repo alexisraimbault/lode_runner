@@ -7,7 +7,7 @@ public class GuardSummonerContract extends GuardSummonerDecorator{
 
 	public GuardSummonerContract(IGuardSummoner d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 
 	public void checkInvariant() {

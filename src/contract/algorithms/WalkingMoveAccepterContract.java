@@ -14,6 +14,7 @@ public class WalkingMoveAccepterContract<Character extends ICharacter> extends W
 	public WalkingMoveAccepterContract(IWalkingMoveAccepter<Character> d) {
 		super(d);
 		similiHerit = new CommandAccepterContract<Character,MoveType>(d);
+		checkInvariant();
 	}
 	
 	public Set<MoveType> accept(Character cell){

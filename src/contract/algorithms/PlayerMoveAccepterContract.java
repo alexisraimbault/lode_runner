@@ -11,6 +11,7 @@ public class PlayerMoveAccepterContract extends PlayerMoveAccepterDecorator{
 
 	public PlayerMoveAccepterContract(IPlayerMoveAccepter d) {
 		super(d);
+		checkInvariant();
 	}
 	
 	/**

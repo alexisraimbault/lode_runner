@@ -14,6 +14,7 @@ public class NoPlentyMoveAccepterContract<Character extends ICharacter> extends 
 	public NoPlentyMoveAccepterContract(INoPlentyMoveAccepter<Character> d) {
 		super(d);
 		similiHerit = new CommandAccepterContract<Character,MoveType>(d);
+		checkInvariant();
 	}
 	
 	public Set<MoveType> accept(Character cell){

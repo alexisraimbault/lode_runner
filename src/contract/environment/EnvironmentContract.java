@@ -1,6 +1,5 @@
 package contract.environment;
 
-import contract.contracterr.InvariantError;
 import contract.contracterr.PreconditionError;
 import decorator.environment.EnvironmentDecorator;
 import model.services.IContent;
@@ -10,6 +9,7 @@ public class EnvironmentContract extends EnvironmentDecorator{
 
 	public EnvironmentContract(IEnvironment d) {
 		super(d);
+		checkInvariant();
 	}
 	
 	public IContent getCellContent(int x, int y){

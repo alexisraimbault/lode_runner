@@ -13,6 +13,7 @@ public class PlayerSummonerContract extends PlayerSummonerDecorator{
 
 	public PlayerSummonerContract(IPlayerSummoner d) {
 		super(d);
+		checkInvariant();
 	}
 
 	public void checkInvariant() {

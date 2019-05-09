@@ -9,7 +9,7 @@ import model.services.IEntity;
 public class CommandApplierContract<Entity extends IEntity,CommandType extends Enum<CommandType>> extends CommandApplierDecorator<Entity, CommandType> {
 	public CommandApplierContract(ICommandApplier<Entity, CommandType> d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	public ICommandAccepter<Entity, CommandType> getAccepter(){

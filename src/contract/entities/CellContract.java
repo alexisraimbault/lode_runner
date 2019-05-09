@@ -8,7 +8,7 @@ public class CellContract extends CellDecorator{
 
 	public CellContract(ICell d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	public void checkInvariant() {

@@ -7,7 +7,7 @@ public class TeleporterContract extends TeleporterDecorator{
 
 	public TeleporterContract(ITeleporter d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 
 	public void checkInvariant() {

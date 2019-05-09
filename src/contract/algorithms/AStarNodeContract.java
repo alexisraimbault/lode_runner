@@ -10,6 +10,7 @@ public class AStarNodeContract<CommandType extends Enum<CommandType>> extends  A
 
 	public AStarNodeContract(IAStarNode<CommandType> d) {
 		super(d);
+		checkInvariant();
 	}
 	
 	

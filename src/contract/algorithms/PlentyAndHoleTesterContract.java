@@ -12,7 +12,7 @@ public class PlentyAndHoleTesterContract extends PlentyAndHoleTesterDecorator{
 
 	public PlentyAndHoleTesterContract(IPlentyAndHoleTester d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	

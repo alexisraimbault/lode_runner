@@ -10,6 +10,7 @@ public class PlentyAndCharacterTesterContract extends PlentyAndCharacterTesterDe
 
 	public PlentyAndCharacterTesterContract(IPlentyAndCharacterTester d) {
 		super(d);
+		checkInvariant();
 	}
 
 	/**

@@ -7,7 +7,7 @@ public class TreasureSummonerContract extends TreasureSummonerDecorator{
 
 	public TreasureSummonerContract(ITreasureSummoner d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 
 	public void checkInvariant() {

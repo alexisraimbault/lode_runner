@@ -12,7 +12,7 @@ public class PlentyAndGuardsTesterContract extends PlentyAndGuardsTesterDecorato
 
 	public PlentyAndGuardsTesterContract(IPlentyAndGuardsTester d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	/**

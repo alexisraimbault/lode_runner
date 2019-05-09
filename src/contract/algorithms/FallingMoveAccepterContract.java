@@ -16,6 +16,7 @@ public class FallingMoveAccepterContract<Character extends ICharacter> extends F
 	public FallingMoveAccepterContract(IFallingMoveAccepter<Character> d) {
 		super(d);
 		similiHerit = new CommandAccepterContract<Character,MoveType>(d);
+		checkInvariant();
 	}
 	
 	public Set<MoveType> accept(Character cell){

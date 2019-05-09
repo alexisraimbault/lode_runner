@@ -7,7 +7,7 @@ public class AbstractOperatingEntityContract<OperationType extends Enum<Operatio
 
 	public AbstractOperatingEntityContract(IOperationEntity<OperationType> d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 
 	public void checkInvariant() {

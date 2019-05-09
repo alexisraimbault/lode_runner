@@ -11,6 +11,7 @@ public class DecisionContract <Entity extends IEntity,CommandType extends Enum<C
 
 	public DecisionContract(IDecision<Entity, CommandType> d) {
 		super(d);
+		checkInvariant();
 	}
 	
 	public ICommandAccepter<Entity, CommandType> getAccepter(){

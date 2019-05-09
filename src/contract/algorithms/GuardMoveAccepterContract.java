@@ -13,6 +13,7 @@ public class GuardMoveAccepterContract extends GuardMoveAccepterDecorator{
 
 	public GuardMoveAccepterContract(IGuardMoveAccepter d) {
 		super(d);
+		checkInvariant();
 	}
 	
 	/**

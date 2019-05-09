@@ -10,7 +10,7 @@ public class EntityContract extends EntityDecorator{
 
 	public EntityContract(IEntity d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	public void setPosition(ICell cell){

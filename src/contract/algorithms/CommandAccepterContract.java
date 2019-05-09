@@ -11,7 +11,7 @@ public class CommandAccepterContract<Cell extends ICell,CommandType extends Enum
 
 	public CommandAccepterContract(ICommandAccepter<Cell, CommandType> d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	

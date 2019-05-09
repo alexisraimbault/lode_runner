@@ -9,6 +9,7 @@ public class AbstractEntityContract extends AbstractEntityDecorator{
 
 	public AbstractEntityContract(IEntity d) {
 		super(d);
+		checkInvariant();
 	}
 	
 	public void checkInvariant() {

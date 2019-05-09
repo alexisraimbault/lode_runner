@@ -12,7 +12,7 @@ public class EditableEnvironmentContract extends EditableEnvironmentDecorator{
 
 	public EditableEnvironmentContract(IEditableEnvironment d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	/*

@@ -7,7 +7,7 @@ public class PlayerContract extends PlayerDecorator{
 
 	public PlayerContract(IPlayer d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 
 	public void checkInvariant() {

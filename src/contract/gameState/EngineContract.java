@@ -1,6 +1,5 @@
 package contract.gameState;
 
-import contract.contracterr.InvariantError;
 import contract.contracterr.PreconditionError;
 import decorator.gameState.EngineDecorator;
 import model.services.IEngine;
@@ -10,7 +9,7 @@ public class EngineContract extends EngineDecorator{
 
 	public EngineContract(IEngine d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	/*

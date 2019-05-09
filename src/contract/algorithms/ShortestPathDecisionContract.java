@@ -9,7 +9,7 @@ public class ShortestPathDecisionContract<Character extends ICharacter, CommandT
 
 	public ShortestPathDecisionContract(IShortestPathDecision<Character, CommandType> d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	/*
 	 * post set:

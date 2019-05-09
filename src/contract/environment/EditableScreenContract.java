@@ -11,7 +11,7 @@ public class EditableScreenContract extends EditableScreenDecorator{
 
 	public EditableScreenContract(IEditableScreen d) {
 		super(d);
-		// TODO Auto-generated constructor stub
+		checkInvariant();
 	}
 	
 	/*
