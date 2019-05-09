@@ -25,7 +25,9 @@ public class PlentyAndHoleTesterContract extends PlentyAndHoleTesterDecorator{
 	public boolean test(ICell cell){
 		if(cell.getContent() == null)
 			throw new PreconditionError("cell has no content set");
+		checkInvariant();
 		boolean res = super.test(cell);
+		checkInvariant();
 		if(!(res == ( cell.getNature() == Nature.HOLE || getPlenty_tester().test(cell))))
 			throw new PostconditionError(" res should be equal to cell.getNature() == Nature.HOLE || getPlenty_tester().test(cell) || getPlenty_tester().test(cell))");
 		return res;

@@ -22,7 +22,11 @@ public class EditableEnvironmentContract extends EditableEnvironmentDecorator{
 	public IDynamicEnvironment produce(){
 		if(!isPlayable())
 			throw new PreconditionError("in EditableEnvironment -> produce : editable env not playable");
-		return delegate.produce();
+		checkInvariant();
+
+		IDynamicEnvironment res = super.produce();
+		checkInvariant();
+		return res;
 	}
 	
 	/*
@@ -65,8 +69,9 @@ public class EditableEnvironmentContract extends EditableEnvironmentDecorator{
 	 * 			> 0
 	 */
 	public boolean isPlayable(){
-		boolean res = delegate.isPlayable();
-		
+		checkInvariant();
+		boolean res = super.isPlayable();
+		checkInvariant();
 		boolean metal = true;
 		for(int x = 0; x < getWidth() ; x++){
 			if(getCellNature(x, 0) != Nature.METAL)

@@ -29,7 +29,9 @@ public class GuardContract extends GuardDecorator{
 	public void block(long blocking_time){
 		if(isBlocked())
 			throw new PreconditionError("in Guard -> block : can't block a blocked guard");
-		((GuardDecorator) delegate).block(blocking_time);
+		checkInvariant();
+		super.block(blocking_time);
+		checkInvariant();
 	}
 	
 	/*
@@ -37,9 +39,11 @@ public class GuardContract extends GuardDecorator{
 	 * 	isBlocked()
 	 */
 	public void unblock(){
+		checkInvariant();
 		if(!isBlocked())
 			throw new PreconditionError("in Guard -> unblock : can't unblock a blocked guard that is not blocked");
-		((GuardDecorator) delegate).unblock();
+		super.unblock();
+		checkInvariant();
 	}
 	
 }

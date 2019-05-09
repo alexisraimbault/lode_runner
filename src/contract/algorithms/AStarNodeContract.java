@@ -31,10 +31,13 @@ public class AStarNodeContract<CommandType extends Enum<CommandType>> extends  A
 	 * 			getHeuristic() == distance
 	 */
 	public int getHeuristic(){
+		
 		double distance = Math.sqrt(Math.pow((getCell().getX() - getTarget().getX()), 2) + Math.pow((getCell().getY() - getTarget().getY()), 2)) ;
 		boolean meetingCharacter = getCell().getContent().nbCharacters() > 1;
 		boolean meetingItem = getCell().getContent().nbItems() > 0 ;
-		int res = delegate.getHeuristic();
+		checkInvariant();
+		int res = super.getHeuristic();
+		checkInvariant();
 		if((meetingCharacter && meetingItem && !(getHeuristic() == distance + 30 - 3)))
 			throw new PostconditionError("AStarNode -> getHeuristic :meeting a Character and item but getHeuristic() is not incrementing as espected ( +30 - 3)");
 		if((meetingCharacter && !meetingItem && !(getHeuristic() == distance + 30 )))
@@ -64,7 +67,7 @@ public class AStarNodeContract<CommandType extends Enum<CommandType>> extends  A
 	public CommandType getCommandType(){
 		if(!hasPred())
 			throw new PreconditionError("AStarNode -> getCommandType :should have a predecessor to invoke that method");
-		return delegate.getCommandType();
+		return super.getCommandType();
 	}
 	
 	

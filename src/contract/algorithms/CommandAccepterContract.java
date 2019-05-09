@@ -17,7 +17,10 @@ public class CommandAccepterContract<Cell extends ICell,CommandType extends Enum
 	
 	//TODO
 	public boolean accept(CommandType type, Cell cell){
-		return super.accept(type, cell);
+		checkInvariant();
+		boolean res = super.accept(type, cell);
+		checkInvariant();
+		return res;
 	}
 	
 	/*
@@ -26,8 +29,9 @@ public class CommandAccepterContract<Cell extends ICell,CommandType extends Enum
 	 * 		accept(command, entity) <=> accept(entity).contains(command)
 	 */
 	public Set<CommandType> accept(Cell cell){
+		checkInvariant();
 		Set<CommandType> res = super.accept(cell);
-		
+		checkInvariant();
 		for(CommandType command : res)
 		{
 			if(!(accept(command, cell) == super.accept(cell).contains(command)))

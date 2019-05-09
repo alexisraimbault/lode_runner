@@ -20,7 +20,9 @@ public class EngineContract extends EngineDecorator{
 	public void step(long elapsed){
 		if(!(elapsed >= 0))
 			throw new PreconditionError("EngineContract -> step : cant step with a negative value");
+		checkInvariant();
 		super.step(elapsed);
+		checkInvariant();
 	}
 	
 	/*
@@ -30,7 +32,9 @@ public class EngineContract extends EngineDecorator{
 	public void start(){
 		if(!(	getStatus() == Status.PAUSE))
 			throw new PreconditionError("EngineContract -> start : cant start if not paused");
+		checkInvariant();
 		super.start();
+		checkInvariant();
 	}
 	
 	/*
@@ -40,7 +44,9 @@ public class EngineContract extends EngineDecorator{
 	public void stop(){
 		if(!(	getStatus() == Status.PLAYING))
 			throw new PreconditionError("EngineContract -> stop : cant stop if not playing");
+		checkInvariant();
 		super.stop();
+		checkInvariant();
 	}
 	
 	public void checkInvariant() {

@@ -39,7 +39,9 @@ public class FallingMoveAccepterContract<Character extends ICharacter> extends F
 	 */
 	
 	public boolean accept(MoveType type, Character character){
+		checkInvariant();
 		boolean res = super.accept(type, character);
+		checkInvariant();
 		switch(type)
 		{
 		case LEFT:

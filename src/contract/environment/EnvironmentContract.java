@@ -15,7 +15,10 @@ public class EnvironmentContract extends EnvironmentDecorator{
 	public IContent getCellContent(int x, int y){
 		if(!(0 <= x  && x <= getWidth() - 1 && 0 <= y && y<= getHeight() - 1))
 			throw new PreconditionError("in Environment -> getCellContent : coordinates not in the range of expected coordinates");
-		return delegate.getCellContent(x,y);
+		checkInvariant();
+		IContent res = super.getCellContent(x,y);
+		checkInvariant();
+		return res;
 	}
 	
 	public void checkInvariant() {

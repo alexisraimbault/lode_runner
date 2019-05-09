@@ -31,7 +31,9 @@ public class WalkingMoveAccepterContract<Character extends ICharacter> extends W
 	 * 
 	 */
 	public boolean accept(MoveType type, Character character){
+		checkInvariant();
 		boolean res = super.accept(type, character);
+		checkInvariant();
 		switch(type)
 		{
 		case LEFT:

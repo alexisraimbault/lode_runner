@@ -25,7 +25,10 @@ public class OperationEntityContract<OperationType extends Enum<OperationType>> 
 	public IExecutedCharacterOperation<OperationType> getExecutedOperation(){
 		if( !hasOperation())
 			throw new PreconditionError("in OperationEntity -> IExecutedCharacterOperation : no operation set");
-		return getExecutedOperation();
+		checkInvariant();
+		IExecutedCharacterOperation<OperationType> res = super.getExecutedOperation();
+		checkInvariant();
+		return res;
 	}
 	
 
@@ -34,7 +37,9 @@ public class OperationEntityContract<OperationType extends Enum<OperationType>> 
 			throw new PreconditionError("in OperationEntity -> setExecutedOperation : an operation is already being done");
 		if(!(operation.getElapsedTime() == 0))
 			throw new PreconditionError("in OperationEntity -> setExecutedOperation : the operation to set has an elapsed time not equal to 0");
-		setExecutedOperation( operation);
+		checkInvariant();
+		super.setExecutedOperation( operation);
+		checkInvariant();
 		if(!hasOperation())
 			throw new PostconditionError("in OperationEntity -> setExecutedOperation : should have an operation after setExecutedOperation");
 		if(!(getExecutedOperation() == operation))
@@ -45,7 +50,9 @@ public class OperationEntityContract<OperationType extends Enum<OperationType>> 
 	public void setNoOperation(){
 		if(!(getExecutedOperation().isEnded()))
 			throw new PreconditionError("in OperationEntity -> setNoOperation : the current operation has not ended");
-		setNoOperation();
+		checkInvariant();
+		super.setNoOperation();
+		checkInvariant();
 		if(hasOperation())
 			throw new PostconditionError("in OperationEntity -> setNoOperation : should not have an operation after setNoOperation");
 	}
@@ -53,7 +60,9 @@ public class OperationEntityContract<OperationType extends Enum<OperationType>> 
 	public void update(long elapsed){
 		if(!(elapsed >= 0 && !hasOperation() && getExecutedOperation().isEnded()))
 			throw new PreconditionError("in OperationEntity -> update : cant update with elapsed at the current operation status");
-		update(elapsed);
+		checkInvariant();
+		super.update(elapsed);
+		checkInvariant();
 	}
 	
 	public void checkInvariant() {

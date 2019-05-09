@@ -14,28 +14,36 @@ public class EntityContract extends EntityDecorator{
 	}
 	
 	public void setPosition(ICell cell){
-		delegate.setPosition(cell);
+		checkInvariant();
+		super.setPosition(cell);
+		checkInvariant();
 		if(!(getX() == cell.getX() && getY() == cell.getY()))
 			throw new PostconditionError("in Entity -> setPosition : the set didnt work");
 	}
 	
 
 	public void setPosition(int x, int y){
-		delegate.setPosition(x,y);
+		checkInvariant();
+		super.setPosition(x,y);
+		checkInvariant();
 		if(!(getX() == x && getY() == y))
 			throw new PostconditionError("in Entity -> setPosition : the set didnt work");
 	}
 	
 
 	public void setX(int x){
-		delegate.setX(x);
+		checkInvariant();
+		super.setX(x);
+		checkInvariant();
 		if(!(getX() == x))
 			throw new PostconditionError("in Entity -> setX : the set didnt work");
 	}
 	
 
 	public void setY(int y){
-		delegate.setY(y);
+		checkInvariant();
+		super.setY(y);
+		checkInvariant();
 		if(!(getY() == y))
 			throw new PostconditionError("in Entity -> setY : the set didnt work");
 	}

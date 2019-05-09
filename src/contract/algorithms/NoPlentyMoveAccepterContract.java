@@ -27,7 +27,9 @@ public class NoPlentyMoveAccepterContract<Character extends ICharacter> extends 
 	 */
 	
 	public boolean accept(MoveType type, Character character){
+		checkInvariant();
 		boolean res = super.accept(type, character);
+		checkInvariant();
 		if(getPredicate().test(Cell.getNext(character, type))){
 			if(res)
 				throw new PostconditionError("NoPlentyMoveAccepter -> accept : this move should not be accepted");
@@ -37,5 +39,9 @@ public class NoPlentyMoveAccepterContract<Character extends ICharacter> extends 
 		}
 		
 		return res;
+	}
+	
+	public void checkInvariant(){
+		
 	}
 }

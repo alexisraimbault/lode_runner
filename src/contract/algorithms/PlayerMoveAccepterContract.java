@@ -24,8 +24,9 @@ public class PlayerMoveAccepterContract extends PlayerMoveAccepterDecorator{
 	 */
 	
 	public boolean accept(MoveType type, IPlayer entity){
+		checkInvariant();
 		boolean res = accept(type, entity);
-		
+		checkInvariant();
 		if(!getStop_at_border().accept(type, entity) && res)
 			throw new PostconditionError("PlayerMoveAccepter -> accept : the move should not be accepted considering border collision");
 		
@@ -62,5 +63,7 @@ public class PlayerMoveAccepterContract extends PlayerMoveAccepterDecorator{
 		
 		return res;
 	}
-
+	public void checkInvariant(){
+		
+	}
 }

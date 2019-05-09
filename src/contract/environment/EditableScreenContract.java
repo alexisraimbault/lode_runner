@@ -24,7 +24,10 @@ public class EditableScreenContract extends EditableScreenDecorator{
 	public IDynamicScreen produce(){
 		if(!isPlayable())
 			throw new PreconditionError("in EditableScreen -> produce : editable env not playable");
-		return super.produce();
+		checkInvariant();
+		IDynamicScreen res = super.produce();
+		checkInvariant();
+		return res;
 	}
 	
 	/*
@@ -39,8 +42,9 @@ public class EditableScreenContract extends EditableScreenDecorator{
 	 * 				getCellNature(x, y) != Nature.HOLE
 	 */
 	public boolean isPlayable(){
+		checkInvariant();
 		boolean res = super.isPlayable();
-		
+		checkInvariant();
 		boolean metal = true;
 		for(int x = 0; x < getWidth() ; x++){
 			if(getCellNature(x, 0) != Nature.METAL)

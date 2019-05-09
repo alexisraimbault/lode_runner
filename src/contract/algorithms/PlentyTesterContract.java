@@ -21,7 +21,9 @@ public class PlentyTesterContract extends PlentyTesterDecorator{
 	public boolean test(ICell cell){
 		if(cell.getContent() == null)
 			throw new PreconditionError("cell has no content set");
+		checkInvariant();
 		boolean res = super.test(cell);
+		checkInvariant();
 		if(!(res == (cell.getNature() == Nature.PLATFORM || cell.getNature() == Nature.METAL)))
 			throw new PostconditionError(" res should be equal to cell.getNature() == Nature.PLATFORM || cell.getNature() == Nature.METAL");
 		return res;

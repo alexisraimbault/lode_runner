@@ -25,12 +25,17 @@ public class StopAtBorderMoveAccepterContract<Character extends ICharacter> exte
 	 * 		@result = Cell.hasNext(character, type)
 	 */
 	public boolean accept(MoveType type, Character entity){
+		checkInvariant();
 		boolean res = accept(type, entity);
-		
+		checkInvariant();
 		if(!(res == Cell.hasNext(entity, type)))
 			throw new PostconditionError("StopAtBorderMoveAccepter -> accept : the result of accept is not what it should be");
 		
 		return res;
+	}
+	
+	public void checkInvariant(){
+		
 	}
 
 }

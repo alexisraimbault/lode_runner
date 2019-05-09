@@ -37,8 +37,9 @@ public class HookingMoveAccepterContract<Character extends ICharacter> extends H
 	 * 
 	 */
 	public boolean accept(MoveType type, Character character){
-		
+		checkInvariant();
 		boolean res = super.accept(type, character);
+		checkInvariant();
 		boolean accepted = false;
 		if(character.getNature() == Nature.LADDER){
 			if(!res)

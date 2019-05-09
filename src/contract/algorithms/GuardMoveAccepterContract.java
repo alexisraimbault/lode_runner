@@ -26,8 +26,9 @@ public class GuardMoveAccepterContract extends GuardMoveAccepterDecorator{
 	 */
 	
 	public boolean accept(MoveType type, IGuard entity){
+		checkInvariant();
 		boolean res = accept(type, entity);
-		
+		checkInvariant();
 		if(!getStop_at_border().accept(type, entity) && res)
 			throw new PostconditionError("PlayerMoveAccepter -> accept : the move should not be accepted considering border collision");
 		
@@ -63,6 +64,10 @@ public class GuardMoveAccepterContract extends GuardMoveAccepterDecorator{
 		}
 		
 		return res;
+	}
+	
+	public void checkInvariant(){
+		
 	}
 
 }
