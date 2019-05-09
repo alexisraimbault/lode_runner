@@ -1,5 +1,6 @@
 package contract.gameState;
 
+import contract.contracterr.InitError;
 import contract.contracterr.InvariantError;
 import contract.contracterr.PostconditionError;
 import contract.contracterr.PreconditionError;
@@ -11,12 +12,17 @@ public class OperationEntityContract<OperationType extends Enum<OperationType>> 
 	public OperationEntityContract(IOperationEntity<OperationType> d) {
 		super(d);
 		checkInvariant();
+		checkInit();
 	}
 
 	/*
 	 * init:
 	 * 	!hasOperation()
 	 */
+	public void checkInit(){
+		if( hasOperation())
+			throw new InitError("in OperationEntity : should have no operation set");
+	}
 	
 	public boolean hasOperation(){
 		return hasOperation();
