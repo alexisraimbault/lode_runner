@@ -5,6 +5,8 @@ public interface IAStarCalculator<
 	CommandType extends Enum<CommandType>>
 		extends IShortestPathCalculator<Character, CommandType>
 {
+
+	IAStarNode<CommandType> getTargetNode(Character source, ICell target, ICommandApplier<Character, CommandType> applier);
 	/*
 	 * getPath returns A* path using IAStarNode service
 	 */

@@ -69,11 +69,11 @@ public class OperationEntityContract<OperationType extends Enum<OperationType>> 
 		checkInvariant();
 		super.update(elapsed);
 		checkInvariant();
+		
 	}
-	
+
 	public void checkInvariant() {
 		if(!(hasOperation() == !getExecutedOperation().isEnded()))
 			throw new InvariantError("the current operation status is not according to the operation status");
-		
 	}
 }

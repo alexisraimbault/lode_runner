@@ -9,6 +9,8 @@ public interface IGuard extends IOperationEntity<GuardCommandType>
 	
 	public boolean isBlocked();
 	
+	public boolean isWaiting();
+	
 	/*
 	 * pre:
 	 * 	!isBlocked()
@@ -22,7 +24,19 @@ public interface IGuard extends IOperationEntity<GuardCommandType>
 	public void unblock();
 	
 	/*
+	 * pre:
+	 * 	!isBlocked()
+	 * 	isWaiting()
+	 * 
+	 * post:
+	 * 	!isBlocked()
+	 * 	!isWaiting()
+	 */
+	public void escape();
+	
+	/*
 	 * invariants:
 	 * 	getType() == EntityType.GUARD
+	 * 	isWaiting() => !isBlocked()
 	 */
 }

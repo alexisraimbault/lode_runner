@@ -22,7 +22,7 @@ public class GuardClimber implements IGuardClimber
 	}
 	
 	@Override
-	public ICommandAccepter<IGuard, ClimbType> getAccepter()
+	public IGuardClimbAccepter getAccepter()
 	{
 		return accepter;
 	}

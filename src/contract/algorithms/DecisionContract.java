@@ -15,18 +15,18 @@ public class DecisionContract <Entity extends IEntity,CommandType extends Enum<C
 	}
 	
 	public ICommandAccepter<Entity, CommandType> getAccepter(){
-		return super.getAccepter();
+		return delegate.getAccepter();
 	}
 	
 	public CommandType getCommand(Entity entity){
 		if(getAccepter().accept(entity).isEmpty())
 			throw new PreconditionError("Decision -> getCommand : no command to get, accepter is empty");
 		checkInvariant();
-		CommandType res = super.getCommand(entity);
-		checkInvariant();
+		CommandType res = delegate.getCommand(entity);
 		if(!(getAccepter().accept(entity).contains(getCommand(entity))))
 			throw new PostconditionError("Decision -> getCommand : the command returned is not in the list of acceptable commands");
-		return res;
+
+		checkInvariant();return res;
 	}
 	
 	public void checkInvariant() {

@@ -29,4 +29,13 @@ public interface IHole extends ICell, IExecutedOperation
 	 * 	hasTrappedGuard()
 	 */
 	void trap(IGuardSummoner trapped_guard);
+	
+	/*
+	 * pre:
+	 * 	hasTrappedGuard()
+	 * 
+	 * post:
+	 * 	!hasTrappedGuard()
+	 */
+	void releaseGuard();
 }

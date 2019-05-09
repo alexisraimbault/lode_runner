@@ -1,0 +1,12 @@
+27 11
+G=====       ===========   
+H   X X XXH      H         
+XXXHX            H======== 
+X  H    HXXXXXXX H        X
+X  H    HTTTTTTTTH         
+XXXH====HXXXXXXXXXXXHXXXXXX
+   H           H ===H===== 
+XXHXXXX HXXXXXXX    H     H
+  H     HG          H P   H
+XXXXXXXXXXXXXXXXXXXXXXXXXXX
+MMMMMMMMMMMMMMMMMMMMMMMMMMM

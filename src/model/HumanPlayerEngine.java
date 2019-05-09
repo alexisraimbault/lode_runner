@@ -6,35 +6,38 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import model.algorithms.GuardCommandApplier;
+import model.algorithms.GuardMoveAccepter;
 import model.algorithms.PlayerCommandAccepter;
 import model.algorithms.PlayerCommandApplier;
-import model.algorithms.RandomDecision;
-import model.algorithms.StupidGuardCommandApplier;
+import model.algorithms.StupidGuardClimbDecision;
+import model.algorithms.StupidGuardMoveDecision;
 import model.gamestate.Hole;
 import model.gamestate.entities.Cell;
 import model.gamestate.entities.Guard;
 import model.gamestate.operations.ExecutedCharacterOperation;
-import model.algorithms.AStarCalculator;
-import model.algorithms.StupidGuardDecision;
-import model.algorithms.TestingStupidGuardDecision;
+import model.algorithms.GuardClimbAccepter;
 import model.algorithms.GuardCommandAccepter;
+import model.services.ClimbType;
 import model.services.EntityType;
 import model.services.GuardCommandType;
 import model.services.ICell;
 import model.services.ICoinSummoner;
 import model.services.IPlayerSummoner;
+import model.services.IStupidGuardClimbDecision;
+import model.services.IStupidGuardMoveDecision;
 import model.services.IGameState;
 import model.services.IGuard;
+import model.services.IGuardClimbAccepter;
 import model.services.IGuardCommandAccepter;
 import model.services.IHole;
 import model.services.IGuardCommandApplier;
+import model.services.IGuardMoveAccepter;
 import model.services.IGuardSummoner;
 import model.services.IHumanPlayerEngine;
 import model.services.IOperationsSpeeds;
 import model.services.IPlayer;
 import model.services.IPlayerCommandAccepter;
 import model.services.IPlayerCommandApplier;
-import model.services.ITestingStupidGuardDecision;
 import model.services.ISummonerPool;
 import model.services.ITreasureSummoner;
 import model.services.MoveType;
@@ -50,13 +53,14 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 	private IPlayerCommandAccepter player_command_accepter;
 	private IPlayerCommandApplier player_command_applier;
 	
-	private IGuardCommandAccepter guard_command_accepter;
+	private IGuardMoveAccepter guard_move_accepter;
+	private IGuardClimbAccepter guard_climb_accepter;
 	private IGuardCommandApplier guard_command_applier;
 	
 	private PlayerCommandType player_command_type;
 
 	// data for better complexity
-	private List<IGuardSummoner> to_trap_guards;
+	private List<IGuardSummoner> to_block_guards;
 	private List<IGuardSummoner> start_moving_guards;
 	
 	public HumanPlayerEngine(IGameState state)
@@ -67,12 +71,13 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		this.player_command_accepter = new PlayerCommandAccepter();
 		this.player_command_applier = new PlayerCommandApplier();
 		
-		this.guard_command_accepter = new GuardCommandAccepter();
+		this.guard_move_accepter = new GuardMoveAccepter();
+		this.guard_climb_accepter = new GuardClimbAccepter();
 		this.guard_command_applier = new GuardCommandApplier();
 		
 		this.player_command_type = null;
 		
-		this.to_trap_guards = new ArrayList<>();
+		this.to_block_guards = new ArrayList<>();
 		this.start_moving_guards = new ArrayList<>();
 	}
 	
@@ -95,6 +100,8 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		
 		stepBlockTrappedGuards(); // guards ending their moves in a hole are trapped
 		
+		stepUnblockTrappedGuards(); // guards are unblocked after block duration
+		
 		stepCollect(); // player may collect a treasure or a coin
 		
 		// new operation ..
@@ -114,6 +121,21 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		stepResetTick();
 	}
 	
+	private void stepUnblockTrappedGuards()
+	{
+		for(IGuardSummoner sguard : state.getPool().getGuardSummoners())
+		{
+			if(sguard.hasInstance())
+			{
+				IGuard guard = sguard.getInstance();
+				if(guard.isBlocked() && !guard.hasOperation())
+				{
+					guard.unblock();
+				}
+			}
+		}
+	}
+
 	private void stepResetTick()
 	{
 		start_moving_guards.clear();
@@ -122,7 +144,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 	
 	private void stepBlockTrappedGuards()
 	{
-		ListIterator<IGuardSummoner> psto_trap_guard = to_trap_guards.listIterator();
+		ListIterator<IGuardSummoner> psto_trap_guard = to_block_guards.listIterator();
 		while(psto_trap_guard.hasNext())
 		{
 			IGuardSummoner sto_trap_guard = psto_trap_guard.next();
@@ -209,7 +231,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 		for(IGuardSummoner sguard : start_moving_guards)
 			if(isEnteringHole(sguard.getInstance()))
 			{
-				to_trap_guards.add(sguard);
+				to_block_guards.add(sguard);
 				for(IHole hole : state.getHoles())
 				{
 					if(hole.equals(sguard.getInstance()))
@@ -237,11 +259,6 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 				phole.remove();
 			}
 		}
-	}
-	
-	private boolean hasWinningMove(Set<GuardCommandType> accepted)
-	{
-		return true; // TODO
 	}
 
 	private void stepUpdateOperation(long elapsed)
@@ -342,13 +359,24 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 			if(!guard.hasOperation())
 			{
 				IPlayerSummoner splayer = state.getPool().getPlayerSummoner();
-				if(splayer.hasInstance())
+				
+				if(guard.isWaiting())
 				{
-					Set<GuardCommandType> accepted = guard_command_accepter.accept(guard);
+					Set<ClimbType> accepted = guard_climb_accepter.accept(guard);
 					if(!accepted.isEmpty())
 					{
-						ITestingStupidGuardDecision guard_decision = new TestingStupidGuardDecision(splayer.getInstance());
-						GuardCommandType guard_command_type = guard_decision.getCommand(guard);
+						IStupidGuardClimbDecision decision = new StupidGuardClimbDecision(splayer);
+						GuardCommandType guard_command_type = GuardCommandType.get(decision.getCommand(guard));
+						computeBeginCommand(guard, guard_command_type);
+					}
+				}
+				else if(splayer.hasInstance())
+				{
+					Set<MoveType> accepted = guard_move_accepter.accept(guard);
+					if(!accepted.isEmpty())
+					{
+						IStupidGuardMoveDecision decision = new StupidGuardMoveDecision(splayer.getInstance());
+						GuardCommandType guard_command_type = GuardCommandType.get(decision.getCommand(guard));
 						computeBeginCommand(guard, guard_command_type);
 						start_moving_guards.add(sguard);
 					}
@@ -359,41 +387,51 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 	
 	private void computeBeginCommand(IPlayer player, PlayerCommandType player_command)
 	{
-		IOperationsSpeeds speeds = state.getSpeeds();
-		
 		player_command_applier.apply(player_command, player);
+		
+		long player_command_speed = state.getSpeeds().get(player_command);
+		
+		player.setExecutedOperation(new ExecutedCharacterOperation<>(player_command, player_command_speed));
+
+		long hole_speed = state.getSpeeds().getHoleSpeed();
 		
 		if(player_command.isDigType())
 		{
 			switch(player_command.digType())
 			{
 			case DIGLEFT:
-				state.getHoles().add(new Hole(player.getEnvironment(), player.getX() - 1, player.getY() - 1, speeds.getHoleSpeed()));
+				state.getHoles().add(new Hole(player.getEnvironment(), player.getX() - 1, player.getY() - 1, hole_speed));
 				break;
 			case DIGRIGHT:
-				state.getHoles().add(new Hole(player.getEnvironment(), player.getX() + 1, player.getY() - 1, speeds.getHoleSpeed()));
+				state.getHoles().add(new Hole(player.getEnvironment(), player.getX() + 1, player.getY() - 1, hole_speed));
 				break;
 			default:
 				break;
 			
 			}
 		}
-		
-		player.setExecutedOperation(new ExecutedCharacterOperation<>(player_command, speeds.get(player_command)));
 	}
 	
 	private void computeBeginCommand(IGuard guard, GuardCommandType guard_command)
 	{
-		IOperationsSpeeds speeds = state.getSpeeds();
-		
-		guard_command_applier.apply(guard_command, guard);
-		
 		if(guard_command.isClimbType())
 		{
-			guard.unblock();
+			guard.escape();
+			for(IHole hole : state.getHoles())
+			{
+				if(hole.equals(guard))
+				{
+					hole.releaseGuard();
+					break;
+				}
+			}
 		}
+		guard_command_applier.apply(guard_command, guard);
 		
-		guard.setExecutedOperation(new ExecutedCharacterOperation<>(guard_command, speeds.get(guard_command)));
+		long guard_command_speed = state.getSpeeds().get(guard_command);
+		
+		guard.setExecutedOperation(new ExecutedCharacterOperation<>(guard_command, guard_command_speed));
+		
 	}
 	
 	private void stepCheckCollision()

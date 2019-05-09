@@ -23,9 +23,6 @@ public class GuardClimbAccepterBase extends DeducingAccepter<IGuard, ClimbType> 
 	@Override
 	public boolean accept(ClimbType type, IGuard guard)
 	{
-		if(!guard.isBlocked())
-			return false;
-		
 		if(guard.getY() == guard.getEnvironment().getHeight() - 1)
 			return false;
 		
@@ -48,8 +45,10 @@ public class GuardClimbAccepterBase extends DeducingAccepter<IGuard, ClimbType> 
 			
 			ICell next_cell = Cell.getNext(guard, MoveType.LEFT);
 			
-			if(!plenty_tester.test(next_cell));
+			if(!plenty_tester.test(next_cell))
 				return false;
+			
+			return true;
 		}
 		case CLIMBRIGHT:
 		{
@@ -64,9 +63,10 @@ public class GuardClimbAccepterBase extends DeducingAccepter<IGuard, ClimbType> 
 			
 				ICell next_cell = Cell.getNext(guard, MoveType.RIGHT);
 			
-			if(!plenty_tester.test(next_cell));
+			if(!plenty_tester.test(next_cell))
 				return false;
 			
+			return true;
 		}
 		default:
 			break;

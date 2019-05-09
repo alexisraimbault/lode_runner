@@ -129,37 +129,37 @@ public class HumanPlayerGamePanel extends JPanel
 			switch(operation.getOperationType())
 			{
 			case LEFT:
-				px -= progress * block_size - block_size;
+				px += (1 - progress) * block_size;
 				break;
 			case RIGHT:
-				px += progress * block_size - block_size;
+				px -= (1 - progress) * block_size;
 				break;
 			case DOWN:
-				py += progress * block_size - block_size;
+				py -= (1 - progress) * block_size;
 				break;
 			case UP:
-				py -= progress * block_size - block_size;
+				py += (1 - progress) * block_size;
 				break;
 			case CLIMBLEFT:
 				if(progress > 0.5)
 				{
-					py += block_size - block_size;
-					px -= (progress - 0.5) * block_size - block_size;
+					px -= (1 - (progress - 0.5) * 2) * block_size;
 				}
 				else
 				{
-					py -= progress * block_size - block_size;
+					px -= block_size;
+					py += (1 - progress * 2) * block_size;
 				}
 				break;
 			case CLIMBRIGHT:
 				if(progress > 0.5)
 				{
-					py += block_size - block_size;
-					px += (progress - 0.5) * block_size - block_size;
+					px += (1 - (progress - 0.5) * 2) * block_size;
 				}
 				else
 				{
-					py -= progress * block_size - block_size;
+					px += block_size;
+					py += (1 - progress * 2) * block_size;
 				}
 				break;
 			default:

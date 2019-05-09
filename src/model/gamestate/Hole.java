@@ -72,6 +72,7 @@ public class Hole extends Cell implements IHole
 		return trapped_guard;
 	}
 	
+	@Override
 	public void releaseGuard()
 	{
 		trapped_guard = null;

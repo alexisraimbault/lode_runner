@@ -12,7 +12,7 @@ public class MoverDecorator<Character extends ICharacter> implements IMover<Char
 		delegate = d;
 	}
 
-	public ICommandAccepter getAccepter() {
+	public ICommandAccepter<Character, MoveType> getAccepter() {
 		return delegate.getAccepter();
 	}
 

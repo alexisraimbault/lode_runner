@@ -10,11 +10,13 @@ public class Guard extends AbstractOperatingEntity<GuardCommandType> implements 
 {
 
 	private boolean is_blocked;
+	private boolean is_waiting;
 	
 	public Guard(ICell cell)
 	{
 		super(cell, EntityType.GUARD);
 		this.is_blocked = false;
+		this.is_waiting = false;
 	}
 
 	@Override
@@ -34,6 +36,19 @@ public class Guard extends AbstractOperatingEntity<GuardCommandType> implements 
 	public void unblock()
 	{
 		is_blocked = false;
+		is_waiting = true;
+	}
+
+	@Override
+	public boolean isWaiting()
+	{
+		return is_waiting;
+	}
+
+	@Override
+	public void escape()
+	{
+		is_waiting = false;
 	}
 	
 }

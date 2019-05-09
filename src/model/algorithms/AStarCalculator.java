@@ -15,6 +15,7 @@ import model.services.ICell;
 import model.services.ICharacter;
 import model.services.ICommandAccepter;
 import model.services.ICommandApplier;
+import model.services.MoveType;
 
 public class AStarCalculator<
 	Character extends ICharacter, 
@@ -120,6 +121,17 @@ public class AStarCalculator<
 	@Override
 	public List<CommandType> getPath(Character source, ICell target, ICommandApplier<Character, CommandType> applier)
 	{
+		IAStarNode<CommandType> node = getTargetNode(source, target, applier);
+		if(node == null)
+			return null;
+		else
+			return node.getPath();
+	}
+
+	@Override
+	public IAStarNode<CommandType> getTargetNode(Character source, ICell target,
+			ICommandApplier<Character, CommandType> applier)
+	{
 		Comparator<IAStarNode<CommandType>> compare_better_node = new Comparator<IAStarNode<CommandType>>()
 		{
 			public int compare(IAStarNode<CommandType> n1, IAStarNode<CommandType> n2)
@@ -163,7 +175,7 @@ public class AStarCalculator<
 			if(current.getCell().equals(target))
 			{
 				source.setPosition(start);
-				return current.getPath();
+				return current;
 			}
 			
 			source.setPosition(current.getCell());
