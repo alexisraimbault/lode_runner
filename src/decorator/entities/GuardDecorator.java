@@ -26,4 +26,17 @@ public class GuardDecorator extends AbstractOperatingEntityDecorator<GuardComman
 		((IGuard) delegate).unblock();
 	}
 
+	@Override
+	public boolean isWaiting()
+	{
+		return ((IGuard) delegate).isWaiting();
+	}
+
+	@Override
+	public void escape()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }
