@@ -15,6 +15,7 @@ import model.services.ICell;
 import model.services.ICharacter;
 import model.services.ICommandAccepter;
 import model.services.ICommandApplier;
+import model.services.IHeuristicGetter;
 import model.services.MoveType;
 
 public class AStarCalculator<
@@ -58,18 +59,7 @@ public class AStarCalculator<
 		@Override
 		public int getHeuristic()
 		{
-			int dist = Math.abs(target.getX() - cell.getX()) + Math.abs(target.getY() - cell.getY());
-			if(cell.getContent().nbCharacters() > 1)
-				return dist + 30;
-			else if(cell.getContent().nbItems() > 0)
-			{
-				if(dist - 3 < 0)
-					return 0;
-				else
-					return dist - 3;
-			}
-			else
-				return dist;
+			return getDistance(cell, target);
 		}
 
 		@Override
@@ -118,6 +108,11 @@ public class AStarCalculator<
 		}
 	}
 	
+	private int getDistance(ICell cell, ICell target)
+	{
+		return Math.abs(target.getX() - cell.getX()) + Math.abs(target.getY() - cell.getY());
+	}
+	
 	@Override
 	public List<CommandType> getPath(Character source, ICell target, ICommandApplier<Character, CommandType> applier)
 	{
@@ -126,6 +121,16 @@ public class AStarCalculator<
 			return null;
 		else
 			return node.getPath();
+	}
+	
+	private int getNextCost(int cost, ICell cell)
+	{
+		cost += 4;
+		if(cell.getContent().nbCharacters() > 0)
+			cost += 20;
+		else if(cell.getContent().nbItems() > 0)
+			cost -= 3;
+		return cost;
 	}
 
 	@Override
@@ -186,8 +191,11 @@ public class AStarCalculator<
 				applier.apply(type, source);
 				ICell after = new Cell(source.getEnvironment(), source.getX(), source.getY());
 				source.setPosition(before);
+
+				ICell cell = current.getCell();
+				int cost = current.getCost();
 				
-				IAStarNode<CommandType> next_node = new Node(after, target, current.getCost() + 1, current, type);
+				IAStarNode<CommandType> next_node = new Node(after, target, getNextCost(cost, cell), current, type);
 				boolean found = false;
 				
 				for(IAStarNode<CommandType> node : closed)

@@ -448,7 +448,7 @@ public class HumanPlayerEngine implements IHumanPlayerEngine
 			{
 				if(guard.equals(player))
 				{
-					this.status = Status.LOSS;
+					splayer.destroy();
 					break;
 				}
 			}
