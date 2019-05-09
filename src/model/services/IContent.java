@@ -8,6 +8,9 @@ public interface IContent
 	public int size();
 	public int nbCharacters();
 	public int nbItems();
+	/**
+	 * init : size() == 0
+	 */
 	
 	/*
 	 * add(type) := add(type, 1)

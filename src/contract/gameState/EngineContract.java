@@ -1,5 +1,6 @@
 package contract.gameState;
 
+import contract.contracterr.InitError;
 import contract.contracterr.PreconditionError;
 import decorator.gameState.EngineDecorator;
 import model.services.IEngine;
@@ -10,6 +11,7 @@ public class EngineContract extends EngineDecorator{
 	public EngineContract(IEngine d) {
 		super(d);
 		checkInvariant();
+		checkInit();
 	}
 	
 	/*
@@ -52,4 +54,8 @@ public class EngineContract extends EngineDecorator{
 		
 	}
 
+	public void checkInit(){
+		if(!(getStatus() == Status.PAUSE))
+			throw new InitError("in Engine : status should be PAUSED at init");
+	}
 }

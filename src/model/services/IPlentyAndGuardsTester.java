@@ -11,9 +11,5 @@ public interface IPlentyAndGuardsTester extends Predicate<ICell>
 	 * 
 	 */
 	public boolean test(ICell cell);
-	/*{
-		Nature nature = cell.getNature();
-		IContent content = cell.getContent();
-		return nature == Nature.PLATFORM || nature == Nature.METAL || content.contains(EntityType.GUARD);
-	}*/
+	
 }

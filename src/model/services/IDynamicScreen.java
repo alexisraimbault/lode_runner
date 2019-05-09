@@ -4,6 +4,12 @@ public interface IDynamicScreen
 {
 	public int getWidth();
 	public int getHeight();
+	/**
+	 * init : 
+	 * forall x in[0, getWidth() -1]
+	 * 		forall y in[0, getHeight() -1 ]
+	 * 			getCellNature(x,y) == Nature.EMPTY
+	 */
 	
 	/*
 	 * pre:

@@ -5,13 +5,7 @@ import java.util.function.Predicate;
 public interface IWalkingMoveAccepter<Character extends ICharacter> extends ICommandAccepter<Character, MoveType>
 {
 
-	/*private Predicate<ICell> plenty_predicate;
 	
-	public WalkingMoveAccepter(Predicate<ICell> plenty_predicate)
-	{
-		super(MoveType.class);
-		this.plenty_predicate = plenty_predicate;
-	}*/
 	
 	/**
 	 * CASE : type

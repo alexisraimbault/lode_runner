@@ -31,7 +31,7 @@ public class GuardCommandApplier implements IGuardCommandApplier
 	}
 
 	@Override
-	public ICommandAccepter<IGuard, GuardCommandType> getAccepter()
+	public IGuardCommandAccepter getAccepter()
 	{
 		return accepter;
 	}

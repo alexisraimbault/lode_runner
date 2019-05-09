@@ -19,7 +19,7 @@ public class BlockingHoleMoveAccepter
 	{
 		super(MoveType.class);
 	}
-
+	
 	@Override
 	public boolean accept(MoveType type, Character character)
 	{

@@ -28,5 +28,10 @@ public class GuardClimbAccepter extends GuardClimbAccepterBase implements IGuard
 	{
 		this(new PlentyTester());
 	}
+
+	@Override
+	public IPlentyTester getTester() {
+		return (IPlentyTester) super.getPlentyTester();
+	}
 	
 }

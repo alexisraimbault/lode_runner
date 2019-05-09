@@ -4,6 +4,10 @@ public interface IEngine
 {
 	public IGameState getState();
 	public Status getStatus();
+	/**
+	 * init :
+	 * getStatus() == Status.PAUSE
+	 */
 
 	/*
 	 * pre:

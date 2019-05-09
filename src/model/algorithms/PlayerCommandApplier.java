@@ -27,7 +27,7 @@ public class PlayerCommandApplier implements IPlayerCommandApplier
 	}
 
 	@Override
-	public ICommandAccepter<IPlayer, PlayerCommandType> getAccepter()
+	public IPlayerCommandAccepter getAccepter()
 	{
 		return accepter;
 	}

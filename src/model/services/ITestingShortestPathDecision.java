@@ -27,6 +27,7 @@ public interface ITestingShortestPathDecision
 	 * 		@result == getAlternativeDecision().getCommand(character)
 	 */
 	CommandType getCommand(Character entity);
+	
 
 	ICell getTarget();
 	

@@ -8,12 +8,11 @@ public interface IRandomDecision
 	/*
 	 * set:
 	 * 	accepted := getAccepter.accept(character)
-	 * 
-	 * pre:
-	 * 	!accepted.isEmpty()
+
 	 * 
 	 * post:
-	 * 	accepted.contains(@result)
+	 * forall(type : accepted)
+	 * 	probability(type) = 1\accepted.size()
 	 */
-	// CommandType getCommand(Character character)
+	CommandType getCommand(Character character);
 }

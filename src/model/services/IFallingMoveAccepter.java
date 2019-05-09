@@ -7,15 +7,7 @@ import model.gamestate.entities.Cell;
 public interface IFallingMoveAccepter<Character extends ICharacter> extends ICommandAccepter<Character, MoveType>
 {
 	
-	
-	/**
-	 * 
-	 * 
-	 * post : 
-	 * this.plenty_tester == plenty_tester
-	 */
-	
-	// init(Predicate<ICell> plenty_tester);
+
 	
 
 	/**
@@ -23,14 +15,14 @@ public interface IFallingMoveAccepter<Character extends ICharacter> extends ICom
 	 * 
 	 * match TYPE :
 	 * 		LEFT :
-	 * 			 @result = FALSE
+	 * 			 @result == FALSE
 	 * 		RIGHT :
-	 * 			 @result = FALSE
+	 * 			 @result == FALSE
 	 * 		DOWN :
-	 * 			 @result = !plenty_tester.test(Cell.getNext(character, MoveType.DOWN))
+	 * 			 @result == !plenty_tester.test(Cell.getNext(character, MoveType.DOWN))
 	 * 		UP
-	 * 			 @result = FALSE
-	 * else,  @result = FALSE
+	 * 			 @result == FALSE
+	 * else,  @result == FALSE
 	 * 
 	 */
 	

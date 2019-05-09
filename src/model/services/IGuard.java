@@ -5,6 +5,7 @@ public interface IGuard extends IOperationEntity<GuardCommandType>
 	/*
 	 * init:
 	 * 	!isBlocked()
+	 * 	!isWaiting()
 	 */
 	
 	public boolean isBlocked();
